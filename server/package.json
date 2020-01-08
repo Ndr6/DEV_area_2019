@@ -8,7 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Team Gade",
-  "license": "ISC",
+  "engines": {
+    "node": "10.15.2"
+  },
   "dependencies": {
     "esm": "^3.2.25",
     "express": "^4.17.1"
