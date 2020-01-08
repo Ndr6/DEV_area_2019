@@ -1,0 +1,1 @@
+api: node -r esm server/src/index.js
