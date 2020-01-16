@@ -5,14 +5,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import {Link} from "react-router-dom";
 
 const styles = makeStyles({
     root: {
         display: 'flex',
         justifyContent: 'space-between'
-    },
-    appBar: {
-        backgroundColor: '#292929'
     },
     title: {
         flexGrow: 1,
@@ -20,11 +18,19 @@ const styles = makeStyles({
         letterSpacing: '2px',
         color: 'white',
     },
-    links: {
+    linkLabel: {
         fontWeight: '800',
         letterSpacing: '2px',
         color: 'white',
         padding: '10px',
+    },
+    link: {
+        color: 'white',
+        textDecoration: 'none',
+        transition: '0.4s',
+        '&:hover': {
+            color: 'black',
+        }
     }
 });
 
@@ -39,11 +45,15 @@ function Header() {
                     <Typography variant="h6" className={classes.title}>
                         AREA
                     </Typography>
-                    <Typography variant="h6" className={classes.links}>
-                        SIGN IN
+                    <Typography variant="h6" className={classes.linkLabel}>
+                        <Link to={"/profile"} className={classes.link}>
+                            My Profile
+                        </Link>
                     </Typography>
-                    <Typography variant="h6" className={classes.links}>
-                        SIGN UP
+                    <Typography variant="h6" className={classes.linkLabel}>
+                        <Link to={"/services"} className={classes.link}>
+                            Services
+                        </Link>
                     </Typography>
                 </Toolbar>
             </AppBar>

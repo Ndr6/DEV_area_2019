@@ -3,8 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
@@ -58,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SignInSide() {
+export default function RegisterView() {
     const classes = useStyles();
 
     const [state, setState] = React.useState({
@@ -76,7 +74,7 @@ export default function SignInSide() {
         if (isValid) {
             setState({...state, emailValid: true, email: mail});
         } else {
-            setState({...state, emailValid: false, email: mailk});
+            setState({...state, emailValid: false, email: mail});
         }
     };
 
@@ -148,7 +146,7 @@ export default function SignInSide() {
                             className={classes.submit}
                             onClick={e => registerAction(e)}
                         >
-                            Sign In
+                            Sign Up
                         </Button>
                         <Grid container>
                             <Grid item>
