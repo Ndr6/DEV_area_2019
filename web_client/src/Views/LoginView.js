@@ -22,6 +22,8 @@ function onSignIn(googleUser)
     console.log('Name: ' + profile.getName());
     const token = googleUser.getAuthResponse().id_token;
 
+    console.log('Google token : ' + token);
+
     //TODO: Send token to back-end
 }
 

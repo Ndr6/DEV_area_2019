@@ -1,6 +1,6 @@
 import React from 'react';
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
-import ThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import RegisterView from "./Views/RegisterView";
 import LoginView from "./Views/LoginView";
 import HomeView from "./Views/HomeView";
@@ -15,7 +15,7 @@ function App() {
     const theme = createMuiTheme({});
 
   return (
-      <ThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme}>
           <Router>
               <Switch>
                   <Route exact path="/">
@@ -29,7 +29,7 @@ function App() {
                   </Route>
               </Switch>
           </Router>
-      </ThemeProvider>
+      </MuiThemeProvider>
   );
 }
 
