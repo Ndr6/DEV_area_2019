@@ -14,6 +14,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import emailValidate from "../Utils/EmailValid";
 import {FormControlLabel} from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
+import FacebookLogin from 'react-facebook-login';
 
 function onSignIn(googleUser)
 {
@@ -80,6 +81,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function LoginView() {
+    const componentClicked = () => {console.log('zozo');};
+    const responseFacebook = (response) => {console.log(response);};
 
     const [state, setState] = React.useState({
         emailValid: true,
@@ -193,13 +196,14 @@ export default function LoginView() {
                                     />
                                 </Grid>
                                 <Grid item>
-                                    <Button
+                                    <FacebookLogin
+                                        appId="2546265472152778"
+                                        autoLoad={false}
+                                        fields="name,email,picture"
+                                        onClick={componentClicked}
+                                        callback={responseFacebook}
                                         className={classes.facebook}
-                                        onClick={e => googleAuth(e)}
-                                        variant={"contained"}
-                                    >
-                                        Login with facebook
-                                    </Button>
+                                    />
                                 </Grid>
                             </Grid>
                         </Grid>

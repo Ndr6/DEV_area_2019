@@ -14,6 +14,7 @@ const styles = makeStyles({
         margin: 'auto',
         transition: '0.4s',
         '&:hover': {
+            cursor: 'pointer',
             transform: 'scale(1.1)'
         }
     }
