@@ -128,7 +128,7 @@ export default function LoginView() {
     const onRememberChange = (e) => {
         setState({...state, rememberMe: e.target.checked});
     };
-    const googleAuth = (e) => {};
+//    const googleAuth = (e) => {};
 
     return (
         <Grid container component="main" className={classes.root}>

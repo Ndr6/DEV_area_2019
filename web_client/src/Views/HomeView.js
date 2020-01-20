@@ -19,8 +19,13 @@ const useStyles = makeStyles({
 
 export default function HomeView() {
     const classes = useStyles();
-    const services = ['Google', 'Facebook', 'Intra Epitech', 'Twitter'];
-    const servicesList = services.map(service => <ServiceCard name={service} key={service} />);
+    const services = [
+        {name: 'Google', desc: 'Google description bla bla bla bla bla bla bla bla bla bla bla  bla bla bla bla bla  bla bla bla bla bla  bla bla bla bla bla '},
+        {name: 'Facebook', desc: 'Facebook description bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla'},
+        {name: 'Intra Epitech', desc: 'Intra Epitech description bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla'},
+        {name: 'Twitter', desc: 'Twitter description bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla'}
+        ];
+    const servicesList = services.map(service => <ServiceCard name={service.name} key={service.name} description={service.desc} />);
 
     return (
         <div>
