@@ -8,7 +8,6 @@ import {CardActions} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {ArrowForward} from "@material-ui/icons";
-import Icon from "@material-ui/core/Icon";
 import Box from "@material-ui/core/Box";
 import CardMedia from "@material-ui/core/CardMedia";
 
@@ -74,7 +73,7 @@ export default function ServiceCard(props) {
                         </Grid>
                     </Box>
                     <Grid item>
-                        <Typography variant={"p"}>
+                        <Typography>
                             {props.description}
                         </Typography>
                     </Grid>

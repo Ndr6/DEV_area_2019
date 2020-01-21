@@ -5,6 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import {Link} from "react-router-dom";
+import CustomButton from "./CustomButton";
 
 const styles = makeStyles({
     root: {
@@ -24,12 +25,8 @@ const styles = makeStyles({
         padding: '10px',
     },
     link: {
-        color: 'white',
         textDecoration: 'none',
-        transition: '0.4s',
-        '&:hover': {
-            color: 'black',
-        }
+        color: 'inherit'
     }
 });
 
@@ -45,14 +42,18 @@ function Header() {
                         AREA
                     </Typography>
                     <Typography variant="h6" className={classes.linkLabel}>
-                        <Link to={"/profile"} className={classes.link}>
-                            My Profile
-                        </Link>
+                        <CustomButton hoverColor={'white'} backgroundHoverColor={'#3f51b5'} color={'#3f51b5'} backgroundColor={'white'}>
+                            <Link to={"/profile"} className={classes.link}>
+                                My Profile
+                            </Link>
+                        </CustomButton>
                     </Typography>
                     <Typography variant="h6" className={classes.linkLabel}>
-                        <Link to={"/services"} className={classes.link}>
-                            Services
-                        </Link>
+                        <CustomButton hoverColor={'white'} backgroundHoverColor={'#3f51b5'} color={'#3f51b5'} backgroundColor={'white'}>
+                            <Link to={"/services"} className={classes.link}>
+                                Services
+                            </Link>
+                        </CustomButton>
                     </Typography>
                 </Toolbar>
             </AppBar>

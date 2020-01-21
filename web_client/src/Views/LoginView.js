@@ -14,7 +14,8 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import emailValidate from "../Utils/EmailValid";
 import {FormControlLabel} from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import CustomButton from "../Components/CustomButton";
 
 function onSignIn(googleUser)
 {
@@ -81,6 +82,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function LoginView() {
+    //TODO: Error management on Google login / Facebook login
+
     const componentClicked = () => {console.log('zozo');};
     const responseFacebook = (response) => {console.log(response);};
 
@@ -190,9 +193,15 @@ export default function LoginView() {
                                 <Grid item>
                                     <GoogleLogin
                                         clientId="12906168737-9v1ildio54gfsic452snnvubv5j8nkm5.apps.googleusercontent.com"
-                                        buttonText={"Login"}
+                                        buttonText={"Login with google"}
                                         onSuccess={onSignIn}
                                         onFailure={onSignIn}
+                                        render={ renderProps => (
+                                            <CustomButton onClick={renderProps.onClick} color={'white'} backgroundColor={'red'} hoverColor={'red'} backgroundHoverColor={'white'}>
+                                                Login with google
+                                            </CustomButton>
+                                        )}
+                                        className={classes.googleButton}
                                     />
                                 </Grid>
                                 <Grid item>
@@ -202,7 +211,11 @@ export default function LoginView() {
                                         fields="name,email,picture"
                                         onClick={componentClicked}
                                         callback={responseFacebook}
-                                        className={classes.facebook}
+                                        render={ renderProps => (
+                                            <CustomButton onClick={renderProps.onClick} color={'white'} backgroundColor={'blue'} hoverColor={'blue'} backgroundHoverColor={'white'}>
+                                                Login with Facebook
+                                            </CustomButton>
+                                        )}
                                     />
                                 </Grid>
                             </Grid>

@@ -5,6 +5,11 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import capitalize from "../Utils/Capitalize";
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import CollapseItem from "../Components/CollapseItem";
+import Divider from "@material-ui/core/Divider";
+import CustomButton from "../Components/CustomButton";
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const useStyles = makeStyles(theme => ({
     cardContainer: {
@@ -18,28 +23,128 @@ const useStyles = makeStyles(theme => ({
     textContainer: {
         textAlign: 'center',
     },
+    title: {
+        fontWeight: 800,
+        fontFamily: "Roboto",
+        margin: 'auto',
+        marginTop: '3%',
+    },
     container: {
-        marginTop: '5%',
+        marginTop: '1%',
+    },
+    listContainer: {
+        textAlign: 'center'
+    },
+    listTitle: {
+        fontWeight: 800,
+        fontSize: '2.5em'
+    },
+    divider: {
+        marginTop: '10px',
     }
 }));
 
 export default function ServiceView(props) {
+    const actions = [
+        {
+            name: 'Comment posted',
+            description: 'This action triggers when a comment has been posted on the specified video'
+        },
+        {
+            name: 'Video posted',
+            description: 'This action triggers when the specified user post a video on his youtube account'
+        },
+        {
+            name: 'Mail received by',
+            description: 'This action triggers when you receive an email by the specified user'
+        }
+    ];
+
+    const reaction = [
+        {
+            name: 'Comment like',
+            description: 'This Reaction like the specified comment',
+            parameters: [
+                {
+                    type: 'string',
+                    name: 'comment'
+                }
+            ]
+        },
+        {
+            name: 'Comment reply',
+            description: 'This reaction reply the specified message to the specified comment',
+            parameters: [
+                {
+                    type: 'string',
+                    name: 'comment'
+                },
+                {
+                    type: 'string',
+                    name: 'message'
+                }
+            ]
+        }
+    ];
+
     let {name} = useParams();
     const classes = useStyles();
+
+    const [isSubscribed, setSubscribed] = React.useState(false);
+    const subscribe = () => {
+        setSubscribed(!isSubscribed);
+    };
+
+    const actionList = actions.map(action =>
+        <Grid key={action.name} item md={10} xs={11}>
+            <CollapseItem name={action.name} description={action.description} />
+            <Divider className={classes.divider} />
+        </Grid>
+    );
+
+    const reactionList = reaction.map(reaction =>
+        <Grid item md={10} key={reaction.name} xs={11}>
+            <CollapseItem name={reaction.name} description={reaction.description} />
+            <Divider className={classes.divider} />
+        </Grid>
+    );
 
     name = capitalize(name);
     return (
         <div>
             <Header />
-            <Grid className={classes.root} container justify={"center"}>
-                <Grid item xs={12} md={8} className={classes.textContainer}>
-                    <Typography variant={"h2"}>
+            <Grid className={classes.root} spacing={4} container justify={"center"}>
+                <Grid item xs={12} md={12} className={classes.textContainer}>
+                    <Typography variant={"h2"} className={classes.title}>
                         {name} service
                     </Typography>
                 </Grid>
-                <Grid className={classes.container} container direction={"row"} justify={"space-evenly"}>
-                    <p>Toto</p>
-                    <p>Toto</p>
+                <Grid item>
+                    <CustomButton color={'white'} hoverColor={'#4BB543'} backgroundColor={'#4BB543'} backgroundHoverColor={'white'} onClick={subscribe} icon={isSubscribed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon /> }>
+                        {isSubscribed ? 'Subscribed' : 'Subscribe now'}
+                    </CustomButton>
+                </Grid>
+                <Grid className={classes.container} spacing={3} container direction={"row"} justify={"space-evenly"}>
+                    <Grid className={classes.listContainer} item md={6} xs={12}>
+                        <Grid container justify={"center"}  spacing={8}>
+                            <Grid item md={12}>
+                                <Typography variant={"h6"} className={classes.listTitle}>
+                                    Actions
+                                </Typography>
+                            </Grid>
+                            {actionList}
+                        </Grid>
+                    </Grid>
+                    <Grid className={classes.listContainer} item md={6} xs={12}>
+                        <Grid container justify={"center"}  spacing={8}>
+                            <Grid item md={12}>
+                                <Typography variant={"h6"} className={classes.listTitle}>
+                                    REActions
+                                </Typography>
+                            </Grid>
+                            {reactionList}
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
         </div>
