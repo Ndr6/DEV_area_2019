@@ -4,6 +4,7 @@ import Header from "../Components/Header";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import capitalize from "../Utils/Capitalize";
 
 const useStyles = makeStyles(theme => ({
     cardContainer: {
@@ -25,8 +26,8 @@ const useStyles = makeStyles(theme => ({
 export default function ServiceView(props) {
     let {name} = useParams();
     const classes = useStyles();
-    name[0] = name[0].toUpperCase();
 
+    name = capitalize(name);
     return (
         <div>
             <Header />

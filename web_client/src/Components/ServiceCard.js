@@ -8,6 +8,9 @@ import {CardActions} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {ArrowForward} from "@material-ui/icons";
+import Icon from "@material-ui/core/Icon";
+import Box from "@material-ui/core/Box";
+import CardMedia from "@material-ui/core/CardMedia";
 
 const styles = makeStyles({
     card: {
@@ -15,11 +18,11 @@ const styles = makeStyles({
     },
     cardContainer: {
         width: '100%',
-        margin: 'auto',
+        margin: '15px',
         transition: '0.4s',
         '&:hover': {
             cursor: 'pointer',
-            transform: 'scale(1.1)'
+            transform: 'scale(1.03)'
         }
     },
     heart: {
@@ -27,6 +30,20 @@ const styles = makeStyles({
     },
     actionContainer: {
         justifyContent: 'flex-end',
+    },
+    cardHeader: {
+        position: 'relative',
+        textAlign: 'center'
+    },
+    headerIcon: {
+        position: 'absolute',
+        left: '0px',
+    },
+    cardMedia: {
+        width: '32px',
+        height: '32px',
+        position: 'absolute',
+        left: '0px',
     }
 });
 
@@ -41,15 +58,26 @@ export default function ServiceCard(props) {
     };
 
     return (
-        <Grid item className={classes.cardContainer} xs={12} sm={8} md={5}>
+        <Grid item className={classes.cardContainer} xs={10} sm={8} md={5}>
             <Card elevation={5} className={classes.card}>
                 <CardContent>
-                    <Typography variant={"h6"}>
-                        {props.name}
-                    </Typography>
-                    <Typography variant={"p"}>
-                        {props.description}
-                    </Typography>
+                    <Box pb={2}>
+                        <Grid className={classes.cardHeader}>
+                            <CardMedia
+                                className={classes.cardMedia}
+                                image={props.imageUrl}
+                                title={"Logo"}
+                            />
+                            <Typography variant={"h6"}>
+                                {props.name}
+                            </Typography>
+                        </Grid>
+                    </Box>
+                    <Grid item>
+                        <Typography variant={"p"}>
+                            {props.description}
+                        </Typography>
+                    </Grid>
                 </CardContent>
                 <CardActions className={classes.actionContainer}>
                     <IconButton className={classes.heart} onClick={subscribe} aria-label="Subscribe">
