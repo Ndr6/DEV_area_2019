@@ -11,6 +11,7 @@ import {
     Route,
 } from "react-router-dom";
 import ServiceView from "./Views/ServiceView";
+import ConfigView from "./Views/ConfigView";
 
 function App() {
     const theme = createMuiTheme({});
@@ -30,6 +31,9 @@ function App() {
                   </Route>
                   <Route path="/service/:name">
                       <ServiceView />
+                  </Route>
+                  <Route path="/config">
+                      <ConfigView />
                   </Route>
               </Switch>
           </Router>
