@@ -8,3 +8,12 @@ matrix:
         - npm run build
       script:
         - npm run test
+
+    - language: node_js
+      node_js: 7
+      before_script:
+        - cd web_client
+        - npm run setup
+        - npm run build
+      script:
+        - npm run test

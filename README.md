@@ -1,5 +1,7 @@
 # Area
 
+master: [![Build Status](https://travis-ci.com/Ndr6/DEV_area_2019.svg?branch=master)](https://travis-ci.com/Ndr6/DEV_area_2019)
+
 ## How to add the GitHub and all remote
 
 1) `git remote add github git@github.com:Ndr6/DEV_area_2019.git`
