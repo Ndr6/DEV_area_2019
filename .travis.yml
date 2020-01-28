@@ -1,0 +1,10 @@
+matrix:
+  include:
+    - language: node_js
+      node_js: 7
+      before_script:
+        - cd server
+        - npm run setup
+        - npm run build
+      script:
+        - npm run test
