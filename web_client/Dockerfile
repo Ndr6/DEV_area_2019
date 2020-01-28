@@ -15,4 +15,4 @@ COPY . .
 
 #RUN cp /var/lib/apk/client.apk ./public/
 
-CMD cp /var/lib/apk/client.apk ./public/ && npm start
+CMD cp /var/lib/apk/client.apk ./public/ ; npm start
