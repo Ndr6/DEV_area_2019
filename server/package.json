@@ -5,7 +5,8 @@
   "main": "index.js",
   "types": "./dist/src/index.d.js",
   "scripts": {
-    "build": "rimraf ./build && tsc",
+    "build": "rimraf ./build && npm run tsc",
+    "tsc": "tsc",
     "coverage": "jest --coverage",
     "start": "npm run build && node build/index.js",
     "start:dev": "nodemon",
