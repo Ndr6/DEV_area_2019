@@ -5,7 +5,9 @@ import mongodb from "mongodb";
 const DB_HOST = (process.env.DB_HOST == undefined ? "localhost" : process.env.DB_PORT);
 const DB_PORT = (process.env.DB_PORT == undefined ? "27017" : process.env.DB_PORT);
 const DB_NAME = (process.env.DB_NAME == undefined ? "area" : process.env.DB_NAME);
-const url = 'mongodb://' + DB_HOST + ':' + DB_PORT;
+let url = 'mongodb://' + DB_HOST + ':' + DB_PORT;
+if (process.env.MONGODB_URI != undefined)
+    url = process.env.MONGODB_URI;
 let client = new mongodb.MongoClient(url);
 
 client.connect(function (err) {
