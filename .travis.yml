@@ -3,7 +3,7 @@ jobs:
   - language: node_js
     if: branch = master OR branch = server-dev
     name: Server
-    node_js: 10
+    node_js: 12
     before_script:
     - cd server
     - npm run setup
@@ -20,7 +20,7 @@ jobs:
   - language: node_js
     if: branch = master OR branch = web-dev
     name: Web client
-    node_js: 10
+    node_js: 12
     before_script:
     - cd web_client
     - npm run setup

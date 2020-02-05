@@ -1,5 +1,7 @@
 import express from 'express';
 import bodyParser from 'express';
+import db from './db';
+import { test_db } from './db';
 //import routes from './routes'
 
 // Constants
@@ -12,7 +14,22 @@ const api_version = 0;
 const app = express();
 
 // DB Connection
-//TODO: Connect to DB
+function tryAtMost(maxRetries, promise) {
+    promise = promise || new Promise();
+    if (test_db()) {
+        console.log("[Serv] Init > Connected to DB");
+        promise.resolve(result);
+    } else if (maxRetries > 0) {
+        // Try again if we haven't reached maxRetries yet
+        console.error("[Serv] Init > Failed to connect to DB, retrying...");
+        setTimeout(function () {
+            tryAtMost(maxRetries - 1, promise);
+        }, 1000);
+    } else {
+        console.error("[Serv] Init > Failed to connect to DB, too many tries, exiting.");
+        process.exit(0);
+    }
+}
 
 // Middlewares
 app.use((req, res, next) => {
