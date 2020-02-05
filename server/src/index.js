@@ -1,8 +1,6 @@
-import express from "express";
+const express = require("express");
 
-var port = 3000
-if (process.env.PORT)
-    port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 const app = express();
 
