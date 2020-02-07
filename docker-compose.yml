@@ -20,5 +20,8 @@ services:
     build:
       context: ./mobile_client
       dockerfile: Dockerfile
+  db:
+    container_name: 'area_db'
+
 volumes:
   apk-volume:
