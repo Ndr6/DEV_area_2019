@@ -27,5 +27,10 @@ function test_db() {
     return true
 }
 
+function close_db() {
+    if (client.isConnected())
+        client.close();
+}
+
 export default client;
-export { test_db };
+export { test_db, close_db };

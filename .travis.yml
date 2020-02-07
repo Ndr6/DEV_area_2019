@@ -1,35 +1,37 @@
 jobs:
   include:
-  - language: node_js
-    if: branch = master OR branch = server-dev
-    name: Server
-    node_js: 12
-    before_script:
-    - cd server
-    - npm run setup
-    script:
-    - npm run test
-    deploy:
-      provider: heroku
-      app:
-        master: area-server-master
-        server-dev: area-server-dev
-      api_key:
-        secure: Krtxz+QOySRcKFrYUYhPK74vHtoiobESc0dhFivvfJqQJP1fl92CqaEDCVKo33hddDnNv5L6pAGJSutBHls0fitveXDbvMV38ul5RWYYgymhRcWURRCAgA2yFSQpou4eTvzYml4nmgk2M5Bfx20biiG1PDe7UMjTN5nTy3I284HGV3HfxTOxjZjWEdXNwoxyqECzyLVMz7Gvzhm2VMbyIcw49u3GIpegxz/P8jO4Ku7lE8WHOxYulT0jYy+hCKXy2HmBIh5LexcjudDClLk1zqTR0btGZ4KtnzVbzCx48dlnMlQlGXFdtx+xc6hslRoMLVfoVXbv9ZRD1CP5MjjfVSS1ciC2b25DjwnJzO2yfgE7qc+pG3AsYyfda7DjFt0bO9mCt+31ZQbfPN7/CSDRub5Umf2lZ0oqCqJW8e85q7roJMcF+kPZ1d6Phbso1U7LBSz58eN7g0zCRuZX1bPoaZ5UstY1/kdbau1Lj4DkBrsBFzwV+9wrSRv0TLwnEG3cOsYm3ZGmCM6mOIXdyAkFlZcZwlmqEk338wR/IkKcDZW+NpfVFF/zKuRsA2h225EzSshIYBxJxiPE2a9GVZSTlzeIvz+fq1/he8AVhPtrBypm4apvlcUruMk/1XEVqxKigT+Wk1uF4zIuMrS9LqX7Y6MJCH5jbA0H4S/VNMVJxMI=
+    - language: node_js
+      if: branch = master OR branch = server-dev
+      name: Server
+      node_js: 12
+      services:
+        - mongodb
+      before_script:
+        - cd server
+        - npm run setup
+      script:
+        - npm run test
+      deploy:
+        provider: heroku
+        app:
+          master: area-server-master
+          server-dev: area-server-dev
+        api_key:
+          secure: Krtxz+QOySRcKFrYUYhPK74vHtoiobESc0dhFivvfJqQJP1fl92CqaEDCVKo33hddDnNv5L6pAGJSutBHls0fitveXDbvMV38ul5RWYYgymhRcWURRCAgA2yFSQpou4eTvzYml4nmgk2M5Bfx20biiG1PDe7UMjTN5nTy3I284HGV3HfxTOxjZjWEdXNwoxyqECzyLVMz7Gvzhm2VMbyIcw49u3GIpegxz/P8jO4Ku7lE8WHOxYulT0jYy+hCKXy2HmBIh5LexcjudDClLk1zqTR0btGZ4KtnzVbzCx48dlnMlQlGXFdtx+xc6hslRoMLVfoVXbv9ZRD1CP5MjjfVSS1ciC2b25DjwnJzO2yfgE7qc+pG3AsYyfda7DjFt0bO9mCt+31ZQbfPN7/CSDRub5Umf2lZ0oqCqJW8e85q7roJMcF+kPZ1d6Phbso1U7LBSz58eN7g0zCRuZX1bPoaZ5UstY1/kdbau1Lj4DkBrsBFzwV+9wrSRv0TLwnEG3cOsYm3ZGmCM6mOIXdyAkFlZcZwlmqEk338wR/IkKcDZW+NpfVFF/zKuRsA2h225EzSshIYBxJxiPE2a9GVZSTlzeIvz+fq1/he8AVhPtrBypm4apvlcUruMk/1XEVqxKigT+Wk1uF4zIuMrS9LqX7Y6MJCH5jbA0H4S/VNMVJxMI=
 
-  - language: node_js
-    if: branch = master OR branch = web-dev
-    name: Web client
-    node_js: 12
-    before_script:
-    - cd web_client
-    - npm run setup
-    - npm run build
-    script:
-    - npm run test
-    deploy:
-      provider: heroku
-      app:
-        master: area-web-master
-      api_key:
-        secure: Krtxz+QOySRcKFrYUYhPK74vHtoiobESc0dhFivvfJqQJP1fl92CqaEDCVKo33hddDnNv5L6pAGJSutBHls0fitveXDbvMV38ul5RWYYgymhRcWURRCAgA2yFSQpou4eTvzYml4nmgk2M5Bfx20biiG1PDe7UMjTN5nTy3I284HGV3HfxTOxjZjWEdXNwoxyqECzyLVMz7Gvzhm2VMbyIcw49u3GIpegxz/P8jO4Ku7lE8WHOxYulT0jYy+hCKXy2HmBIh5LexcjudDClLk1zqTR0btGZ4KtnzVbzCx48dlnMlQlGXFdtx+xc6hslRoMLVfoVXbv9ZRD1CP5MjjfVSS1ciC2b25DjwnJzO2yfgE7qc+pG3AsYyfda7DjFt0bO9mCt+31ZQbfPN7/CSDRub5Umf2lZ0oqCqJW8e85q7roJMcF+kPZ1d6Phbso1U7LBSz58eN7g0zCRuZX1bPoaZ5UstY1/kdbau1Lj4DkBrsBFzwV+9wrSRv0TLwnEG3cOsYm3ZGmCM6mOIXdyAkFlZcZwlmqEk338wR/IkKcDZW+NpfVFF/zKuRsA2h225EzSshIYBxJxiPE2a9GVZSTlzeIvz+fq1/he8AVhPtrBypm4apvlcUruMk/1XEVqxKigT+Wk1uF4zIuMrS9LqX7Y6MJCH5jbA0H4S/VNMVJxMI=
+    - language: node_js
+      if: branch = master OR branch = web-dev
+      name: Web client
+      node_js: 12
+      before_script:
+        - cd web_client
+        - npm run setup
+        - npm run build
+      script:
+        - npm run test
+      deploy:
+        provider: heroku
+        app:
+          master: area-web-master
+        api_key:
+          secure: Krtxz+QOySRcKFrYUYhPK74vHtoiobESc0dhFivvfJqQJP1fl92CqaEDCVKo33hddDnNv5L6pAGJSutBHls0fitveXDbvMV38ul5RWYYgymhRcWURRCAgA2yFSQpou4eTvzYml4nmgk2M5Bfx20biiG1PDe7UMjTN5nTy3I284HGV3HfxTOxjZjWEdXNwoxyqECzyLVMz7Gvzhm2VMbyIcw49u3GIpegxz/P8jO4Ku7lE8WHOxYulT0jYy+hCKXy2HmBIh5LexcjudDClLk1zqTR0btGZ4KtnzVbzCx48dlnMlQlGXFdtx+xc6hslRoMLVfoVXbv9ZRD1CP5MjjfVSS1ciC2b25DjwnJzO2yfgE7qc+pG3AsYyfda7DjFt0bO9mCt+31ZQbfPN7/CSDRub5Umf2lZ0oqCqJW8e85q7roJMcF+kPZ1d6Phbso1U7LBSz58eN7g0zCRuZX1bPoaZ5UstY1/kdbau1Lj4DkBrsBFzwV+9wrSRv0TLwnEG3cOsYm3ZGmCM6mOIXdyAkFlZcZwlmqEk338wR/IkKcDZW+NpfVFF/zKuRsA2h225EzSshIYBxJxiPE2a9GVZSTlzeIvz+fq1/he8AVhPtrBypm4apvlcUruMk/1XEVqxKigT+Wk1uF4zIuMrS9LqX7Y6MJCH5jbA0H4S/VNMVJxMI=
