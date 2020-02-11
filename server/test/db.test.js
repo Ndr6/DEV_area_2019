@@ -1,16 +1,15 @@
 import assert from "assert";
-import client from "../src/db";
-import { test_db, close_db } from "../src/db";
+import db from "../src/db";
 
 describe('DB', function () {
     describe('Connection', function () {
+        let storage = new db;
         it('should connect to the database', function () {
-            assert.equal(test_db(), true);
-            assert.equal(test_db(), client.isConnected());
+            assert.equal(storage.test_db(), true);
         });
         it('should close the connection', function () {
-            close_db();
-            assert.equal(test_db(), false);
+            storage.close_db();
+            assert.equal(storage.test_db(), false);
         });
     });
 });

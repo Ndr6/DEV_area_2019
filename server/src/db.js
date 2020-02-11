@@ -8,29 +8,32 @@ const DB_NAME = (process.env.DB_NAME == undefined ? "area" : process.env.DB_NAME
 let url = 'mongodb://' + DB_HOST + ':' + DB_PORT;
 if (process.env.MONGODB_URI != undefined)
     url = process.env.MONGODB_URI;
-let client = new mongodb.MongoClient(url);
 
-client.connect(function (err) {
-    if (err != null) {
-        console.error("[DB  ] Init > Failed to connect, error below");
-        console.error("[DB  ] Init > DB url: " + url);
-        console.error(err);
-        process.exit();
+class db {
+    #client = undefined;
+    constructor() {
+        this.#client = new mongodb.MongoClient(url);
+        this.#client.connect(function (err) {
+            if (err != null) {
+                console.error("[DB  ] Init > Failed to connect, error below");
+                console.error("[DB  ] Init > DB url: " + url);
+                console.error(err);
+                process.exit();
+            }
+            console.log("[DB  ] Init > Connected to DB server");
+        });
     }
-    console.log("[DB  ] Init > Connected to DB server");
-});
 
-function test_db() {
-    if (client.isConnected() == false) {
-        return false;
+    test_db() {
+        if (this.#client.isConnected() == false)
+            return false;
+        return true
     }
-    return true
+
+    close_db() {
+        if (this.#client.isConnected())
+            this.#client.close();
+    }
 }
 
-function close_db() {
-    if (client.isConnected())
-        client.close();
-}
-
-export default client;
-export { test_db, close_db };
+export default db;

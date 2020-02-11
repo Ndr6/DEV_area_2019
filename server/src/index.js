@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'express';
 import db from './db';
-import { test_db } from './db';
 //import routes from './routes'
 
 // Constants
@@ -14,9 +13,10 @@ const api_version = 0;
 const app = express();
 
 // DB Connection
+let storage = new db;
 function tryAtMost(maxRetries, promise) {
     promise = promise || new Promise();
-    if (test_db()) {
+    if (storage.test_db()) {
         console.log("[Serv] Init > Connected to DB");
         promise.resolve(result);
     } else if (maxRetries > 0) {
