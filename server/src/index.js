@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'express';
+import discordWebhook from "./reactions/discordWebhook";
 import checkFeed from './actions/rssFeed';
 import sendMail from "./reactions/sendMail";
 import db from './db';
@@ -65,6 +66,10 @@ async function main()
         url: 'https://www.reddit.com/.rss',
         lastChecked: new Date('2021,1,1'),
     });*/
+    await discordWebhook({
+        url: 'https://discordapp.com/api/webhooks/678973462861185024/RUA-kd4i_clsHuZPJAsOzkzo9-AqRFzTGwT5TwF0Ilw1dfO9Op93mSO9-SdnwjMZhwPS',
+        message: 'Bite de noir',
+    });
 }
 
 main();
