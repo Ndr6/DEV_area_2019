@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-function actionIntraEpitechNote() {
-    console.log("Kono Testo Da !");
-    let authAdd = "https://intra.epitech.eu/auth-";
-    let getUserInfos = authAdd + "/user/notification/message?format=json";
+function actionIntraEpitechNote(userAutoLogin) {
+    if (userAutoLogin.empty)
+        return ("KO: Wrong user auto-login");
+    let getUserInfos = userAutoLogin + "/user/notification/message?format=json";
 
     axios.get(getUserInfos).then(responce => {
         responce.data.forEach(message => {
