@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'express';
+import sendMail from "./reactions/sendMail";
 import db from './db';
 //import routes from './routes'
 
@@ -13,10 +14,10 @@ const api_version = 0;
 const app = express();
 
 // DB Connection
-let storage = new db;
+//let storage = new db;
 function tryAtMost(maxRetries, promise) {
     promise = promise || new Promise();
-    if (storage.test_db()) {
+    if (/*storage.test_db()*/true) {
         console.log("[Serv] Init > Connected to DB");
         promise.resolve(result);
     } else if (maxRetries > 0) {
@@ -55,6 +56,13 @@ app.get('/about', (req, res) => {
         api_version: api_version
     });
 });
+
+async function main()
+{
+    await sendMail("clapota59160@gmail.com", "Bite", "Tu suces une bite");
+}
+
+main();
 
 app.listen(PORT, HOST);
 console.log(`[Serv] Init > Running on http://${HOST}:${PORT}`);
