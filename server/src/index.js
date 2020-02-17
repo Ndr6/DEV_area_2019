@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'express';
+import checkFeed from './actions/rssFeed';
 import sendMail from "./reactions/sendMail";
 import db from './db';
 //import routes from './routes'
@@ -59,7 +60,11 @@ app.get('/about', (req, res) => {
 
 async function main()
 {
-    await sendMail("clapota59160@gmail.com", "Bite", "Tu suces une bite");
+//    await sendMail("clapota59160@gmail.com", "Bite", "Tu suces une bite");
+/*    await checkFeed({
+        url: 'https://www.reddit.com/.rss',
+        lastChecked: new Date('2021,1,1'),
+    });*/
 }
 
 main();
