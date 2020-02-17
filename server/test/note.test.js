@@ -1,7 +1,7 @@
 import assert from 'asert';
-import actionIntraEpitechNote from "../src/action"
+import actionIntraEpitechNote from "../src/note"
 
-describe('Action', function () {
+describe('NoteEpitechIntra', function () {
     describe('Call API and check condition', function () {
         it('should check from the user auto-login token retrieved if there is a new note from fake user', function () {
             let fakeUserAutoLoginToken = "https://intra.epitech.eu/auth-dac602d44f86d0927b3f462";

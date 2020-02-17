@@ -3,7 +3,7 @@ import axios from 'axios';
 function actionIntraEpitechNote(userAutoLogin) {
     if (userAutoLogin.empty)
         return ("KO: Wrong user auto-login");
-    let getUserInfos = userAutoLogin + "/user/notification/message?format=json";
+    let getUserInfos = "https://intra.epitech.eu/" + userAutoLogin + "/user/notification/message?format=json";
 
     axios.get(getUserInfos).then(responce => {
         responce.data.forEach(message => {
@@ -15,7 +15,7 @@ function actionIntraEpitechNote(userAutoLogin) {
                 return ("OK: Passed");
             }
         });
-        console.log(responce.data);
+        //console.log(responce.data);
     }).catch(error => {
         console.log(error);
         return ("KO");
