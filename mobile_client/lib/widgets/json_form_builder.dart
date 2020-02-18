@@ -116,35 +116,37 @@ class _JsonFormBuilderState extends State<JsonFormBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilder(
-      key: _fbKey,
-      autovalidate: true,
-      initialValue: Map.fromEntries(
-        this
-            .widget.config
-            .entries
-            .where((entry) => entry.value['default'] != null)
-            .map((entry) => MapEntry(entry.key, entry.value['default'])),
-      ),
-      child: DefaultFocusTraversal(
-        policy: WidgetOrderFocusTraversalPolicy(),
-        child: ListView(
-          children:
-              (this.widget.config.map((key, config) => MapEntry(key, generateWidget(context, key, config))).values.toList() +
-                      [
-                        FlatButton(
-                          onPressed: () {
-                            if (_fbKey.currentState.saveAndValidate()) widget.onSubmitted(_fbKey.currentState.value);
-                          },
-                          child: Text("Valider"),
-                          color: Theme.of(context).buttonColor,
-                        )
-                      ])
-                  .map((item) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                        child: item,
-                      ))
-                  .toList(),
+    return Scaffold(
+      body: FormBuilder(
+        key: _fbKey,
+        autovalidate: true,
+        initialValue: Map.fromEntries(
+          this
+              .widget.config
+              .entries
+              .where((entry) => entry.value['default'] != null)
+              .map((entry) => MapEntry(entry.key, entry.value['default'])),
+        ),
+        child: DefaultFocusTraversal(
+          policy: WidgetOrderFocusTraversalPolicy(),
+          child: ListView(
+            children:
+                (this.widget.config.map((key, config) => MapEntry(key, generateWidget(context, key, config))).values.toList() +
+                        [
+                          FlatButton(
+                            onPressed: () {
+                              if (_fbKey.currentState.saveAndValidate()) widget.onSubmitted(_fbKey.currentState.value);
+                            },
+                            child: Text("Valider"),
+                            color: Theme.of(context).buttonColor,
+                          )
+                        ])
+                    .map((item) => Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                          child: item,
+                        ))
+                    .toList(),
+          ),
         ),
       ),
     );
