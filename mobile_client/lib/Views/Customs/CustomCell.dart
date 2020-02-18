@@ -14,33 +14,32 @@ class CustomCell extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          PinnedWidget(
-            alignment: Alignment.topLeft,
-            number: this._nbResponders,
-            child: Icon(this._icon)
-          ),
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => JsonFormBuilder(config: {})));
-              },
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => JsonFormBuilder(config: {})));},
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            PinnedWidget(
+              alignment: Alignment.topLeft,
+              number: this._nbResponders,
+              child: Icon(this._icon)
+            ),
+            Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(this._title),
-                ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(this._title),
+                  ),
               ),
             ),
-          ),
-          Icon(Icons.chevron_right)
-        ],
-      )
+            Icon(Icons.chevron_right)
+          ],
+        )
+      ),
     );
   }
 
