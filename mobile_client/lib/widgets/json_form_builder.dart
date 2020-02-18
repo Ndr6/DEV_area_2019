@@ -42,6 +42,7 @@ class _JsonFormBuilderState extends State<JsonFormBuilder> {
 
   @override
   void initState() {
+    super.initState();
     this._widgetMap["textfield"] = buildTextField;
     this._widgetMap["checkbox"] = buildCheckbox;
     this._widgetMap["dropdown"] = buildDropdown;
@@ -52,6 +53,7 @@ class _JsonFormBuilderState extends State<JsonFormBuilder> {
   @override
   void dispose() {
     this._focusNodes.forEach((key, node) => node.dispose());
+    super.dispose();
   }
 
   InputDecoration _buildFieldInputDecoration(config) {
