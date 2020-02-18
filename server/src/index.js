@@ -16,23 +16,19 @@ const api_version = 0;
 const app = express();
 
 // DB Connection
-//let storage = new db;
-function tryAtMost(maxRetries, promise) {
-    promise = promise || new Promise();
-    if (/*storage.test_db()*/true) {
+let storage = new db;
+
+function check_db() {
+    if (storage.test_connection()) {
         console.log("[Serv] Init > Connected to DB");
-        promise.resolve(result);
-    } else if (maxRetries > 0) {
-        // Try again if we haven't reached maxRetries yet
-        console.error("[Serv] Init > Failed to connect to DB, retrying...");
-        setTimeout(function () {
-            tryAtMost(maxRetries - 1, promise);
-        }, 1000);
+        storage.regen();
     } else {
-        console.error("[Serv] Init > Failed to connect to DB, too many tries, exiting.");
-        process.exit(0);
+        console.log("[Serv] Init > Waiting for DB");
+        setTimeout(check_db, 1000);
     }
 }
+check_db();
+
 
 // Middlewares
 app.use((req, res, next) => {

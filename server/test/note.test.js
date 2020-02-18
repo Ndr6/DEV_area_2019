@@ -1,4 +1,4 @@
-import assert from 'asert';
+import assert from 'assert';
 import actionIntraEpitechNote from "../src/note"
 
 describe('NoteEpitechIntra', function () {
