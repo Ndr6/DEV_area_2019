@@ -1,4 +1,4 @@
-import assert from 'asert';
+import assert from 'assert';
 import actionIntraEpitechProjectEndTime from "../src/projectEndTime"
 
 describe('ProjectEndTimeEpitechIntra', function () {
