@@ -32,7 +32,7 @@ class CustomCell extends StatelessWidget
                 padding: const EdgeInsets.only(left: 16.0),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(this._title),
+                    child: Text(this._title, style: TextStyle(fontWeight: FontWeight.bold),),
                   ),
               ),
             ),

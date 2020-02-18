@@ -94,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         searchBarStyle: SearchBarStyle(
                           backgroundColor: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                        onSearch: (x) async { performSearch(x); return <String>[];}, onItemFound: (String item, int index) {  } ,
                     ))
                   ),
                   SliverToBoxAdapter(
@@ -120,7 +121,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     )
                   ),
-
                 ]
               )
           )
@@ -128,12 +128,23 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  List<String> data = ["coucou", "bite", "salut", "salutbite", "salutcoucou", "bitecoucou"];
+  List<String> results = [];
 
   Widget buildPageContent() => ListView.separated(
       itemBuilder: (BuildContext context, int index) {
-        return CustomCell(index % 2 == 0 ? Icons.favorite_border : Icons.mail_outline, "Google Email received", 3);
+        return CustomCell(Icons.favorite_border, results[index], 3);
       },
       separatorBuilder: (BuildContext context, int index) => Divider(thickness: 1),
-      itemCount: 10);
+      itemCount: results.length);
+
+  void performSearch(String string)
+  {
+    var te = data.where((element) => element.toLowerCase().contains(string.toLowerCase())).toList();
+
+    setState(() {
+      this.results = te;
+    });
+  }
 
 }
