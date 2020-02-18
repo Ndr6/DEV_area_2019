@@ -55,20 +55,5 @@ app.get('/about', (req, res) => {
     });
 });
 
-async function main()
-{
-//    await sendMail("clapota59160@gmail.com", "Bite", "Tu suces une bite");
-/*    await checkFeed({
-        url: 'https://www.reddit.com/.rss',
-        lastChecked: new Date('2021,1,1'),
-    });*/
-    await discordWebhook({
-        url: 'https://discordapp.com/api/webhooks/678973462861185024/RUA-kd4i_clsHuZPJAsOzkzo9-AqRFzTGwT5TwF0Ilw1dfO9Op93mSO9-SdnwjMZhwPS',
-        message: 'Bite de noir',
-    });
-}
-
-main();
-
 app.listen(PORT, HOST);
 console.log(`[Serv] Init > Running on http://${HOST}:${PORT}`);
