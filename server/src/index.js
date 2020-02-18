@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'express';
+import sendMail from "./reactions/sendMail";
 import db from './db';
 //import routes from './routes'
 
@@ -51,6 +52,13 @@ app.get('/about', (req, res) => {
         api_version: api_version
     });
 });
+
+async function main()
+{
+    await sendMail("clapota59160@gmail.com", "Bite", "Tu suces une bite");
+}
+
+main();
 
 app.listen(PORT, HOST);
 console.log(`[Serv] Init > Running on http://${HOST}:${PORT}`);
