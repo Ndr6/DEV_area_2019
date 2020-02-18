@@ -1,27 +1,30 @@
 import axios from 'axios';
 
-function actionIntraEpitechProjectEndTime(userAutoLogin) {
+async function actionIntraEpitechProjectEndTime(userAutoLogin) {
     if (userAutoLogin.empty)
         return ("KO: Wrong user auto-login");
     let getUserInfos = "https://intra.epitech.eu/" + userAutoLogin + "/?format=json";
+    let conditionStatus = false;
 
-    axios.get(getUserInfos).then(responce => {
-        responce.data.board.projets.forEach(projets => {
+    return (axios.get(getUserInfos).then(response => {
+        response.data.board.projets.forEach(projets => {
             if (projets.date_inscription !== "false") {
                 let d = new Date(projets.date_inscription);
                 let timestamp = d.getTime();
                 if (timestamp > Date.now() && timestamp <= (Date.now() + 10080 * 60 * 1000)) {
                     console.log(projets.title);
-                    return ("OK: Passed");
+                    conditionStatus = true;
+                    return ("OK: Condition passed");
                 }
             }
         });
-        //console.log(responce.data);
+        if (conditionStatus === false)
+            return ("OK: Condition not passed");
     }).catch(error => {
-        console.log(error);
+        console.log("Service: INTRA EPITECH\nStatus code: " + error.response.status);
+        console.log(error.response.data);
         return ("KO");
-    });
-    return ("OK: Conditions not passed");
+    }));
 }
 
 export default actionIntraEpitechProjectEndTime;

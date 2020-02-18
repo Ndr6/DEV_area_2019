@@ -3,17 +3,17 @@ import actionIntraEpitechNote from "../src/note"
 
 describe('NoteEpitechIntra', function () {
     describe('Call API and check condition', function () {
-        it('should check from the user auto-login token retrieved if there is a new note from fake user', function () {
-            let fakeUserAutoLoginToken = "https://intra.epitech.eu/auth-dac602d44f86d0927b3f462";
+        it('should check from the user auto-login token retrieved if there is a new note from fake user', async function () {
+            let fakeUserAutoLoginToken = "authf462";
 
-            let returnValueFake = actionIntraEpitechNote(fakeUserAutoLoginToken);
+            let returnValueFake = await actionIntraEpitechNote(fakeUserAutoLoginToken);
             assert.equal(returnValueFake, "KO");
         });
-        it('should check from the user auto-login retrieved if there is a new note from valid user', function () {
-            let validUserAutoLoginToken = "https://intra.epitech.eu/" + process.env.AUTO_LOGIN_TOKEN_INTRA;
+        it('should check from the user auto-login retrieved if there is a new note from valid user', async function () {
+            let validUserAutoLoginToken = process.env.AUTO_LOGIN_TOKEN_INTRA;
 
-            let returnValue = actionIntraEpitechNote(validUserAutoLoginToken);
-            assert.equal(returnValue, "OK: Passed");
+            let returnValue = await actionIntraEpitechNote(validUserAutoLoginToken);
+            assert.equal(returnValue, "OK: Condition not passed");
         });
     });
 });
