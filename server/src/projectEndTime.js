@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 async function actionIntraEpitechProjectEndTime(userAutoLogin) {
-    if (userAutoLogin.empty)
+    if (userAutoLogin.length !== 45)
         return ("KO: Wrong user auto-login");
     let getUserInfos = "https://intra.epitech.eu/" + userAutoLogin + "/?format=json";
     let conditionStatus = false;
