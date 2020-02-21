@@ -1,5 +1,5 @@
 import assert from 'assert';
-import actionIntraEpitechNote from "../src/note"
+import actionIntraEpitechNote from "../src/routes/services/action/note"
 
 describe('NoteEpitechIntra', function () {
     describe('Call API and check condition', function () {
@@ -12,7 +12,7 @@ describe('NoteEpitechIntra', function () {
         it('should check from the user auto-login token retrieved if there is a new note from valid user', async function () {
             let validUserAutoLoginToken = process.env.AUTO_LOGIN_TOKEN_INTRA;
             if (validUserAutoLoginToken === undefined)
-                assert.fail("Token undefined");
+                assert.fail("Autologin token not found in env, add it in variable AUTO_LOGIN_TOKEN_INTRA");
             let returnValue = await actionIntraEpitechNote(validUserAutoLoginToken);
             assert.equal(returnValue, "OK: Condition not passed");
         });

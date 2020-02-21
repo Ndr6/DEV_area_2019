@@ -10,9 +10,9 @@ if (process.env.MONGODB_URI != undefined)
     url = process.env.MONGODB_URI;
 
 class db {
-    client = undefined;
-    #database = undefined;
-    constructor() {
+    static client = undefined;
+    static #database = undefined;
+    static init () {
         this.client = new mongodb.MongoClient(url);
         console.log("[DB  ] Init > DB url: " + url);
         this.client.connect(function (err, client) {
@@ -25,19 +25,19 @@ class db {
         });
     }
 
-    regen() {
+    static regen() {
         this.#database = this.client.db(DB_NAME);
     }
 
-    get() {
+    static get() {
         return this.#database;
     }
 
-    test_connection() {
+    static test_connection() {
         return this.client.isConnected();
     }
 
-    close_connection(force, callback) {
+    static close_connection(force, callback) {
         if (this.client.isConnected())
             this.client.close(force, callback);
     }

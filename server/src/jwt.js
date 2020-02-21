@@ -13,7 +13,7 @@ var signOptions = {
 
 const deliverToken = (user) => {
     var payload = {
-        id: user.user_id,
+        id: user._id,
         username: user.username
     };
 

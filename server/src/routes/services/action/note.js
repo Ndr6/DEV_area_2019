@@ -27,12 +27,3 @@ async function actionIntraEpitechNote(userAutoLogin) {
 }
 
 export default actionIntraEpitechNote;
-
-//let ghibliFilm = "https://ghibliapi.herokuapp.com/films";
-/*axios.get(ghibliFilm).then(response => {
-        response.data.forEach(movie => {
-            console.log(movie.title);
-        })
-    }).catch(error => {
-        console.log(error);
-    });*/

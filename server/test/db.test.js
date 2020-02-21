@@ -1,5 +1,5 @@
 import assert from "assert";
-import db from "../src/db";
+import storage from "../src/db";
 import mongodb from "mongodb";
 
 let tries = 0;
@@ -19,9 +19,10 @@ function check_db(storage) {
     }
 }
 
+storage.init();
+
 describe('DB', function () {
     describe('Connection', function () {
-        let storage = new db;
         it('should connect to the database', function () {
             let result = 0;
             while (result != -1 && result < 10) {

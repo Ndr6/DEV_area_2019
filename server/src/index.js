@@ -1,10 +1,7 @@
 import express from 'express';
 import bodyParser from 'express';
-import discordWebhook from "./reactions/discordWebhook";
-import checkFeed from './actions/rssFeed';
-import sendMail from "./reactions/sendMail";
 import db from './db';
-//import routes from './routes'
+import routes from './routes'
 
 // Constants
 const PORT = (process.env.PORT == undefined ? 36969 : process.env.PORT);
@@ -16,12 +13,12 @@ const api_version = 0;
 const app = express();
 
 // DB Connection
-let storage = new db;
+db.init();
 
 function check_db() {
-    if (storage.test_connection()) {
+    if (db.test_connection()) {
         console.log("[Serv] Init > Connected to DB");
-        storage.regen();
+        db.regen();
     } else {
         console.log("[Serv] Init > Waiting for DB");
         setTimeout(check_db, 1000);
@@ -39,7 +36,7 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-//app.use(routes);
+app.use(routes);
 
 // Routes
 app.get('/', (req, res) => {
