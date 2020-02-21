@@ -6,7 +6,7 @@ describe('JWT', function () {
     describe('Deliver and verify', function () {
         it('should retrieve the username and id from a signed token', function () {
             var fakeuser = {
-                user_id: 42,
+                _id: 42,
                 username: "alexis"
             };
 
@@ -14,7 +14,8 @@ describe('JWT', function () {
 
             var decodeduser = verifyToken(token);
 
-            assert.equal(decodeduser.id, fakeuser.user_id);
+            assert.notEqual(decodeduser, undefined);
+            assert.equal(decodeduser.id, fakeuser._id);
             assert.equal(decodeduser.username, fakeuser.username);
         });
     });
