@@ -1,11 +1,11 @@
 import express from 'express';
 import bodyParser from 'express';
 import db from './db';
-import { test_db } from './db';
-//import routes from './routes'
+import routes from './routes'
+import cors from 'cors';
 
 // Constants
-const PORT = (process.env.PORT == undefined ? 36969 : process.env.PORT);
+const PORT = process.env.PORT || 36969;
 const HOST = "0.0.0.0";
 
 const back_version = 0.1;
@@ -14,24 +14,25 @@ const api_version = 0;
 const app = express();
 
 // DB Connection
-function tryAtMost(maxRetries, promise) {
-    promise = promise || new Promise();
-    if (test_db()) {
+db.init();
+
+function check_db() {
+    if (db.test_connection()) {
         console.log("[Serv] Init > Connected to DB");
-        promise.resolve(result);
-    } else if (maxRetries > 0) {
-        // Try again if we haven't reached maxRetries yet
-        console.error("[Serv] Init > Failed to connect to DB, retrying...");
-        setTimeout(function () {
-            tryAtMost(maxRetries - 1, promise);
-        }, 1000);
+        db.regen();
     } else {
-        console.error("[Serv] Init > Failed to connect to DB, too many tries, exiting.");
-        process.exit(0);
+        console.log("[Serv] Init > Waiting for DB");
+        setTimeout(check_db, 1000);
     }
 }
+check_db();
+
 
 // Middlewares
+
+// Allow cross origin request
+app.use(cors());
+
 app.use((req, res, next) => {
     //TODO: Restrict the CORS access
     res.header("Access-Control-Allow-Origin", "*");
@@ -40,7 +41,7 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-//app.use(routes);
+app.use(routes);
 
 // Routes
 app.get('/', (req, res) => {

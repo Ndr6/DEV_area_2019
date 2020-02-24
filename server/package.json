@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha -r esm",
     "start": "node -r esm src/index.js",
-    "start:dev": "nodemon",
+    "start:dev": "nodemon -r esm src/index.js",
     "setup": "npm install"
   },
   "repository": {
@@ -19,10 +19,17 @@
   },
   "homepage": "https://github.com/Ndr6/DEV_area_2019#readme",
   "dependencies": {
+    "axios": "^0.19.2",
+    "cors": "^2.8.5",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^7.0.1",
-    "mongodb": "^3.5.2"
+    "mongodb": "^3.5.2",
+    "nodemailer": "^6.4.2",
+    "rss-parser": "^3.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
