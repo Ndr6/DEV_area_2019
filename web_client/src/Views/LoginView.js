@@ -16,6 +16,9 @@ import {FormControlLabel} from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import CustomButton from "../Components/CustomButton";
+import ApiService from '../Services/ApiService';
+import { useCookies } from 'react-cookie';
+import Auth from '../Utils/Auth';
 
 function onSignIn(googleUser)
 {
@@ -87,6 +90,7 @@ export default function LoginView() {
     const componentClicked = () => {console.log('zozo');};
     const responseFacebook = (response) => {console.log(response);};
 
+    const [cookies, setCookies] = useCookies(['token']);
     const [state, setState] = React.useState({
         emailValid: true,
         passwordValid: true,
@@ -111,14 +115,20 @@ export default function LoginView() {
     const loginAction = (e) => {
         e.preventDefault();
 
-        console.log(state.email.trim());
-        console.log(state.password.trim());
-
-        if (state.emailValid && state.passwordValid && state.email.trim() !== '' && state.password.trim() !== '')
-        {
+        const fetchData = async (email, password) => {
+            const response = await ApiService.login(email, password);
+            if (response.success === true) {
+                setCookies('token', response.token, {path: '/'});
+                Auth.authenticate();
+                window.location.href = '/home';
+            } else {
+                alert(response.error);
+            }
         }
-        else
-        {
+
+        if (state.emailValid && state.passwordValid && state.email.trim() !== '' && state.password.trim() !== '') {
+            fetchData(state.email, state.password);
+        } else {
             alert('mabite')
         }
     };
