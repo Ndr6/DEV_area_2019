@@ -2,9 +2,10 @@ import express from 'express';
 import bodyParser from 'express';
 import db from './db';
 import routes from './routes'
+import cors from 'cors';
 
 // Constants
-const PORT = (process.env.PORT == undefined ? 36969 : process.env.PORT);
+const PORT = process.env.PORT || 36969;
 const HOST = "0.0.0.0";
 
 const back_version = 0.1;
@@ -28,6 +29,10 @@ check_db();
 
 
 // Middlewares
+
+// Allow cross origin request
+app.use(cors());
+
 app.use((req, res, next) => {
     //TODO: Restrict the CORS access
     res.header("Access-Control-Allow-Origin", "*");

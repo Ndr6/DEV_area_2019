@@ -11,7 +11,7 @@ if (process.env.MONGODB_URI != undefined)
 
 class db {
     static client = undefined;
-    static #database = undefined;
+    static database = undefined;
     static init () {
         this.client = new mongodb.MongoClient(url);
         console.log("[DB  ] Init > DB url: " + url);
@@ -26,11 +26,11 @@ class db {
     }
 
     static regen() {
-        this.#database = this.client.db(DB_NAME);
+        this.database = this.client.db(DB_NAME);
     }
 
     static get() {
-        return this.#database;
+        return this.database;
     }
 
     static test_connection() {
