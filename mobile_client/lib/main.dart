@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_client/Views/Customs/CustomCell.dart';
 
+import 'Views/LoginPage.dart';
+
 
 Map<int, Color> color =
 {
@@ -30,11 +32,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: MaterialColor(0xFFFFFFFF, color),
         canvasColor: Colors.white,
-        textTheme: GoogleFonts.ubuntuTextTheme(
+        textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
         ),
       ),
-      home: MyHomePage(title: 'AREA'),
+      home: LoginPage(), // MyHomePage(title: 'AREA'),
     );
   }
 }
