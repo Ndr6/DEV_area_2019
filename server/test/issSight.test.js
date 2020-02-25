@@ -13,7 +13,10 @@ describe('IssSightingOverLocation', function () {
             let validCityName = "Houston";
 
             let returnValue =  await issSightingOverLocation(validCityName);
-            assert.equal(returnValue, "OK: Condition not passed");
+            if (returnValue === "OK: Condition not passed")
+                assert.equal(returnValue, "OK: Condition not passed");
+            else
+                assert.equal(returnValue, "OK: Conditions Passed");
         });
     });
 });
