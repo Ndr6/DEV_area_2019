@@ -17,9 +17,7 @@ class db {
         console.log("[DB  ] Init > DB url: " + url);
         this.client.connect(function (err, client) {
             if (err != null) {
-                console.error("[DB  ] Init > Failed to connect, error below");
-                console.error("[DB  ] Init > DB url: " + url);
-                console.error(err);
+                console.error("[DB  ] Init > Failed to connect, most likely the DB server is not reachable, or the url is invalid");
                 process.exit();
             }
         });

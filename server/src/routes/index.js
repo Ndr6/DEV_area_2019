@@ -1,6 +1,7 @@
 import { Router } from "express";
 import auth from './auth';
 import verifyToken from "../jwt";
+import services from "./services"
 
 const routes = Router();
 
@@ -17,12 +18,14 @@ routes.use('/services', (req, res, next) => {
     if (!req.headers.authorization.startsWith("Bearer "))
         return res.status(403).json({ success: false, error: 'API - Invalid token' });
     var token = req.headers.authorization.slice(7);
-    if (verifyToken(token) == false)
+    var decoded = verifyToken(token);
+    if (decoded == false)
         return res.status(403).json({ success: false, error: 'API - Invalid token' });
+    req.token = decoded;
     next();
 });
 
 // Authenticated services
-//routes.use('/services/catfact', catfact);
+routes.use('/services/', services);
 
 export default routes;

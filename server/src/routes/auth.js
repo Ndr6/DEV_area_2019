@@ -61,7 +61,6 @@ router.post('/signin', (req, res) => {
 });
 
 router.post('/signup', (req, res) => {
-    console.log(req.query);
     if (req.query.username == undefined || req.query.password == undefined) {
         console.log("[Auth] Signup > Attempt to register with missing arguments");
         res.status(400).json({ success: false, error: "API - Missing arguments" });
