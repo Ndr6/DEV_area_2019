@@ -2,6 +2,9 @@ import { Router } from "express";
 
 //Services
 import intraService from "./intra";
+import googleService from "./google";
+import twitterService from "./twitter";
+import smtpService from "./smtp";
 
 //Actions
 //import checkFeed from 'action/rssFeed';
@@ -18,6 +21,9 @@ const routes = Router();
 
 // Services
 routes.use("/intra", intraService);
+routes.use("/google", googleService);
+routes.use("/twitter", twitterService);
+routes.use("/smtp", smtpService);
 
 // Actions
 //routes.use('/rss', checkFeed);

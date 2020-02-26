@@ -1,5 +1,5 @@
 import assert from 'assert';
-import actionIntraEpitechNote from "../src/routes/services/action/note"
+import actionIntraEpitechNote from "../src/routes/action/note"
 
 describe('NoteEpitechIntra', function () {
     describe('Call API and check condition', function () {
