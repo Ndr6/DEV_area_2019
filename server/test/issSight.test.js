@@ -1,6 +1,8 @@
 import assert from 'assert';
 import issSightingOverLocation from "../src/routes/action/issSight"
 
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('IssSightingOverLocation', function () {
     describe('Call API and check condition', function () {
         it('should return an error from a unvalid city name', async function () {
@@ -10,6 +12,9 @@ describe('IssSightingOverLocation', function () {
             assert.equal(returnValueFake, "KO: Wrong location, enter a city name");
         });
         it('should return a timestamp corresponding to the time when the iss pass over the given location from a valid city name', async function () {
+            this.timeout(5000);
+            await wait(1000);
+
             let validCityName = "Houston";
 
             let returnValue =  await issSightingOverLocation(validCityName);
