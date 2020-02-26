@@ -1,56 +1,54 @@
 let list = {
     success: true,
-    services: {
-        intra: {
-            description: "The Épitech intranet, used by Épitech students to access courses and grades",
-            version: 1,
-            parameters: {
-                token: "String - The autologin token, starts with 'auth-' and is 45 characters long"
-            }
-        },
-        google: {
-            description: "Google account, might be used to get calendar, contact, or mail information",
-            version: 1,
-            parameters: {
-                token: "String - The OAuth access token, is shorter than 2048 character"
-            }
-        },
-        twitter: {
-            description: "Twitter account, might be used to get tweets, or to tweet",
-            version: 1,
-            parameters: {
-                token: "String - The OAuth access token"
-            }
-        }
-    },
-    actions: {
-        placeholder: {
-            description: "This is not a real service, and is only used as an example for this list format",
-            version: -1,
-            settings: {
-                checkInterval: 3600,
-                user_configuration: {
-                    server: "String - The server to check for banana received",
-                    banana_nb: "Int - The minimum number of bananas to receive to trigger reactions",
-                    odd_banana: "Bool - Trigger reaction if receiving odd number of bananas"
+    services: [
+        {
+            name: 'Intra Epitech',
+            description: 'The Epitech intranet, used by Épitech students to access courses and grades',
+            parameters: [
+                {
+                    name: 'token',
+                    type: 'string',
                 }
-            }
-        }
-    },
-    reactions: {
-        placeholder: {
-            description: "This is not a real service, and is only used as an example for this list format",
-            version: -1,
-            settings: {
-                triggerCooldown: 3600,
-                user_configuration: {
-                    server: "String - The server to reach",
-                    bananas: "Int - The number of bananas to send",
-                    recipient: "String - Username of the banana recipient"
+            ],
+            actions: [
+                //Ici rajouter les actions au format suivant :
+                {
+                    name: 'name',
+                    description: 'description',
+                    parameters: [
+                        {
+                            name: 'name',
+                            type: 'type' // string|bool|int|json
+                            //pk pas rajouter une regex de validation ici !
+                        }
+                    ]
                 }
-            }
+            ],
+            reactions: [
+                //Pareil ici
+            ]
+        },
+        {
+            name: 'Google',
+            description: 'Google account, might be used to get calendar, contact, or mail information',
+            parameters: [
+                {
+                    name: 'token',
+                    type: 'string',
+                }
+            ]
+        },
+        {
+            name: 'Twitter',
+            description: 'Twitter account, might be used to get tweets, or to tweet',
+            parameters: [
+                {
+                    name: 'token',
+                    type: 'string',
+                }
+            ]
         }
-    }
+    ]
 };
 
 export default list;
