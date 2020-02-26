@@ -4,7 +4,7 @@ import storage from "../../db";
 const routes = Router();
 
 routes.post('/connect', (req, res) => {
-    if (req.query.username == undefined || req.query.password == undefined || req.query.host == undefined) {
+    if (req.query.username === undefined || req.query.password === undefined || req.query.host === undefined) {
         res.status(400).json({ success: false, error: "Missing smtp credentials" });
         return;
     }

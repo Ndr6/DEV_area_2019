@@ -19,7 +19,7 @@ routes.use('/services', (req, res, next) => {
         return res.status(403).json({ success: false, error: 'API - Invalid token' });
     var token = req.headers.authorization.slice(7);
     var decoded = verifyToken(token);
-    if (decoded == false)
+    if (decoded === false)
         return res.status(403).json({ success: false, error: 'API - Invalid token' });
     req.token = decoded;
     next();

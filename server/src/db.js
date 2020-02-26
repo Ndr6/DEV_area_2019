@@ -2,9 +2,9 @@
 //Sébastien Bernard
 import mongodb from "mongodb";
 
-const DB_HOST = (process.env.DB_HOST == undefined ? "127.0.0.1" : process.env.DB_HOST);
-const DB_PORT = (process.env.DB_PORT == undefined ? "27017" : process.env.DB_PORT);
-const DB_NAME = (process.env.DB_NAME == undefined ? "area" : process.env.DB_NAME);
+const DB_HOST = (process.env.DB_HOST === undefined ? "127.0.0.1" : process.env.DB_HOST);
+const DB_PORT = (process.env.DB_PORT === undefined ? "27017" : process.env.DB_PORT);
+const DB_NAME = (process.env.DB_NAME === undefined ? "area" : process.env.DB_NAME);
 let url = 'mongodb://' + DB_HOST + ':' + DB_PORT;
 if (process.env.MONGODB_URI != undefined)
     url = process.env.MONGODB_URI;

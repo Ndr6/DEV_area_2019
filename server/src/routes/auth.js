@@ -7,7 +7,7 @@ import { deliverToken } from '../jwt.js';
 const router = express.Router();
 
 router.post('/signin', (req, res) => {
-    if (req.query.username == undefined || req.query.password == undefined) {
+    if (req.query.username === undefined || req.query.password === undefined) {
         console.log("[Auth] Signin > Attempt to login with missing arguments");
         res.status(400).json({ success: false, error: "API - Missing arguments" });
         return;
@@ -61,7 +61,7 @@ router.post('/signin', (req, res) => {
 });
 
 router.post('/signup', (req, res) => {
-    if (req.query.username == undefined || req.query.password == undefined) {
+    if (req.query.username === undefined || req.query.password === undefined) {
         console.log("[Auth] Signup > Attempt to register with missing arguments");
         res.status(400).json({ success: false, error: "API - Missing arguments" });
         return;
@@ -106,7 +106,7 @@ router.post('/signup', (req, res) => {
 });
 
 router.get('/verify', (req, res) => {
-    if (req.query.token == undefined) {
+    if (req.query.token === undefined) {
         console.log("[Auth] Verify > Attempt to verify something that is not a token");
         res.status(400).json({ success: false, error: "API - Invalid token format" });
         return;
@@ -123,7 +123,7 @@ router.get('/verify', (req, res) => {
         return;
     }
 
-    if (decoded == false || decoded.username == undefined || decoded.id == undefined) {
+    if (decoded === false || decoded.username === undefined || decoded.id === undefined) {
         console.log("[Auth] Verify > Attempt to verify incomplete token");
         res.status(400).json({ success: false, error: "API - Incomplete token" });
         return;

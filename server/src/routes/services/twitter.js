@@ -4,7 +4,7 @@ import storage from "../../db";
 const routes = Router();
 
 routes.post('/connect', (req, res) => {
-    if (req.query.token == undefined) {
+    if (req.query.token === undefined) {
         res.status(400).json({ success: false, error: "No token given" });
         return;
     }
