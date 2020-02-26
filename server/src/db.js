@@ -39,6 +39,11 @@ class db {
         if (this.client.isConnected())
             this.client.close(force, callback);
     }
+
+    static convert_mongo_id(id) {
+        var ObjectID = mongodb.ObjectID;
+        return new ObjectID(id);
+    }
 }
 
 export default db;

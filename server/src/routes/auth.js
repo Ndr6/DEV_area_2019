@@ -151,4 +151,21 @@ function dump_users() {
     });
 };
 
+router.get('/drop', (req, res) => {
+    drop_users();
+    res.status(200).json({ success: true });
+    return;
+});
+
+function drop_users() {
+    const database = storage.get();
+    const users = database.collection("users");
+    users.drop({}, function (error, result) {
+        if (error)
+            throw error;
+
+        console.log("[Auth] Drop > All users dropped XP");
+    });
+};
+
 export default router;
