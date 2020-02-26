@@ -1,3 +1,4 @@
+import ApiService from "../Services/ApiService";
 import React from 'react';
 import {useParams} from 'react-router-dom';
 import Header from "../Components/Header";
@@ -10,6 +11,8 @@ import CollapseItem from "../Components/CollapseItem";
 import Divider from "@material-ui/core/Divider";
 import CustomButton from "../Components/CustomButton";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import getSpecificButton from "../Services/OAuthButtonService";
+import {CircularProgress} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     cardContainer: {
@@ -45,6 +48,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ServiceView(props) {
+    const [services, setServices] = React.useState([]);
+    const [isLoaded, setLoaded] = React.useState(false);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            let data = await ApiService.fetchServices();
+            setServices(data.services);
+            setLoaded(true);
+        };
+        fetchData();
+    }, []);
+
     const actions = [
         {
             name: 'Comment posted',
@@ -87,13 +102,28 @@ export default function ServiceView(props) {
         }
     ];
 
+
     let {name} = useParams();
+    let service = undefined;
+    console.log(services);
+    for (let elem of services) {
+        if (elem.name === props.name)
+            service = elem;
+    }
+    console.log(service);
+    let button = getSpecificButton(name);
     const classes = useStyles();
 
     const [isSubscribed, setSubscribed] = React.useState(false);
     const subscribe = () => {
         setSubscribed(!isSubscribed);
     };
+    if (button === undefined)
+        button = (
+            <CustomButton color={'white'} hoverColor={'#4BB543'} backgroundColor={'#4BB543'} backgroundHoverColor={'white'} onClick={subscribe} icon={isSubscribed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon /> }>
+                Subscribe now
+            </CustomButton>
+        );
 
     const actionList = actions.map(action =>
         <Grid key={action.name} item md={10} xs={11}>
@@ -111,7 +141,8 @@ export default function ServiceView(props) {
 
     name = capitalize(name);
     return (
-        <div>
+        isLoaded ?
+            (<div>
             <Header />
             <Grid className={classes.root} spacing={4} container justify={"center"}>
                 <Grid item xs={12} md={12} className={classes.textContainer}>
@@ -120,9 +151,11 @@ export default function ServiceView(props) {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <CustomButton color={'white'} hoverColor={'#4BB543'} backgroundColor={'#4BB543'} backgroundHoverColor={'white'} onClick={subscribe} icon={isSubscribed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon /> }>
-                        {isSubscribed ? 'Subscribed' : 'Subscribe now'}
-                    </CustomButton>
+                    {isSubscribed ?
+                        <CustomButton color={'white'} hoverColor={'#4BB543'} backgroundColor={'#4BB543'} backgroundHoverColor={'white'} onClick={subscribe} icon={isSubscribed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon /> }>
+                            Subscribed
+                        </CustomButton>
+                    : button}
                 </Grid>
                 <Grid className={classes.container} spacing={3} container direction={"row"} justify={"space-evenly"}>
                     <Grid className={classes.listContainer} item md={6} xs={12}>
@@ -147,6 +180,10 @@ export default function ServiceView(props) {
                     </Grid>
                 </Grid>
             </Grid>
-        </div>
+        </div>)
+            :
+            <>
+                <CircularProgress />
+                </>
     )
 }
