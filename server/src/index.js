@@ -45,7 +45,7 @@ app.use(routes);
 
 // Routes
 app.get('/', (req, res) => {
-    res.send('<h1>Area back-end.</h1>\nIf you see this you went the wrong way\n');
+    res.status(200).send('<h1>Area back-end.</h1>\nIf you see this you went the wrong way\n');
 });
 
 app.get('/about', (req, res) => {
