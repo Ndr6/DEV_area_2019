@@ -11,14 +11,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import emailValidate from "../Utils/EmailValid";
+import ApiService from '../Services/ApiService';
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
                 Team Gade
-            </Link>{' '}
+            {' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
@@ -81,17 +81,19 @@ export default function RegisterView() {
     const registerAction = (e) => {
         e.preventDefault();
 
-        console.log(state.email.trim());
-        console.log(state.password.trim());
+        const fetchData = async (mail, password) => {
+            const response = await ApiService.register(mail, password);
 
-        if (state.emailValid && state.passwordValid && state.email.trim() !== '' && state.password.trim() !== '')
-        {
-            //REGISTER
+            if (response.success === true)
+                window.location.href = '/login';
+            else
+                alert(response.error);
         }
-        else
-        {
-            alert('mabite')
-        }
+
+        if (state.emailValid && state.passwordValid && state.email.trim() !== '' && state.password.trim() !== '') {
+            fetchData(state.email, state.password);
+        } else
+            alert('Invalid E-Mail or password');
     };
 
     const onPasswordChange = (e) => {
