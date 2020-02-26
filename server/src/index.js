@@ -3,6 +3,7 @@ import bodyParser from 'express';
 import db from './db';
 import routes from './routes'
 import cors from 'cors';
+import service_list from './list';
 
 // Constants
 const PORT = process.env.PORT || 36969;
@@ -46,6 +47,11 @@ app.use(routes);
 // Routes
 app.get('/', (req, res) => {
     res.send('<h1>Area back-end.</h1>\nIf you see this you went the wrong way\n');
+});
+
+routes.get('/list', (req, res) => {
+    res.status(200).json(service_list);
+    return;
 });
 
 app.get('/about', (req, res) => {
