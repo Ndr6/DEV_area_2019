@@ -1,5 +1,5 @@
 import assert from 'assert';
-import issSightingOverLocation from "../src/routes/services/action/issSight"
+import issSightingOverLocation from "../src/routes/action/issSight"
 
 describe('IssSightingOverLocation', function () {
     describe('Call API and check condition', function () {
