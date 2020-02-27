@@ -8,11 +8,13 @@ import googleService from "./service/google";
 import twitterService from "./service/twitter";
 
 //Actions
+import genericAction from "./action/generic";
 import rssAction from './action/rssFeed';
 //import noteIntra from "action/note";
 //import projectEndIntra from "action/projectEndTime";
 
 //Reactions
+import genericReaction from "./action/generic";
 //import discordWebhook from "reaction/discordWebhook";
 //import sendMail from "reaction/sendMail";
 
@@ -76,11 +78,13 @@ routes.use("/service/google", googleService);
 routes.use("/service/twitter", twitterService);
 
 // Actions
+routes.use(genericAction);
 routes.use('/action/rss', rssAction);
 //routes.use('/intra/note', noteIntra);
 //routes.use('/intra/project_end', projectEndIntra);
 
 // Reactions
+routes.use(genericReaction);
 //routes.use('/services/discord', discordWebhook);
 //routes.use('/services/action/mail', sendMail);
 
