@@ -3,7 +3,7 @@ import storage from "../../db";
 
 const routes = Router();
 
-routes.post('/connect', (req, res) => {
+routes.post('/', (req, res) => {
     if (req.query.token === undefined) {
         res.status(400).json({ success: false, error: "No token given" });
         return;
@@ -27,7 +27,7 @@ routes.post('/connect', (req, res) => {
         }
         console.log("[Svce] Twitter > Storing access token for user", req.token.username)
         users.updateOne({ _id: storage.convert_mongo_id(req.token.id) },
-            { $set: { tokens: { twitter: req.query.token } } },
+            { $set: { "tokens.twitter": req.query.token } },
             {}, function (error, result) {
                 if (error) {
                     console.log("[Svce] Twitter > DB error on token storage for user", req.token.username, ". Error below");
@@ -39,6 +39,33 @@ routes.post('/connect', (req, res) => {
                 res.status(200).json({ success: true });
                 return;
         });
+    });
+});
+
+routes.delete('/', (req, res) => {
+    const database = storage.get();
+    const users = database.collection("users");
+
+    console.log("[Svce] Twitter > Deleting token for user", req.token.username);
+    users.findOne({ _id: storage.convert_mongo_id(req.token.id) }, {}, (error, result) => {
+        if (error || result == null) {
+            console.log("[Svce] Twitter > User", req.token.username, "not found in DB");
+            res.status(500).json({ success: false, error: "DB error" });
+            return;
+        }
+        users.updateOne({ _id: storage.convert_mongo_id(req.token.id) },
+            { $unset: { "tokens.twitter": "" } },
+            {}, function (error, result) {
+                if (error) {
+                    console.log("[Svce] Twitter > DB error on token deletion for user", req.token.username, ". Error below");
+                    console.log(error);
+                    res.status(500).json({ success: false, error: "Failure in database service. Please email the technical team" });
+                    return;
+                }
+                console.log("[Svce] Twitter > Deleted access token for user", req.token.username)
+                res.status(200).json({ success: true });
+                return;
+            });
     });
 });
 

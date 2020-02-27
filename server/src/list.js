@@ -9,23 +9,6 @@ let list = {
                     name: 'token',
                     type: 'string',
                 }
-            ],
-            actions: [
-                //Ici rajouter les actions au format suivant :
-                {
-                    name: 'name',
-                    description: 'description',
-                    parameters: [
-                        {
-                            name: 'name',
-                            type: 'type' // string|bool|int|json
-                            //pk pas rajouter une regex de validation ici !
-                        }
-                    ]
-                }
-            ],
-            reactions: [
-                //Pareil ici
             ]
         },
         {
@@ -48,6 +31,27 @@ let list = {
                 }
             ]
         }
+    ],
+    actions: [
+        {
+            name: 'rss',
+            description: 'Reads a rss feed and triggers if there is a new post',
+            parameters: [
+                {
+                    name: 'url',
+                    type: 'string', // string|bool|int|json
+                    optional: false
+                },
+                {
+                    name: 'checkInterval',
+                    type: 'int', // string|bool|int|json
+                    optional: true
+                }
+            ]
+        }
+    ],
+    reactions: [
+        //Pareil ici
     ]
 };
 
