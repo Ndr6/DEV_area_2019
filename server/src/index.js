@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
     res.status(200).send('<h1>Area back-end.</h1>\nIf you see this you went the wrong way\n');
 });
 
-routes.get('/list', (req, res) => {
+app.get('/list', (req, res) => {
     res.status(200).json(service_list);
     return;
 });
