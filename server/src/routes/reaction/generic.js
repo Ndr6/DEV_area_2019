@@ -43,4 +43,26 @@ routes.delete('/reaction/:name/', (req, res) => {
     });
 });
 
+routes.get('/reaction/list/', (req, res) => {
+    const database = storage.get();
+    const reactions = database.collection("reactions");
+
+    let reactionList = { success: true, reactionNb: 0, reactions: [] };
+
+    console.log("[Reac] Generic > Listing reactions for user", req.token.username);
+    let cursor = reactions.find({ ownerId: req.token.id }, {});
+    cursor.forEach((doc) => {
+        reactionList.reactionNb++;
+        reactionList.reactions.push(doc);
+    }, (error) => {
+        if (error) {
+            console.log("[Reac] List > Database error during listing for user", req.token.username);
+            res.status(500).json({ success: false, error: "Database error" });
+            return;
+        }
+        console.log("[Reac] List > Listed", reactionList.reactionNb, "reactions for user", req.token.username);
+        res.status(200).json(reactionList);
+    });
+});
+
 export default routes;

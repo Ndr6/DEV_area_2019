@@ -91,4 +91,26 @@ routes.patch("/action/link", (req, res) => {
     });
 });
 
+routes.get('/action/list/', (req, res) => {
+    const database = storage.get();
+    const actions = database.collection("actions");
+
+    let actionList = { success: true, actionNb: 0, actions: [] };
+
+    console.log("[Acti] Generic > Listing actions for user", req.token.username);
+    let cursor = actions.find({ ownerId: req.token.id }, {});
+    cursor.forEach((doc) => {
+        actionList.actionNb++;
+        actionList.actions.push(doc);
+    }, (error) => {
+        if (error) {
+            console.log("[Acti] List > Database error during listing for user", req.token.username);
+            res.status(500).json({ success: false, error: "Database error" });
+            return;
+        }
+        console.log("[Acti] List > Listed", actionList.actionNb, "actions for user", req.token.username);
+        res.status(200).json(actionList);
+    });
+});
+
 export default routes;
