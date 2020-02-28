@@ -5,7 +5,7 @@ import parser from "rss-parser";
 let Parser = new parser();
 const routes = Router();
 
-export async function checkFeed(param) {
+export async function checkRss(param) {
     let isNewPost = false;
     const url = param.url;
     const lastChecked = param.lastChecked;
