@@ -24,7 +24,6 @@ routes.delete('/service/:name/', (req, res) => {
             res.status(500).json({ success: false, error: "DB error" });
             return;
         }
-        console.log("Removing", keyname)
         users.updateOne({ _id: storage.convert_mongo_id(req.token.id) },
         { $unset: { [keyname]: "" } },
         {}, function (error, result) {
@@ -42,7 +41,26 @@ routes.delete('/service/:name/', (req, res) => {
 });
 
 routes.get('/service/list/', (req, res) => {
-    res.status(500).json({ success: false, error: "Not implemented" });
+    const database = storage.get();
+    const users = database.collection("users");
+
+    console.log("[Svce] Generic > Listing services for user", req.token.username);
+    users.findOne({ _id: storage.convert_mongo_id(req.token.id) }, {}, (error, result) => {
+        if (error || result == null) {
+            console.log("[Svce] Generic > User", req.token.username, "not found in DB");
+            res.status(500).json({ success: false, error: "DB error" });
+            return;
+        }
+        let serviceList = {};
+        list.services.forEach((element) => {
+            if (result.tokens[element.route] == undefined)
+                serviceList[element.route] = false;
+            else
+                serviceList[element.route] = true;
+        });
+        res.status(200).json({ success: true, services: serviceList });
+        return;
+    });
 });
 
 export default routes;
