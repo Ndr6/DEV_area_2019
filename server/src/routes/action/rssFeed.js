@@ -21,7 +21,7 @@ export async function checkFeed(param) {
             isNewPost = true;
     });
     console.log(isNewPost);
-    console.log('Lol lol');
+    return isNewPost;
 };
 
 routes.post('/', (req, res) => {

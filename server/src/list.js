@@ -4,92 +4,120 @@ let list = {
         {
             name: 'Intra Epitech',
             route: "intra",
+            iconRoute: 'https://i.ya-webdesign.com/images/poop-icon-png-10.png',
             description: 'The Epitech intranet, used by Épitech students to access courses and grades',
             parameters: [
                 {
                     name: 'token',
                     type: 'string',
                 }
+            ],
+            actions: [
+                {
+                    name: 'note',
+                    title: 'On note posted',
+                    description: 'Trigger when a note is submited on your intra account',
+                    parameters: [
+
+                    ]
+                },
+                {
+                    name: 'projectendtime',
+                    title: 'Project End Time',
+                    description: 'Trigger when a project will end soon',
+                    parameters: [
+
+                    ]
+                }
+            ],
+            reactions: [
+
             ]
         },
         {
-            name: 'Google',
-            route: "google",
-            description: 'Google account, might be used to get calendar, contact, or mail information',
+            name: 'Discord',
+            route: 'discord',
+            iconRoute: 'https://static-s.aa-cdn.net/img/ios/985746746/3c4ea685f34faa70159e14b0c889fdd1',
+            description: 'Discord is a proprietary freeware VoIP application and digital distribution platform designed for video gaming communities',
             parameters: [
+
+            ],
+            actions: [
+
+            ],
+            reactions: [
                 {
-                    name: 'token',
-                    type: 'string',
+                    name: 'Discord Webhook',
+                    route: 'webhook',
+                    description: 'Send a message to the corresponding webhook',
+                    parameters: [
+                        {
+                            name: 'webhookurl',
+                            type: 'string',
+                        },
+                        {
+                            name: 'message',
+                            type: 'string',
+                        }
+                    ]
+                }
+            ],
+        },
+        {
+            name: 'SMTP',
+            route: 'smtp',
+            description: 'Simple Mail Transfer Protocol',
+            iconRoute: 'https://www.xplornet.com/wp-content/uploads/2018/06/0628windows10.jpg',
+            parameters: [
+
+            ],
+            actions: [
+
+            ],
+            reactions: [
+                {
+                    title: 'Send mail to',
+                    name: 'sendmail',
+                    description: 'Send a mail to the given mail address',
+                    parameters: [
+                        {
+                            name: 'to',
+                            type: 'string',
+                        },
+                        {
+                            name: 'message',
+                            type: 'string',
+                        }
+                    ]
                 }
             ]
         },
         {
-            name: 'Twitter',
-            route: "twitter",
-            description: 'Twitter account, might be used to get tweets, or to tweet',
+            name: 'Rss feed',
+            route: 'rss',
+            description: 'Really Simple Syndication',
+            iconRoute: 'https://blog.juansorroche.com/wp-content/uploads/2018/07/63_logoRss.png',
             parameters: [
+
+            ],
+            actions: [
                 {
-                    name: 'token',
-                    type: 'string',
+                    title: 'On element posted',
+                    name: 'onpost',
+                    decription: 'Trigger when an element is added to the corresponding flux',
+                    parameters: [
+                        {
+                            name: 'feed_url',
+                            type: 'string',
+                        }
+                    ]
                 }
+            ],
+            reactions: [
+
             ]
         }
     ],
-    actions: [
-        {
-            name: 'rss',
-            description: 'Reads a rss feed and triggers if there is a new post',
-            requirements: [],
-            parameters: [
-                {
-                    name: 'url',
-                    type: 'string', // string|bool|int|json
-                    optional: false
-                },
-                {
-                    name: 'checkInterval',
-                    type: 'int', // string|bool|int|json
-                    optional: true
-                }
-            ]
-        },
-        {
-            name: 'timer',
-            description: 'Triggers everyday at the chosen time',
-            requirements: [],
-            parameters: [
-                {
-                    name: 'hours',
-                    type: 'int', // string|bool|int|json
-                    optional: false
-                },
-                {
-                    name: 'minutes',
-                    type: 'int', // string|bool|int|json
-                    optional: false
-                }
-            ]
-        }
-    ],
-    reactions: [
-        {
-            name: 'discord',
-            description: 'Sends a message to a discord channel through a webhook',
-            requirements: [],
-            parameters: [
-                {
-                    name: 'url',
-                    type: 'string', // string|bool|int|json
-                    optional: false
-                },
-                {
-                    name: 'message',
-                    type: 'string', // string|bool|int|json
-                    optional: false
-                }
-            ]
-        }
-    ]
 };
 
 export default list;
