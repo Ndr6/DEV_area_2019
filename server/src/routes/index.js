@@ -3,6 +3,7 @@ import verifyToken from "../jwt";
 
 //Services
 import auth from './auth';
+import genericService from "./service/generic";
 import intraService from "./service/intra";
 import googleService from "./service/google";
 import twitterService from "./service/twitter";
@@ -10,6 +11,7 @@ import twitterService from "./service/twitter";
 //Actions
 import genericAction from "./action/generic";
 import rssAction from './action/rssFeed';
+import timerAction from './action/timer';
 //import noteIntra from "action/note";
 //import projectEndIntra from "action/projectEndTime";
 
@@ -73,6 +75,7 @@ routes.use('/reaction', (req, res, next) => {
 // Authenticated services
 
 // Services
+routes.use(genericService);
 routes.use("/service/intra", intraService);
 routes.use("/service/google", googleService);
 routes.use("/service/twitter", twitterService);
@@ -80,6 +83,7 @@ routes.use("/service/twitter", twitterService);
 // Actions
 routes.use(genericAction);
 routes.use('/action/rss', rssAction);
+routes.use('/action/timer', timerAction);
 //routes.use('/intra/note', noteIntra);
 //routes.use('/intra/project_end', projectEndIntra);
 

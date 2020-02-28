@@ -3,6 +3,7 @@ let list = {
     services: [
         {
             name: 'Intra Epitech',
+            route: "intra",
             description: 'The Epitech intranet, used by Épitech students to access courses and grades',
             parameters: [
                 {
@@ -13,6 +14,7 @@ let list = {
         },
         {
             name: 'Google',
+            route: "google",
             description: 'Google account, might be used to get calendar, contact, or mail information',
             parameters: [
                 {
@@ -23,6 +25,7 @@ let list = {
         },
         {
             name: 'Twitter',
+            route: "twitter",
             description: 'Twitter account, might be used to get tweets, or to tweet',
             parameters: [
                 {
@@ -47,6 +50,23 @@ let list = {
                     name: 'checkInterval',
                     type: 'int', // string|bool|int|json
                     optional: true
+                }
+            ]
+        },
+        {
+            name: 'timer',
+            description: 'Triggers everyday at the chosen time',
+            requirements: [],
+            parameters: [
+                {
+                    name: 'hours',
+                    type: 'int', // string|bool|int|json
+                    optional: false
+                },
+                {
+                    name: 'minutes',
+                    type: 'int', // string|bool|int|json
+                    optional: false
                 }
             ]
         }

@@ -42,31 +42,4 @@ routes.post('/', (req, res) => {
     });
 });
 
-routes.delete('/', (req, res) => {
-    const database = storage.get();
-    const users = database.collection("users");
-
-    console.log("[Svce] Intra > Deleting token for user", req.token.username);
-    users.findOne({ _id: storage.convert_mongo_id(req.token.id) }, {}, (error, result) => {
-        if (error || result == null) {
-            console.log("[Svce] Intra > User", req.token.username, "not found in DB");
-            res.status(500).json({ success: false, error: "DB error" });
-            return;
-        }
-        users.updateOne({ _id: storage.convert_mongo_id(req.token.id) },
-        { $unset: { "tokens.intra": "" } },
-        {}, function (error, result) {
-            if (error) {
-                console.log("[Svce] Intra > DB error on token deletion for user", req.token.username, ". Error below");
-                console.log(error);
-                res.status(500).json({ success: false, error: "Failure in database service. Please email the technical team" });
-                return;
-            }
-            console.log("[Svce] Intra > Deleted access token for user", req.token.username)
-            res.status(200).json({ success: true });
-            return;
-        });
-    });
-});
-
 export default routes;
