@@ -3,7 +3,7 @@ import storage from "../../db";
 
 const routes = Router();
 
-routes.post('/connect', (req, res) => {
+routes.post('/', (req, res) => {
     if (req.query.token === undefined) {
         res.status(400).json({ success: false, error: "No token given" });
         return;
@@ -27,7 +27,7 @@ routes.post('/connect', (req, res) => {
         }
         console.log("[Svce] Google > Storing access token for user", req.token.username)
         users.updateOne({ _id: storage.convert_mongo_id(req.token.id) },
-            { $set: { tokens: { google: req.query.token } } },
+            { $set: { "tokens.google": req.query.token } },
             {}, function (error, result) {
                 if (error) {
                     console.log("[Svce] Google > DB error on token storage for user", req.token.username, ". Error below");
