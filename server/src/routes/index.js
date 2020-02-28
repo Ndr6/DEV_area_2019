@@ -3,6 +3,7 @@ import verifyToken from "../jwt";
 
 //Services
 import auth from './auth';
+import genericService from "./service/generic";
 import intraService from "./service/intra";
 import googleService from "./service/google";
 import twitterService from "./service/twitter";
@@ -73,6 +74,7 @@ routes.use('/reaction', (req, res, next) => {
 // Authenticated services
 
 // Services
+routes.use(genericService);
 routes.use("/service/intra", intraService);
 routes.use("/service/google", googleService);
 routes.use("/service/twitter", twitterService);

@@ -151,7 +151,7 @@ function dump_users() {
     });
 };
 
-router.get('/drop', (req, res) => {
+router.purge('/drop', (req, res) => {
     drop_users();
     res.status(200).json({ success: true });
     return;
