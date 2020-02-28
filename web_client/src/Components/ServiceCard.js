@@ -10,6 +10,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import {ArrowForward} from "@material-ui/icons";
 import Box from "@material-ui/core/Box";
 import CardMedia from "@material-ui/core/CardMedia";
+import {Link} from "react-router-dom";
 
 const styles = makeStyles({
     card: {
@@ -83,7 +84,9 @@ export default function ServiceCard(props) {
                         <FavoriteIcon color={isSubscribed ? 'secondary' : 'disabled'}/>
                     </IconButton>
                     <IconButton aria-label="Go to service">
-                        <ArrowForward />
+                        <Link to={`/service/${props.name}`}>
+                            <ArrowForward />
+                        </Link>
                     </IconButton>
                 </CardActions>
             </Card>

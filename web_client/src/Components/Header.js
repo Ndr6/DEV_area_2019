@@ -4,6 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import {useCookies} from 'react-cookie';
 import {Link} from "react-router-dom";
 import CustomButton from "./CustomButton";
 
@@ -33,6 +34,13 @@ const styles = makeStyles({
 function Header() {
     const classes = styles();
 
+    const [, , removeCookie] = useCookies(['token']);
+
+    const logout = () => {
+        removeCookie('token');
+        window.location.reload();
+    }
+
     return(
         <div className={classes.root}>
             <AppBar position="static" classes={{root: classes.appBar}}>
@@ -53,6 +61,11 @@ function Header() {
                             <Link to={"/services"} className={classes.link}>
                                 Services
                             </Link>
+                        </CustomButton>
+                    </Typography>
+                    <Typography variant="h6" className={classes.linkLabel}>
+                        <CustomButton hoverColor={'white'} backgroundHoverColor={'#3f51b5'} color={'#3f51b5'} backgroundColor={'white'} onClick={logout}>
+                            Logout
                         </CustomButton>
                     </Typography>
                 </Toolbar>
