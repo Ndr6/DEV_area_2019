@@ -36,6 +36,7 @@ let list = {
         {
             name: 'rss',
             description: 'Reads a rss feed and triggers if there is a new post',
+            requirements: [],
             parameters: [
                 {
                     name: 'url',
@@ -51,7 +52,23 @@ let list = {
         }
     ],
     reactions: [
-        //Pareil ici
+        {
+            name: 'discord',
+            description: 'Sends a message to a discord channel through a webhook',
+            requirements: [],
+            parameters: [
+                {
+                    name: 'url',
+                    type: 'string', // string|bool|int|json
+                    optional: false
+                },
+                {
+                    name: 'message',
+                    type: 'string', // string|bool|int|json
+                    optional: false
+                }
+            ]
+        }
     ]
 };
 

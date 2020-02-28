@@ -14,8 +14,8 @@ import rssAction from './action/rssFeed';
 //import projectEndIntra from "action/projectEndTime";
 
 //Reactions
-import genericReaction from "./action/generic";
-//import discordWebhook from "reaction/discordWebhook";
+import genericReaction from "./reaction/generic";
+import discordReaction from "./reaction/discordWebhook";
 //import sendMail from "reaction/sendMail";
 
 const routes = Router();
@@ -85,7 +85,7 @@ routes.use('/action/rss', rssAction);
 
 // Reactions
 routes.use(genericReaction);
-//routes.use('/services/discord', discordWebhook);
+routes.use('/reaction/discord', discordReaction);
 //routes.use('/services/action/mail', sendMail);
 
 export default routes;
