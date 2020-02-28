@@ -108,8 +108,8 @@ export default function ServiceView(props) {
     let service = undefined;
     for (let elem of services) {
         console.log(elem);
-        console.log(elem.name + '!==' + props.name)
-        if (elem.name === name)
+        console.log(elem.route + '!==' + props.name)
+        if (elem.route === name)
             service = elem;
     }
     console.log(service);

@@ -28,8 +28,10 @@ export default function ModalForm({service, open, onClose}) {
 
     const [parameters, setParameters] = React.useState(() => {
         let params = [];
-        for (let parameter of service.parameters) {
-            params.push({name: parameter.name, value: ''});
+        if (service) {
+            for (let parameter of service.parameters) {
+                params.push({name: parameter.name, value: ''});
+            }
         }
         return params;
     });
@@ -62,8 +64,11 @@ export default function ModalForm({service, open, onClose}) {
     const submit = () => {
         console.log(parameters);
         const connect = async () => {
-            let response = await ApiService.connectTo(service.name, parameters);
-            console.log(response);
+            let response = await ApiService.connectTo(service.route, parameters);
+            if (!response.success)
+                alert('error');
+            else
+                alert('success !');
         }
         connect();
     }

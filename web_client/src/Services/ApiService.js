@@ -38,12 +38,13 @@ async function fetchServices() {
         })
     });
     response = await response.json();
+    console.log(response);
     return response;
 }
 
 async function connectTo(serviceName, params)
 {
-    let actualUrl = `${url}/services/${serviceName}/connect`;
+    let actualUrl = `${url}/service/${serviceName}`;
     let first = true;
     for (let param of params) {
         if (first) {
@@ -64,4 +65,16 @@ async function connectTo(serviceName, params)
     return response;
 }
 
-export default {register, login, verifyToken, fetchServices, connectTo};
+async function getSubscribedServices() {
+    let response = await fetch(`${url}/service/list`, {
+        method: 'GET',
+        headers: new Headers({
+            'Authorization': `Bearer ${apiToken}`
+        })
+    });
+    response = await response.json();
+    console.log(response);
+    return response;
+}
+
+export default {register, login, verifyToken, fetchServices, connectTo, getSubscribedServices};
