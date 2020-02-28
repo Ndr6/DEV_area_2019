@@ -11,6 +11,7 @@ import twitterService from "./service/twitter";
 //Actions
 import genericAction from "./action/generic";
 import rssAction from './action/rssFeed';
+import timerAction from './action/timer';
 //import noteIntra from "action/note";
 //import projectEndIntra from "action/projectEndTime";
 
@@ -82,6 +83,7 @@ routes.use("/service/twitter", twitterService);
 // Actions
 routes.use(genericAction);
 routes.use('/action/rss', rssAction);
+routes.use('/action/timer', timerAction);
 //routes.use('/intra/note', noteIntra);
 //routes.use('/intra/project_end', projectEndIntra);
 

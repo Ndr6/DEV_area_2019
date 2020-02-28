@@ -52,6 +52,23 @@ let list = {
                     optional: true
                 }
             ]
+        },
+        {
+            name: 'timer',
+            description: 'Triggers everyday at the chosen time',
+            requirements: [],
+            parameters: [
+                {
+                    name: 'hours',
+                    type: 'int', // string|bool|int|json
+                    optional: false
+                },
+                {
+                    name: 'minutes',
+                    type: 'int', // string|bool|int|json
+                    optional: false
+                }
+            ]
         }
     ],
     reactions: [
