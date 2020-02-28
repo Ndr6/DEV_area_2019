@@ -28,11 +28,12 @@ export default function HomeView() {
     React.useEffect(() => {
         const fetchData = async () => {
             let services = await ApiService.fetchServices();
+            console.log(services);
             setServices(services.services);
             setLoaded(true);
         };
         fetchData();
-    });
+    }, []);
     const servicesList = services.map(service => <ServiceCard name={service.name} key={service.name} description={service.description} />);
 
     return (

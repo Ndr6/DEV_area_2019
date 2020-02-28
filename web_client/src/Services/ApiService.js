@@ -31,7 +31,7 @@ async function verifyToken(token) {
 }
 
 async function fetchServices() {
-    let response = await fetch(`${url}/services/list`, {
+    let response = await fetch(`${url}/list`, {
         method: 'GET',
         headers: new Headers({
             'Authorization': `Bearer ${apiToken}`

@@ -12,7 +12,8 @@ import Divider from "@material-ui/core/Divider";
 import CustomButton from "../Components/CustomButton";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import getSpecificButton from "../Services/OAuthButtonService";
-import {CircularProgress} from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import ModalForm from "../Components/ModalForm";
 
 const useStyles = makeStyles(theme => ({
     cardContainer: {
@@ -105,9 +106,10 @@ export default function ServiceView(props) {
 
     let {name} = useParams();
     let service = undefined;
-    console.log(services);
     for (let elem of services) {
-        if (elem.name === props.name)
+        console.log(elem);
+        console.log(elem.name + '!==' + props.name)
+        if (elem.name === name)
             service = elem;
     }
     console.log(service);
@@ -118,9 +120,15 @@ export default function ServiceView(props) {
     const subscribe = () => {
         setSubscribed(!isSubscribed);
     };
+
+    const [open, setOpen] = React.useState(false);
+    const handleModal = () => {
+        console.log('is open ? ' + open);
+        setOpen(!open)
+    };
     if (button === undefined)
         button = (
-            <CustomButton color={'white'} hoverColor={'#4BB543'} backgroundColor={'#4BB543'} backgroundHoverColor={'white'} onClick={subscribe} icon={isSubscribed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon /> }>
+            <CustomButton color={'white'} hoverColor={'#4BB543'} backgroundColor={'#4BB543'} backgroundHoverColor={'white'} onClick={handleModal} icon={isSubscribed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon /> }>
                 Subscribe now
             </CustomButton>
         );
@@ -152,7 +160,7 @@ export default function ServiceView(props) {
                 </Grid>
                 <Grid item>
                     {isSubscribed ?
-                        <CustomButton color={'white'} hoverColor={'#4BB543'} backgroundColor={'#4BB543'} backgroundHoverColor={'white'} onClick={subscribe} icon={isSubscribed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon /> }>
+                        <CustomButton color={'white'} hoverColor={'#4BB543'} backgroundColor={'#4BB543'} backgroundHoverColor={'white'} onClick={handleModal} icon={isSubscribed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon /> }>
                             Subscribed
                         </CustomButton>
                     : button}
@@ -180,6 +188,7 @@ export default function ServiceView(props) {
                     </Grid>
                 </Grid>
             </Grid>
+            <ModalForm open={open} service={service} onClose={handleModal} />
         </div>)
             :
             <>

@@ -50,12 +50,7 @@ const styles = makeStyles({
 export default function ServiceCard(props) {
     const classes = styles();
 
-    const [isSubscribed, setSubscribed] = useState(false);
-
-    const subscribe = () => {
-        //TODO: Api request
-        setSubscribed(!isSubscribed);
-    };
+    const [isSubscribed, ] = useState(false);
 
     return (
         <Grid item className={classes.cardContainer} xs={10} sm={8} md={5}>
@@ -80,9 +75,7 @@ export default function ServiceCard(props) {
                     </Grid>
                 </CardContent>
                 <CardActions className={classes.actionContainer}>
-                    <IconButton className={classes.heart} onClick={subscribe} aria-label="Subscribe">
-                        <FavoriteIcon color={isSubscribed ? 'secondary' : 'disabled'}/>
-                    </IconButton>
+                    <FavoriteIcon color={isSubscribed ? 'secondary' : 'disabled'} className={classes.heart} />
                     <IconButton aria-label="Go to service">
                         <Link to={`/service/${props.name}`}>
                             <ArrowForward />
