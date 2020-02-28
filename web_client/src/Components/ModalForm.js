@@ -61,7 +61,11 @@ export default function ModalForm({service, open, onClose}) {
 
     const submit = () => {
         console.log(parameters);
-        ApiService.connectTo(service.name, parameters);
+        const connect = async () => {
+            let response = await ApiService.connectTo(service.name, parameters);
+            console.log(response);
+        }
+        connect();
     }
 
     return (

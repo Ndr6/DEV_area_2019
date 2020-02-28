@@ -116,11 +116,7 @@ export default function ServiceView(props) {
     let button = getSpecificButton(name);
     const classes = useStyles();
 
-    const [isSubscribed, setSubscribed] = React.useState(false);
-    const subscribe = () => {
-        setSubscribed(!isSubscribed);
-    };
-
+    const [isSubscribed] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const handleModal = () => {
         console.log('is open ? ' + open);
