@@ -1,8 +1,6 @@
 import assert from 'assert';
 import issSightingOverLocation from "../src/routes/action/issSight"
 
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-
 describe('IssSightingOverLocation', function () {
     describe('Call API and check condition', function () {
         it('should return an error from a unvalid city name', async function () {
