@@ -25,6 +25,8 @@ routes.post('/', (req, res) => {
     //TODO: Verifier que le user soit subscribe au service mais nique sa mere
     let actionParams = action.params;
     let reactionParams = reaction.params;
+	console.log(reactionParams);
+	console.log(actionParams);
     if (!verifyParams(dbAction.parameters, actionParams) || !verifyParams(dbReaction.parameters, reactionParams)) {
         res.status(400).json({success: false, error: "Invalid parameter in your action / reaction"});
         return;

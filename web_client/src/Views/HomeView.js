@@ -29,11 +29,14 @@ export default function HomeView() {
         const fetchData = async () => {
             let services = await ApiService.fetchServices();
             let subscribeds = await ApiService.getSubscribedServices();
-            subscribeds = subscribeds.services;
             for (let service of services.services) {
                 service.isSub = false;
-                if (subscribeds[service.route] === true)
-                    service.isSub = true;
+                console.log('ALED');
+                console.log(subscribeds);
+                for (let elem of subscribeds) {
+                    if (elem.route === service.route)
+                        service.isSub = true;
+                }
             }
             console.log(services);
             setServices(services.services);

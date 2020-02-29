@@ -47,8 +47,8 @@ let list = {
             ],
             reactions: [
                 {
-                    name: 'Discord Webhook',
-                    route: 'webhook',
+                    title: 'Discord Webhook',
+                    name: 'webhook',
                     description: 'Send a message to the corresponding webhook',
                     parameters: [
                         {
@@ -104,7 +104,7 @@ let list = {
                 {
                     title: 'On element posted',
                     name: 'onpost',
-                    decription: 'Trigger when an element is added to the corresponding flux',
+                    description: 'Trigger when an element is added to the corresponding flux',
                     parameters: [
                         {
                             name: 'feed_url',
