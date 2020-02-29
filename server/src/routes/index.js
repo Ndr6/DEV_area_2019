@@ -12,8 +12,9 @@ import twitterService from "./service/twitter";
 import genericAction from "./action/generic";
 import rssAction from './action/rssFeed';
 import timerAction from './action/timer';
-//import noteIntra from "action/note";
-//import projectEndIntra from "action/projectEndTime";
+import intraNoteAction from "./action/intra_note";
+import intraEndAction from "./action/intra_end";
+import pornhubAction from "./action/pornhub";
 
 //Reactions
 import genericReaction from "./reaction/generic";
@@ -84,8 +85,9 @@ routes.use("/service/twitter", twitterService);
 routes.use(genericAction);
 routes.use('/action/rss', rssAction);
 routes.use('/action/timer', timerAction);
-//routes.use('/intra/note', noteIntra);
-//routes.use('/intra/project_end', projectEndIntra);
+routes.use('/action/intra_note', intraNoteAction);
+routes.use('/action/intra_end', intraEndAction);
+routes.use('/action/pornhub', pornhubAction);
 
 // Reactions
 routes.use(genericReaction);

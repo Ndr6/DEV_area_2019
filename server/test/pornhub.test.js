@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { pornhubViewCounter } from "../src/routes/action/pornhub"
+import { checkPornhub } from "../src/routes/action/pornhub";
 
 describe('Pornhub', function () {
     describe('Check view number from a url given by user', function () {
@@ -13,7 +13,7 @@ describe('Pornhub', function () {
             };
             let user = {};
 
-            let returnValueFake = await pornhubViewCounter(action, user);
+            let returnValueFake = await checkPornhub(action, user);
             assert.equal(returnValueFake, undefined);
         });
 
@@ -27,11 +27,11 @@ describe('Pornhub', function () {
             };
             let user = {};
 
-            let returnValueFake = await pornhubViewCounter(action, user);
+            let returnValueFake = await checkPornhub(action, user);
             assert.equal(returnValueFake, undefined);
         });
 
-        it('should return an error from a unvalid pornhub url', async function () {
+        it('should return an error from a invalid pornhub url', async function () {
             let action = {
                 params : {
                     url: "https://roll20.net/welcome",
@@ -41,7 +41,7 @@ describe('Pornhub', function () {
             };
             let user = {};
 
-            let returnValueFake = await pornhubViewCounter(action, user);
+            let returnValueFake = await checkPornhub(action, user);
             assert.equal(returnValueFake.success, false);
         });
 
@@ -55,7 +55,7 @@ describe('Pornhub', function () {
             };
             let user = {};
 
-            let returnValueFake = await pornhubViewCounter(action, user);
+            let returnValueFake = await checkPornhub(action, user);
             assert.equal(returnValueFake.success, false);
         });
 
@@ -69,7 +69,7 @@ describe('Pornhub', function () {
             };
             let user = {};
 
-            let returnValueFake = await pornhubViewCounter(action, user);
+            let returnValueFake = await checkPornhub(action, user);
             assert.equal(returnValueFake.success, true);
         });
     });

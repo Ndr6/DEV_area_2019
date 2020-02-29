@@ -65,7 +65,7 @@ app.get('/about', (req, res) => {
 });
 
 // Start the action checker in 10 seconds
-setTimeout(checkSystem, 3000);
+setTimeout(checkSystem, 10000);
 
 app.listen(PORT, HOST);
 console.log(`[Serv] Init > Running on http://${HOST}:${PORT}`);

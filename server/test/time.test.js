@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { timer } from "../src/routes/action/timer"
+import { checkTimer } from "../src/routes/action/timer"
 
 describe('Timer', function () {
     describe('Check actual time with time given by user', function () {
@@ -13,7 +13,7 @@ describe('Timer', function () {
             };
             let user = {};
 
-            let returnValueFake = await timer(action, user);
+            let returnValueFake = await checkTimer(action, user);
             assert.equal(returnValueFake, undefined);
         });
 
@@ -27,7 +27,7 @@ describe('Timer', function () {
             };
             let user = {};
 
-            let returnValueFake = await timer(action, user);
+            let returnValueFake = await checkTimer(action, user);
             assert.equal(returnValueFake, undefined);
         });
 
@@ -41,7 +41,7 @@ describe('Timer', function () {
             };
             let user = {};
 
-            let returnValueFake = await timer(action, user);
+            let returnValueFake = await checkTimer(action, user);
             assert.equal(returnValueFake, undefined);
         });
 
@@ -55,7 +55,7 @@ describe('Timer', function () {
             };
             let user = {};
 
-            let returnValue = await timer(action, user);
+            let returnValue = await checkTimer(action, user);
             if (returnValue.success === true)
                 assert.equal(returnValue, true);
             else

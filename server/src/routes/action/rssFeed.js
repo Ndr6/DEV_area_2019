@@ -57,7 +57,6 @@ routes.post('/', (req, res) => {
             res.status(500).json({ success: false, error: "Internal database error" });
             return;
         }
-        console.log(result);
         console.log("[Acti] RSS > Added action for user", req.token.username);
         res.status(200).json({ success: true, id: result.insertedId });
         return;

@@ -1,10 +1,19 @@
 import storage from "./db";
+
+// Actions
 import { checkRss } from "./routes/action/rssFeed";
+import { checkIntraEndTime } from "./routes/action/intra_end";
+import { checkIntraNote } from "./routes/action/intra_note";
+import { checkPornhub } from "./routes/action/pornhub";
+import { checkTimer } from "./routes/action/timer";
 
 // TODO: Add all check and trigger functions here
 let checkFunctions = {
     "rss": checkRss,
-    "timer": checkRss
+    "timer": checkTimer,
+    "intra_end": checkIntraEndTime,
+    "intra_note": checkIntraNote,
+    "pornhub": checkPornhub
 };
 
 let triggerFunctions = {
@@ -42,6 +51,7 @@ export default function checkSystem() {
             return;
         }
         console.log("[Chkr] Starter > Checked", actionNb, "actions");
+        setTimeout(checkSystem, 30000);
     });
 }
 
@@ -54,6 +64,7 @@ function actionChecker(action) {
         console.log("[Chkr] Action > Skipping action", action._id, "because last check is too recent");
         return false;
     }
+    //TODO: Check interval
     return true;
 }
 
@@ -76,20 +87,20 @@ function reactionTrigger(action, actionMessage, user) {
     });
 }
 
-function reactionExecutor(reaction, user, actionMessage) {
+async function reactionExecutor(reaction, user, actionMessage) {
     if (triggerFunctions[reaction.type] == undefined) {
         console.log("[Chkr] Rection > Reaction", reaction._id, "is of an unknown type, skipping");
         return;
     }
     // Run the reaction here
-    let reactionReturn = triggerFunctions[reaction.type](reaction, user, actionMessage);
+    let reactionReturn = await triggerFunctions[reaction.type](reaction, user, actionMessage);
 
     if (reactionReturn == undefined || reactionReturn.success == undefined || reactionReturn.params == undefined) {
         console.log("[Chkr] Reaction > Reaction", reaction._id, "has catastrophically failed, deleting");
         reactionDelete(reaction._id);
         return;
     }
-    updateReactionParams(reaction._id, reaction.params);
+    updateReactionParams(reaction._id, reaction.params, reactionReturn.success);
     if (reactionReturn.success == false) {
         console.log("[Chkr] Reaction > Reaction", reaction._id, "has failed");
         return;
@@ -123,11 +134,15 @@ function actionDelete(actionId) {
     });
 }
 
-function updateReactionParams(reactionId, params) {
+function updateReactionParams(reactionId, params, success) {
     const database = storage.get();
     const reactions = database.collection("reactions");
 
-    reactions.updateOne({ _id: storage.convert_mongo_id(reactionId) }, { $set: { params: params } }, {}, (error, result) => {
+    let update = { $set: { params: params } };
+    if (success == true)
+        update.$set.lastTriggered = Date.now();
+
+    reactions.updateOne({ _id: storage.convert_mongo_id(reactionId) }, update, {}, (error, result) => {
         if (error || result == null) {
             console.log("[Chkr] Reaction > Error on reaction parameters updating after trigger");
             return;
@@ -140,7 +155,7 @@ function updateActionParams(actionId, params) {
     const database = storage.get();
     const actions = database.collection("actions");
 
-    actions.updateOne({ _id: storage.convert_mongo_id(actionId) }, { $set: { params: params } }, {}, (error, result) => {
+    actions.updateOne({ _id: storage.convert_mongo_id(actionId) }, { $set: { params: params, lastChecked: Date.now() } }, {}, (error, result) => {
         if (error || result == null) {
             console.log("[Chkr] Action > Error on action parameters updating during auto-check");
             return;
@@ -149,14 +164,15 @@ function updateActionParams(actionId, params) {
     });
 }
 
-function actionExecutor(action, user) {
+async function actionExecutor(action, user) {
     if (checkFunctions[action.type] == undefined) {
         console.log("[Chkr] Action > Action", action._id, "is of an unknown type, skipping");
         return false;
     }
     // Run the action here
-    let actionReturn = checkFunctions[action.type](action, user);
+    let actionReturn = await checkFunctions[action.type](action, user);
 
+    console.log(actionReturn);
     if (actionReturn == undefined || actionReturn.success == undefined || actionReturn.params == undefined
     || (actionReturn.success == true && actionReturn.message == undefined)) {
         console.log("[Chkr] Action > Action", action._id, "has catastrophically failed, deleting");

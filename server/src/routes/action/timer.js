@@ -3,7 +3,7 @@ import storage from "../../db";
 
 const routes = Router();
 
-export async function timer(action, user) {
+export async function checkTimer(action, user) {
     if (isNaN(action.params.minutes) || isNaN(action.params.hour))
         return undefined;
     if (parseInt(action.params.hours) < 0 || parseInt(action.params.hours) > 24 || parseInt(action.params.minutes) < 0 || parseInt(action.params.minutes) > 59 || action.params.message === "")

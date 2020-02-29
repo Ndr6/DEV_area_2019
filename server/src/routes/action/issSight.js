@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default async function issSightingOverLocation(location, userApiKey) {
+export default async function checkIss(location, userApiKey) {
     let cityInLatLonRequest = "https://api.opencagedata.com/geocode/v1/json?q=" + location + "&key=" + userApiKey;
     let foreachIdx = 0;
     let conditionsStatus = false;

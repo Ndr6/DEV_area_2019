@@ -54,6 +54,30 @@ let list = {
             ]
         },
         {
+            name: 'intra_note',
+            description: 'Triggers when you are graded on a project, can be configured to trigger only on some graders',
+            requirements: ["intra"],
+            parameters: [
+                {
+                    name: 'grader',
+                    type: 'string', // string|bool|int|json
+                    optional: true
+                }
+            ]
+        },
+        {
+            name: 'intra_end',
+            description: 'Triggers when the end of a project is in <daysToScan> days (defaults to 7 days)',
+            requirements: ["intra"],
+            parameters: [
+                {
+                    name: 'daysToScan',
+                    type: 'int', // string|bool|int|json
+                    optional: true
+                }
+            ]
+        },
+        {
             name: 'timer',
             description: 'Triggers everyday at the chosen time',
             requirements: [],
