@@ -61,49 +61,6 @@ export default function ServiceView(props) {
         fetchData();
     }, []);
 
-    const actions = [
-        {
-            name: 'Comment posted',
-            description: 'This action triggers when a comment has been posted on the specified video'
-        },
-        {
-            name: 'Video posted',
-            description: 'This action triggers when the specified user post a video on his youtube account'
-        },
-        {
-            name: 'Mail received by',
-            description: 'This action triggers when you receive an email by the specified user'
-        }
-    ];
-
-    const reaction = [
-        {
-            name: 'Comment like',
-            description: 'This Reaction like the specified comment',
-            parameters: [
-                {
-                    type: 'string',
-                    name: 'comment'
-                }
-            ]
-        },
-        {
-            name: 'Comment reply',
-            description: 'This reaction reply the specified message to the specified comment',
-            parameters: [
-                {
-                    type: 'string',
-                    name: 'comment'
-                },
-                {
-                    type: 'string',
-                    name: 'message'
-                }
-            ]
-        }
-    ];
-
-
     let {name} = useParams();
     let service = undefined;
     for (let elem of services) {
@@ -113,6 +70,12 @@ export default function ServiceView(props) {
             service = elem;
     }
     console.log(service);
+    let actions = [];
+    let reactions = [];
+    if (service) {
+        actions = service.actions;
+        reactions = service.reactions;
+    }
     let button = getSpecificButton(name);
     const classes = useStyles();
 
@@ -136,7 +99,7 @@ export default function ServiceView(props) {
         </Grid>
     );
 
-    const reactionList = reaction.map(reaction =>
+    const reactionList = reactions.map(reaction =>
         <Grid item md={10} key={reaction.name} xs={11}>
             <CollapseItem name={reaction.name} description={reaction.description} />
             <Divider className={classes.divider} />
