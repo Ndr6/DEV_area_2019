@@ -16,6 +16,9 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
+module:
+  androidX: true
+
 dependencies:
   flutter:
     sdk: flutter
@@ -28,6 +31,8 @@ dependencies:
   cupertino_icons: ^0.1.2
 
   flutter_form_builder: any
+
+  google_sign_in: ^4.1.4
 
 dev_dependencies:
   flutter_test:

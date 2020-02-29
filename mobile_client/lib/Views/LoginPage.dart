@@ -2,9 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatelessWidget
 {
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -139,23 +147,29 @@ class LoginPage extends StatelessWidget
                                 children: <Widget>[
                                   GoogleSignInButton(
                                     darkMode: true,
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      try {
+                                        var answer = await _googleSignIn.signIn();
+                                        var auth = await answer.authentication;
+                                        print(auth.accessToken);
+                                      } catch (error) {
+                                        print(error);
+                                      }
+                                    },
                                   )
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
-
-
                 ],
               ),
             ),
-          )
-        ));
-
+          ),
+        ),
+    );
   }
 }
