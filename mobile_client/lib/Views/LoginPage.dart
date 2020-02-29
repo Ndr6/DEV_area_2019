@@ -2,15 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mobile_client/WebService/LoginWebService.dart';
 
 class LoginPage extends StatelessWidget
 {
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-
         body: Container(
           decoration: BoxDecoration(
             color: const Color(0X00000FF),
@@ -34,7 +42,7 @@ class LoginPage extends StatelessWidget
                   ClipRect(
                     child: Container(
                       height: 300,
-                      color: Color.fromARGB(40, 0, 0, 0),
+                      color: Color.fromARGB(0, 0, 0, 0),
 
                       child: Padding(
                         padding: EdgeInsets.all(20),
@@ -110,8 +118,6 @@ class LoginPage extends StatelessWidget
                                 )
                             ),
 
-
-
                             Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -120,9 +126,8 @@ class LoginPage extends StatelessWidget
                                   child: FlatButton(
                                       color: Colors.redAccent,
                                       textColor: Colors.white,
-
                                       onPressed: () {
-                                        /*...*/
+                                        // Navigator.of(context).push(Route)
                                       },
                                       child: Text(
                                         "CONNEXION",
@@ -139,23 +144,29 @@ class LoginPage extends StatelessWidget
                                 children: <Widget>[
                                   GoogleSignInButton(
                                     darkMode: true,
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      try {
+                                        var answer = await _googleSignIn.signIn();
+                                        var auth = await answer.authentication;
+                                        print(auth.accessToken);
+                                      } catch (error) {
+                                        print(error);
+                                      }
+                                    },
                                   )
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
-
-
                 ],
               ),
             ),
-          )
-        ));
-
+          ),
+        ),
+    );
   }
 }
