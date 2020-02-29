@@ -19,20 +19,6 @@ export async function pornhubViewCounter(action, user) {
         console.log(error.data);
         return { success: false, params: action.params};
     }))
-    /*if (!Number.isInteger(userHours) || !Number.isInteger(userMinutes))
-        return (("KO: Wrong date and minutes"));
-    if (userHours < 0 || userHours > 24 || userMinutes < 0 || userMinutes > 59)
-        return ("KO: Wrong date and minutes");
-    let date = new Date(Date.now());
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    console.log("Test: " + hours + " : " + minutes);
-
-    if (hours === userHours && minutes === userMinutes) {
-        return ("OK: Conditions Passed");
-    } else {
-        return ("OK: Condition not passed");
-    }*/
 };
 
 //TODO SUB
