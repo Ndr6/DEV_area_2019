@@ -31,12 +31,12 @@ routes.post('/', (req, res) => {
     }
 
     let action = {
-        actionType: "timer",
+        type: "timer",
         ownerId: req.token.id,
         checkInterval: 60,
         lastChecked: 0,
         linkedRea: [],
-        actionParams: {
+        params: {
             hours: req.body.hours,
             minutes: req.body.minutes
         }

@@ -6,6 +6,7 @@ let Parser = new parser();
 const routes = Router();
 
 export async function checkRss(param) {
+    console.log("PATAPOUET");
     let isNewPost = false;
     const url = param.url;
     const lastChecked = param.lastChecked;
@@ -37,12 +38,12 @@ routes.post('/', (req, res) => {
         req.body.checkInterval = 600;
 
     let action = {
-        actionType: "rss",
+        type: "rss",
         ownerId: req.token.id,
         checkInterval: req.body.checkInterval,
         lastChecked: 0,
         linkedRea: [],
-        actionParams: {
+        params: {
             url: req.body.url
         }
     };

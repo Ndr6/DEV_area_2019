@@ -30,10 +30,10 @@ routes.post('/', (req, res) => {
     }
 
     let reaction = {
-        actionType: "discord",
+        type: "discord",
         ownerId: req.token.id,
         lastTrigger: 0,
-        actionParams: {
+        params: {
             url: req.body.url,
             message: req.body.message
         }
