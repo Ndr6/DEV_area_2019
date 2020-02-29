@@ -1,3 +1,4 @@
+import ApiService from "../Services/ApiService";
 import React from 'react';
 import {useParams} from 'react-router-dom';
 import Header from "../Components/Header";
@@ -10,6 +11,9 @@ import CollapseItem from "../Components/CollapseItem";
 import Divider from "@material-ui/core/Divider";
 import CustomButton from "../Components/CustomButton";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import getSpecificButton from "../Services/OAuthButtonService";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import ModalForm from "../Components/ModalForm";
 
 const useStyles = makeStyles(theme => ({
     cardContainer: {
@@ -45,55 +49,48 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ServiceView(props) {
-    const actions = [
-        {
-            name: 'Comment posted',
-            description: 'This action triggers when a comment has been posted on the specified video'
-        },
-        {
-            name: 'Video posted',
-            description: 'This action triggers when the specified user post a video on his youtube account'
-        },
-        {
-            name: 'Mail received by',
-            description: 'This action triggers when you receive an email by the specified user'
-        }
-    ];
+    const [services, setServices] = React.useState([]);
+    const [isLoaded, setLoaded] = React.useState(false);
 
-    const reaction = [
-        {
-            name: 'Comment like',
-            description: 'This Reaction like the specified comment',
-            parameters: [
-                {
-                    type: 'string',
-                    name: 'comment'
-                }
-            ]
-        },
-        {
-            name: 'Comment reply',
-            description: 'This reaction reply the specified message to the specified comment',
-            parameters: [
-                {
-                    type: 'string',
-                    name: 'comment'
-                },
-                {
-                    type: 'string',
-                    name: 'message'
-                }
-            ]
-        }
-    ];
+    React.useEffect(() => {
+        const fetchData = async () => {
+            let data = await ApiService.fetchServices();
+            setServices(data.services);
+            setLoaded(true);
+        };
+        fetchData();
+    }, []);
 
     let {name} = useParams();
+    let service = undefined;
+    for (let elem of services) {
+        console.log(elem);
+        console.log(elem.route + '!==' + props.name)
+        if (elem.route === name)
+            service = elem;
+    }
+    console.log(service);
+    let actions = [];
+    let reactions = [];
+    if (service) {
+        actions = service.actions;
+        reactions = service.reactions;
+    }
+    let button = getSpecificButton(name);
     const classes = useStyles();
 
-    const [isSubscribed, setSubscribed] = React.useState(false);
-    const subscribe = () => {
-        setSubscribed(!isSubscribed);
+    const [isSubscribed] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
+    const handleModal = () => {
+        console.log('is open ? ' + open);
+        setOpen(!open)
     };
+    if (button === undefined)
+        button = (
+            <CustomButton color={'white'} hoverColor={'#4BB543'} backgroundColor={'#4BB543'} backgroundHoverColor={'white'} onClick={handleModal} icon={isSubscribed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon /> }>
+                Subscribe now
+            </CustomButton>
+        );
 
     const actionList = actions.map(action =>
         <Grid key={action.name} item md={10} xs={11}>
@@ -102,7 +99,7 @@ export default function ServiceView(props) {
         </Grid>
     );
 
-    const reactionList = reaction.map(reaction =>
+    const reactionList = reactions.map(reaction =>
         <Grid item md={10} key={reaction.name} xs={11}>
             <CollapseItem name={reaction.name} description={reaction.description} />
             <Divider className={classes.divider} />
@@ -111,7 +108,8 @@ export default function ServiceView(props) {
 
     name = capitalize(name);
     return (
-        <div>
+        isLoaded ?
+            (<div>
             <Header />
             <Grid className={classes.root} spacing={4} container justify={"center"}>
                 <Grid item xs={12} md={12} className={classes.textContainer}>
@@ -120,9 +118,11 @@ export default function ServiceView(props) {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <CustomButton color={'white'} hoverColor={'#4BB543'} backgroundColor={'#4BB543'} backgroundHoverColor={'white'} onClick={subscribe} icon={isSubscribed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon /> }>
-                        {isSubscribed ? 'Subscribed' : 'Subscribe now'}
-                    </CustomButton>
+                    {isSubscribed ?
+                        <CustomButton color={'white'} hoverColor={'#4BB543'} backgroundColor={'#4BB543'} backgroundHoverColor={'white'} onClick={handleModal} icon={isSubscribed ? <CheckCircleIcon /> : <CheckCircleOutlineIcon /> }>
+                            Subscribed
+                        </CustomButton>
+                    : button}
                 </Grid>
                 <Grid className={classes.container} spacing={3} container direction={"row"} justify={"space-evenly"}>
                     <Grid className={classes.listContainer} item md={6} xs={12}>
@@ -147,6 +147,11 @@ export default function ServiceView(props) {
                     </Grid>
                 </Grid>
             </Grid>
-        </div>
+            <ModalForm open={open} service={service} onClose={handleModal} />
+        </div>)
+            :
+            <>
+                <CircularProgress />
+                </>
     )
 }

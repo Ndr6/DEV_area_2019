@@ -3,6 +3,7 @@ import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_client/Views/Customs/CustomCell.dart';
+import 'package:mobile_client/Views/ReactionsPage.dart';
 
 import 'Views/LoginPage.dart';
 
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: LoginPage(), // MyHomePage(title: 'AREA'),
+      home: ReactionsPage(), // MyHomePage(title: 'AREA'),
     );
   }
 }

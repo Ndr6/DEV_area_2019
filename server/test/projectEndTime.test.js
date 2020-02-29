@@ -1,5 +1,5 @@
 import assert from 'assert';
-import actionIntraEpitechProjectEndTime from "../src/routes/services/action/projectEndTime"
+import actionIntraEpitechProjectEndTime from "../src/routes/action/projectEndTime"
 
 describe('ProjectEndTimeEpitechIntra', function () {
     describe('Call API and check condition', function () {

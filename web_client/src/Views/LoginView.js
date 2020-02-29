@@ -90,7 +90,7 @@ export default function LoginView() {
     const componentClicked = () => {console.log('zozo');};
     const responseFacebook = (response) => {console.log(response);};
 
-    const [cookies, setCookies] = useCookies(['token']);
+    const [, setCookies] = useCookies(['token']);
     const [state, setState] = React.useState({
         emailValid: true,
         passwordValid: true,
