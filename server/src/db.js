@@ -10,8 +10,8 @@ if (process.env.MONGODB_URI != undefined)
     url = process.env.MONGODB_URI;
 
 class db {
-    static client = undefined;
-    static database = undefined;
+    static client = 0;
+    static database = 0;
     static init () {
         this.client = new mongodb.MongoClient(url);
         console.log("[DB  ] Init > DB url: " + url);
