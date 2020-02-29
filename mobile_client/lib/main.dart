@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: ReactionsPage(), // MyHomePage(title: 'AREA'),
+      home: LoginPage(), // MyHomePage(title: 'AREA'),
     );
   }
 }

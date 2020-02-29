@@ -16,11 +16,10 @@ class TokenResponse {
 Future<TokenResponse> loginUser(String login, String password) async {
   final hash = sha512.convert(utf8.encode(password));
 
-  final response = await http.post('http://localhost:36969/auth/signin?username=$login&password=$hash');
+  final response = await http.post('https://area-server-dev.herokuapp.com/auth/signin?username=$login&password=$hash');
 
   if (response.statusCode == 200) {
     return TokenResponse.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to login user');
   }
+  return null;
 }
