@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_client/WebService/LoginWebService.dart';
 
-class RegisterPage extends StatelessWidget
+class RegisterPage extends StatefulWidget
 {
-  
+
+  @override
+  State<StatefulWidget> createState() => RegisterPageState();
+
+}
+
+class RegisterPageState extends State<RegisterPage>
+{
+
+  bool _isAlreadyTaken = false;
+  String username;
+  String password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +31,7 @@ class RegisterPage extends StatelessWidget
 
               SizedBox(height: 10),
 
-              TextField(
+              TextFormField(
                   style: TextStyle(
                     color: Colors.white,
                   ),
@@ -49,12 +62,13 @@ class RegisterPage extends StatelessWidget
                       Icons.account_circle,
                       color: Colors.white,
                     ),
-                  )
+                  ),
+                  onChanged: (value) => setState(() => username = value)
               ),
 
               SizedBox(height: 10),
 
-              TextField(
+              TextFormField(
                   style: TextStyle(
                     color: Colors.white,
                   ),
@@ -85,7 +99,8 @@ class RegisterPage extends StatelessWidget
                       Icons.lock_outline,
                       color: Colors.white,
                     ),
-                  )
+                  ),
+                  onChanged: (value) => setState(() => password = value)
               ),
 
               SizedBox(height: 10),
@@ -97,7 +112,18 @@ class RegisterPage extends StatelessWidget
                       color: Colors.redAccent,
                       textColor: Colors.white,
                       onPressed: () async {
-
+                        await registerUser(this.username, this.password).then((response)
+                        {
+                          if (response.statusCode == 200)
+                          {
+                            print("Login " + this.username + " Password " + this.password);
+                          } else {
+                            print("bite " + response.body);
+                            setState(() {
+                              _isAlreadyTaken = true;
+                            });
+                          }
+                        });
                       },
                       child: Text(
                         "VALIDER",
@@ -107,8 +133,6 @@ class RegisterPage extends StatelessWidget
                   ),
                 ],
               ),
-
-
             ],
           ),
         ),
