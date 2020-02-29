@@ -27,6 +27,7 @@
     "mocha": "^7.0.1",
     "mongodb": "^3.5.2",
     "nodemailer": "^6.4.2",
+    "pornnhub": "^1.0.0",
     "rss-parser": "^3.7.5"
   },
   "devDependencies": {
