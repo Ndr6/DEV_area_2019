@@ -121,6 +121,18 @@ let list = {
                 }
             ]
         },
+        {
+            name: 'checkIss',
+            description: 'Check if the ISS is above the user given location',
+            requirements: [],
+            parameters: [
+                {
+                    name: 'location',
+                    type: 'string', // string|bool|int|json
+                    optional: false
+                }
+            ]
+        }
     ],
     reactions: [
         {
