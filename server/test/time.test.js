@@ -4,38 +4,62 @@ import { timer } from "../src/routes/action/timer"
 describe('Timer', function () {
     describe('Check actual time with time given by user', function () {
         it('should return an error from a unvalid hour', async function () {
-            let hour = "A&*)";
-            let minute = 23;
+            let action = {
+                params : {
+                    hour: NaN,
+                    minutes: 13,
+                    message: "killing some turtle"
+                }
+            };
+            let user = {};
 
-            let returnValueFake = await timer(hour, minute);
-            assert.equal(returnValueFake, "KO: Wrong date and minutes");
+            let returnValueFake = await timer(action, user);
+            assert.equal(returnValueFake, undefined);
         });
 
         it('should return an error from a unvalid minute', async function () {
-            let hour = 13;
-            let minute = "BBBBBBBBBBBBBBB";
+            let action = {
+                params : {
+                    hour: 13,
+                    minutes: NaN,
+                    message: "killing some turtle"
+                }
+            };
+            let user = {};
 
-            let returnValueFake = await timer(hour, minute);
-            assert.equal(returnValueFake, "KO: Wrong date and minutes");
+            let returnValueFake = await timer(action, user);
+            assert.equal(returnValueFake, undefined);
         });
 
-        it('should return an error from both unvalid hour and minute', async function () {
-            let hour = "AY42µ5";
-            let minute = 13457792;
+        it('should return an error from unvalid message', async function () {
+            let action = {
+                params : {
+                    hour: NaN,
+                    minutes: NaN,
+                    message: ""
+                }
+            };
+            let user = {};
 
-            let returnValueFake = await timer(hour, minute);
-            assert.equal(returnValueFake, "KO: Wrong date and minutes");
+            let returnValueFake = await timer(action, user);
+            assert.equal(returnValueFake, undefined);
         });
 
         it('should return a correct answer from a valid time', async function () {
-            let hour = 14;
-            let minute = 23;
+            let action = {
+                params : {
+                    hour: 13,
+                    minutes: 27,
+                    message: "killing some turtle"
+                }
+            };
+            let user = {};
 
-            let returnValue = await timer(hour, minute);
-            if (returnValue === "OK: Condition not passed")
-                assert.equal(returnValue, "OK: Condition not passed");
+            let returnValue = await timer(action, user);
+            if (returnValue.success === true)
+                assert.equal(returnValue, true);
             else
-                assert.equal(returnValue, "OK: Conditions Passed");
+                assert.equal(returnValue.success, false);
         });
     });
 });

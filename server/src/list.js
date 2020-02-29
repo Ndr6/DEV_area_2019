@@ -67,9 +67,36 @@ let list = {
                     name: 'minutes',
                     type: 'int', // string|bool|int|json
                     optional: false
+                },
+                {
+                    name: 'message',
+                    type: 'string', // string|bool|int|json
+                    optional: false
                 }
             ]
-        }
+        },
+        {
+            name: 'pornhub',
+            description: 'Check if a pornhub video gained views from last time check',
+            requirements: [],
+            parameters: [
+                {
+                    name: 'url',
+                    type: 'string', // string|bool|int|json
+                    optional: false
+                },
+                {
+                    name: 'viewIdx',
+                    type: 'int', // string|bool|int|json
+                    optional: false
+                },
+                {
+                    name: 'lastViewIdx',
+                    type: 'int', // string|bool|int|json
+                    optional: false
+                }
+            ]
+        },
     ],
     reactions: [
         {
