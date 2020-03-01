@@ -2,160 +2,199 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mobile_client/WebService/AreaAPI.dart';
+import 'package:mobile_client/main.dart';
 
-class LoginPage extends StatelessWidget
+import 'RegisterPage.dart';
+
+
+
+class LoginPage extends StatefulWidget
 {
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  String username;
+  String password;
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Colors.blue,
+      body: Container(
+        child: Padding(
+          padding: EdgeInsets.only( top: 70),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ClipRect(
+                child: Container(
+                  height: 300,
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'Nom de compte',
+                              hintStyle: TextStyle(
+                                  color: Colors.white
+                              ),
 
-        body: Container(
-          decoration: BoxDecoration(
-            color: const Color(0X00000FF),
-            image: DecorationImage(
-              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
-              image: NetworkImage("https://image.freepik.com/free-vector/mobile-background-with-starry-sky-purple-tones_79603-550.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.only( top: 70),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.white
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
 
-                  Image.network("https://www.freelogodesign.org/download/file?id=585343d6-a1be-47a6-91a1-05e9370072ad_200x200.png", height: 150, width: 150),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.white
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
 
-                  SizedBox(height: 20),
+                              fillColor: Colors.transparent,
 
-                  ClipRect(
-                    child: Container(
-                      height: 300,
-                      color: Color.fromARGB(40, 0, 0, 0),
+                              //   filled: true,
+                              prefixIcon: Icon(
+                                Icons.account_circle,
+                                color: Colors.white,
+                              ),
+                            ),
+                          onChanged: (value) => setState(() => this.username = value),
+                        ),
 
-                      child: Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Column(
+                        SizedBox(height: 15),
+
+                        TextFormField(
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'Mot de passe',
+                              hintStyle: TextStyle(
+                                  color: Colors.white
+                              ),
+
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.white
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.white
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+
+                              fillColor: Colors.transparent,
+
+                              //   filled: true,
+                              prefixIcon: Icon(
+                                Icons.lock,
+                                color: Colors.white,
+                              ),
+                            ),
+                          onChanged: (value) => setState(() => this.password = value),
+                        ),
+
+                        SizedBox(height: 10),
+
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            TextField(
-                                style: TextStyle(
-                                  color: Colors.white,
+                            Expanded(
+                              child: FlatButton(
+                                color: Colors.white,
+                                textColor: Colors.black,
+                                onPressed: () async {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => RegisterPage()),
+                                  );
+                                },
+                                child: Text(
+                                  "CREER UN COMPTE",
+                                  style: TextStyle(fontSize: 14.0),
                                 ),
-                                decoration: InputDecoration(
-                                  hintText: 'Nom de compte',
-                                  hintStyle: TextStyle(
-                                      color: Colors.white
-                                  ),
-
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.white
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.white
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-
-                                  fillColor: Colors.transparent,
-
-                                  //   filled: true,
-                                  prefixIcon: Icon(
-                                    Icons.account_circle,
-                                    color: Colors.white,
-                                  ),
-                                )
+                              ),
                             ),
 
-                            SizedBox(height: 15),
-
-                            TextField(
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: 'Mot de passe',
-                                  hintStyle: TextStyle(
-                                      color: Colors.white
-                                  ),
-
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.white
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.white
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-
-                                  fillColor: Colors.transparent,
-
-                                  //   filled: true,
-                                  prefixIcon: Icon(
-                                    Icons.lock,
-                                    color: Colors.white,
-                                  ),
-                                )
-                            ),
-
-
-
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                  child: FlatButton(
-                                      color: Colors.redAccent,
-                                      textColor: Colors.white,
-
-                                      onPressed: () {
-                                        /*...*/
-                                      },
-                                      child: Text(
-                                        "CONNEXION",
-                                        style: TextStyle(fontSize: 14.0),
-                                      ),
-                                    ),
-                                ),
-                              ],
-                            ),
+                            SizedBox(width: 10),
 
                             Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  GoogleSignInButton(
-                                    darkMode: true,
-                                    onPressed: () {},
-                                  )
-                                ],
+                              child: FlatButton(
+                                color: Colors.redAccent,
+                                textColor: Colors.white,
+                                onPressed: () async {
+                                  await AreaAPI().loginUser(this.username, this.password).then((response)
+                                  {
+                                    print("token " + response.token);
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => MyHomePage(title: "AREA")),
+                                    );
+                                  });
+                                },
+                                child: Text(
+                                  "CONNEXION",
+                                  style: TextStyle(fontSize: 14.0),
+                                ),
                               ),
-                            )
+                            ),
                           ],
                         ),
-                      ),
+
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              GoogleSignInButton(
+                                darkMode: true,
+                                onPressed: () async {
+                                  try {
+                                    var answer = await _googleSignIn.signIn();
+                                    var auth = await answer.authentication;
+                                    print(auth.accessToken);
+                                  } catch (error) {
+                                    print(error);
+                                  }
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-
-
-                ],
+                ),
               ),
-            ),
-          )
-        ));
-
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

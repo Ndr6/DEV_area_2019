@@ -28,13 +28,23 @@ export default function HomeView() {
     React.useEffect(() => {
         const fetchData = async () => {
             let services = await ApiService.fetchServices();
+            let subscribeds = await ApiService.getSubscribedServices();
+            for (let service of services.services) {
+                service.isSub = false;
+                console.log('ALED');
+                console.log(subscribeds);
+                for (let elem of subscribeds) {
+                    if (elem.route === service.route)
+                        service.isSub = true;
+                }
+            }
+            console.log(services);
             setServices(services.services);
             setLoaded(true);
         };
         fetchData();
-    });
-    const servicesList = services.map(service => <ServiceCard name={service.name} key={service.name} description={service.description} />);
-
+    }, []);
+    const servicesList = services.map(service => <ServiceCard name={service.name} key={service.name} description={service.description} route={service.route} isSub={service.isSub} />);
     return (
         isLoaded ?
         <div>

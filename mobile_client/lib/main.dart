@@ -2,23 +2,25 @@ import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_client/Models/ServiceModel.dart';
 import 'package:mobile_client/Views/Customs/CustomCell.dart';
+import 'package:mobile_client/Views/ReactionsPage.dart';
+import 'package:mobile_client/WebService/AreaAPI.dart';
+import 'package:tuple/tuple.dart';
 
 import 'Views/LoginPage.dart';
 
-
-Map<int, Color> color =
-{
-  50:Color.fromRGBO(136,14,79, .1),
-  100:Color.fromRGBO(136,14,79, .2),
-  200:Color.fromRGBO(136,14,79, .3),
-  300:Color.fromRGBO(136,14,79, .4),
-  400:Color.fromRGBO(136,14,79, .5),
-  500:Color.fromRGBO(136,14,79, .6),
-  600:Color.fromRGBO(136,14,79, .7),
-  700:Color.fromRGBO(136,14,79, .8),
-  800:Color.fromRGBO(136,14,79, .9),
-  900:Color.fromRGBO(136,14,79, 1),
+Map<int, Color> color = {
+  50: Color.fromRGBO(136, 14, 79, .1),
+  100: Color.fromRGBO(136, 14, 79, .2),
+  200: Color.fromRGBO(136, 14, 79, .3),
+  300: Color.fromRGBO(136, 14, 79, .4),
+  400: Color.fromRGBO(136, 14, 79, .5),
+  500: Color.fromRGBO(136, 14, 79, .6),
+  600: Color.fromRGBO(136, 14, 79, .7),
+  700: Color.fromRGBO(136, 14, 79, .8),
+  800: Color.fromRGBO(136, 14, 79, .9),
+  900: Color.fromRGBO(136, 14, 79, 1),
 };
 
 void main() => runApp(MyApp());
@@ -51,86 +53,98 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            PageHeader()
-          ];
-        },
-        body:
-          PageView(children: [
-            buildPageContent()
-          ]),
-      )
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[PageHeader()];
+          },
+          body: PageView(children: [buildPageContent()]),
+        ));
   }
 
-  Widget PageHeader()
-  {
+  Widget PageHeader() {
     return SliverAppBar(
-        expandedHeight: 160.0,
-        flexibleSpace: FlexibleSpaceBar(
-            background: Padding(
-              padding: EdgeInsets.only(left: 12, right: 12, top: 12),
-              child: CustomScrollView(
-                slivers: <Widget>[
-                  SliverToBoxAdapter(
-                    child: Container(
+      expandedHeight: 160.0,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Padding(
+          padding: EdgeInsets.only(left: 12, right: 12, top: 12),
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverToBoxAdapter(
+                  child: Container(
                       height: 80,
                       child: SearchBar(
                         hintText: "Service, action, etc.",
                         searchBarStyle: SearchBarStyle(
-                          backgroundColor: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                        onSearch: (x) async { performSearch(x); return <String>[];}, onItemFound: (String item, int index) {  } ,
-                    ))
-                  ),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      height: 20,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.network("https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1004px-Google_%22G%22_Logo.svg.png", height: 20, width: 20),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Image.network("https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png", height: 20, width: 20),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              child: Opacity(opacity: 0.3, child: Image.network("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Microsoft_Office_OneDrive_%282018%E2%80%93present%29.svg/1200px-Microsoft_Office_OneDrive_%282018%E2%80%93present%29.svg.png", height: 20, width: 20)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Opacity(opacity: 0.3, child: Image.network("https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Microsoft_Office_Yammer_%282018%E2%80%93present%29.svg/144px-Microsoft_Office_Yammer_%282018%E2%80%93present%29.svg.png", height: 20, width: 20)),
-                          ),
+                        backgroundColor: Colors.white, borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                        onSearch: (x) async {
+                          performSearch(x);
+                          return <String>[];
+                        },
+                      ))),
+              SliverToBoxAdapter(
+                child: Container(
+                  height: 20,
+                  child: FutureBuilder<List<Tuple2<String, bool>>>(
+                    future: (() async {
+                      final services = await AreaAPI().getServices();
+//                      final myServices = await AreaAPI().getMyServices();
 
-                        ],
-                      ),
-                    )
+//myServices.where((element) => e.name == element.name).length != 0
+                      return services.map((e) => Tuple2(e.iconRoute, true)).toList();
+                    })().catchError((error) => showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: new Text("Erreur"),
+                            content: new Text(error.toString()),
+                            actions: <Widget>[
+                              new FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: new Text("Fermer", style: TextStyle(color: Colors.black),))
+                            ],
+                          );
+                        }
+                    )),
+                    builder: (BuildContext context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: snapshot.data
+                              .map(
+                                (e) => Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Opacity(
+                                    opacity: e.item2 ? 1.0 : 0.2,
+                                    child: Image.network(
+                                      e.item1,
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        );
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    },
                   ),
-                ]
-              )
-          )
-      )
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  List<String> data = ["coucou", "bite", "salut", "salutbite", "salutcoucou", "bitecoucou"];
   List<String> results = [];
 
   Widget buildPageContent() => ListView.separated(
@@ -140,13 +154,11 @@ class _MyHomePageState extends State<MyHomePage> {
       separatorBuilder: (BuildContext context, int index) => Divider(thickness: 1),
       itemCount: results.length);
 
-  void performSearch(String string)
-  {
-    var te = data.where((element) => element.toLowerCase().contains(string.toLowerCase())).toList();
+  void performSearch(String string) {
+    /*var te = data.where((element) => element.toLowerCase().contains(string.toLowerCase())).toList();
 
     setState(() {
       this.results = te;
-    });
+    }); */
   }
-
 }
