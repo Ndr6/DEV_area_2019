@@ -50,7 +50,7 @@ class AreaAPI {
     final response = await http.get('$baseUrl/list');
 
     if (response.statusCode == 200) {
-      services = jsonDecode(response.body).map((json) => ServiceModel.fromJson(json)).toList();
+      services = (jsonDecode(response.body)['services']).map<ServiceModel>((json) => ServiceModel.fromJson(json)).toList();
       return services;
     } else {
       throw Exception('Failed to retrieve services ' + response.body);
