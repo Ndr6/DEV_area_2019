@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
+import 'package:http/http.dart';
+import 'package:mobile_client/Models/ConnectToServiceModel.dart';
 import 'package:mobile_client/Models/ServiceModel.dart';
 import 'package:mobile_client/Models/TokenResponse.dart';
 
@@ -68,6 +70,18 @@ class AreaAPI {
     } else {
       throw Exception('Failed to retrieve services ' + response.body);
     }
+  }
+
+  Future<Response> connectToService(String serviceName) async {
+
+    final connectModel = new ConnectToServiceModel(serviceName);
+
+    final response = await http.post('$baseUrl/service/connect', body: connectModel.toJson(), headers:
+    {
+      'authorization': 'Bearer $token'
+    });
+
+    return response.statusCode == 200 ? response : throw Exception('Faield to connect to service');
   }
 
 }
