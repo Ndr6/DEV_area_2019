@@ -31,7 +31,8 @@ export async function checkIss(action, user) {
                     return { success: false, params: action.params};
                 issResponse.data.response.forEach(riseTime => {
                     let timeNow = Date.now();
-                    if (riseTime.risetime >= timeNow && riseTime.risetime + (80 * 60 * 1000) < timeNow) {
+                    //console.log(timeNow + " | " + riseTime.risetime * 1000);
+                    if (riseTime.risetime * 1000 >= timeNow && (riseTime.risetime + (5 * 60 * 1000)) * 1000 < timeNow) {
                         //console.log(riseTime.risetime);
                         conditionsStatus = true;
                         return { success: true, params: action.params, message: "The International Space Station is just above " + action.params.location };

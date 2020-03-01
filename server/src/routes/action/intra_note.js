@@ -17,16 +17,18 @@ export async function checkIntraNote(action, user) {
             let timestamp = d.getTime();
             let currentTimestamp = Date.now();
             if (message.class === "note" && timestamp >= (currentTimestamp - 10 * 60 * 1000)) {
-                //console.log(message.user.title);
-                conditionsStatus = true;
-                return { success: true, message: "OK: Condition passed", params: action.params };
+                if (action.params.grader === undefined) {
+                    conditionsStatus = true;
+                    return { success: true, message: "I have been graded", params: action.params };
+                } else if (action.params.grader === message.user.title) {
+                    return { success: true, message: "I have been graded by " + message.user.title + ". Thanks you !", params: action.params };
+                }
             }
         });
         if (conditionsStatus === false)
             return { success: false, message: "OK: Condition not passed", params: action.params };
     }).catch(error => {
         console.log("[Acti] Intra (note) > Status code: " + error);
-        //console.log(error.response.data);
         return { success: false, message: "KO", params: action.params };
     }));
 }
