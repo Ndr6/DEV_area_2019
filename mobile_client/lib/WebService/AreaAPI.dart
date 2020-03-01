@@ -10,6 +10,8 @@ class AreaAPI {
 
   String token;
 
+  List<ServiceModel> services;
+
   factory AreaAPI() {
     return _instance;
   }
@@ -42,17 +44,16 @@ class AreaAPI {
     }
   }
 
-  Future<ServiceModel> getServices(String login, String password) async {
-    final hash = sha512.convert(utf8.encode(password));
-
+  Future<List<ServiceModel>> getServices() async {
+    if (services != null)
+      return services;
     final response = await http.get('$baseUrl/list');
 
     if (response.statusCode == 200) {
-      return ServiceModel.fromJson(jsonDecode(response.body));
+      services = jsonDecode(response.body).map((json) => ServiceModel.fromJson(json)).toList();
+      return services;
     } else {
-      throw Exception('Failed to register user ' + response.body);
+      throw Exception('Failed to retrieve services ' + response.body);
     }
   }
-
-
 }
