@@ -56,4 +56,18 @@ class AreaAPI {
       throw Exception('Failed to retrieve services ' + response.body);
     }
   }
+
+  Future<List<ServiceModel>> getMyServices() async {
+    if (services != null)
+      return services;
+    final response = await http.get('$baseUrl/service');
+
+    if (response.statusCode == 200) {
+      services = jsonDecode(response.body).map((json) => ServiceModel.fromJson(json)).toList();
+      return services;
+    } else {
+      throw Exception('Failed to retrieve services ' + response.body);
+    }
+  }
+
 }
