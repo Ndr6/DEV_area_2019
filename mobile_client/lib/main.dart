@@ -131,7 +131,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  List<String> data = ["coucou", "bite", "salut", "salutbite", "salutcoucou", "bitecoucou"];
   List<String> results = [];
 
   Widget buildPageContent() => ListView.separated(
@@ -143,11 +142,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void performSearch(String string)
   {
-    var te = data.where((element) => element.toLowerCase().contains(string.toLowerCase())).toList();
+    /*var te = data.where((element) => element.toLowerCase().contains(string.toLowerCase())).toList();
 
     setState(() {
       this.results = te;
-    });
+    }); */
   }
 
 }

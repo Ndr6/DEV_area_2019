@@ -28,4 +28,16 @@ class AreaAPI {
       throw Exception('Failed to login user');
     }
   }
+
+  Future<TokenResponse> registerUser(String login, String password) async {
+    final hash = sha512.convert(utf8.encode(password));
+
+    final response = await http.post('http://localhost:36969/auth/signup?username=$login&password=$hash');
+
+    if (response.statusCode == 200) {
+      return TokenResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to login user');
+    }
+  }
 }

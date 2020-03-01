@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_client/WebService/LoginWebService.dart';
+import 'package:mobile_client/WebService/AreaAPI.dart';
 
 class RegisterPage extends StatefulWidget
 {
@@ -112,17 +112,12 @@ class RegisterPageState extends State<RegisterPage>
                       color: Colors.redAccent,
                       textColor: Colors.white,
                       onPressed: () async {
-                        await registerUser(this.username, this.password).then((response)
+                        await AreaAPI().registerUser(this.username, this.password).then((response)
                         {
-                          if (response.statusCode == 200)
-                          {
-                            print("Login " + this.username + " Password " + this.password);
-                          } else {
-                            print("bite " + response.body);
-                            setState(() {
-                              _isAlreadyTaken = true;
-                            });
-                          }
+                          print("bute");
+                        }).catchError(()
+                        {
+
                         });
                       },
                       child: Text(
