@@ -157,6 +157,12 @@ let list = {
                     optional: false
                 }
             ]
+        },
+        {
+            name: 'log',
+            description: 'Prints a message to the server console',
+            requirements: [],
+            parameters: []
         }
     ]
 };

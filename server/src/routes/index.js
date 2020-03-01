@@ -21,6 +21,7 @@ import triggerAction from "./action/trigger";
 //Reactions
 import genericReaction from "./reaction/generic";
 import mailReaction from "./reaction/sendMail";
+import consoleReaction from "./reaction/log";
 const routes = Router();
 
 // Unauthenticated services
@@ -94,6 +95,7 @@ routes.use('/action/trigger', triggerAction);
 // Reactions
 routes.use(genericReaction);
 routes.use('/reaction/mail', mailReaction);
+routes.use('/reaction/log', consoleReaction);
 //routes.use('/services/action/mail', sendMail);
 
 export default routes;

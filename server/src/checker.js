@@ -11,6 +11,7 @@ import { checkTrigger } from "./routes/action/trigger";
 
 // Reactions
 import { triggerMail } from "./routes/reaction/sendMail";
+import { triggerLog } from "./routes/reaction/log";
 
 // TODO: Add all check and trigger functions here
 let checkFunctions = {
@@ -24,7 +25,8 @@ let checkFunctions = {
 };
 
 let triggerFunctions = {
-    "mail": triggerMail
+    "mail": triggerMail,
+    "log": triggerLog
 };
 
 let checkNb = 0;
