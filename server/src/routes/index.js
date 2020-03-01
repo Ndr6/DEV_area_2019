@@ -23,6 +23,7 @@ import genericReaction from "./reaction/generic";
 import mailReaction from "./reaction/sendMail";
 import consoleReaction from "./reaction/log";
 import discordReaction from "./reaction/discord";
+import webhookReaction from "./reaction/webhook";
 const routes = Router();
 
 // Unauthenticated services
@@ -98,5 +99,6 @@ routes.use(genericReaction);
 routes.use('/reaction/mail', mailReaction);
 routes.use('/reaction/log', consoleReaction);
 routes.use('/reaction/discord', discordReaction);
+routes.use('/reaction/webhook', webhookReaction);
 
 export default routes;

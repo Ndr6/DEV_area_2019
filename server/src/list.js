@@ -163,6 +163,18 @@ let list = {
             description: 'Prints a message to the server console',
             requirements: [],
             parameters: []
+        },
+        {
+            name: 'discord',
+            description: 'Sends a message to the discord hook',
+            requirements: [],
+            parameters: [
+                {
+                    name: 'url',
+                    type: 'string', // string|bool|int|json
+                    optional: false
+                }
+            ]
         }
     ]
 };

@@ -4,15 +4,14 @@ import axios from 'axios'
 
 const routes = Router();
 
-export async function webHook(reaction, user, actionMessage)
+export async function triggerWebHook(reaction, user, actionMessage)
 {
     let url = reaction.params.url + "?message=" + encodeURI(actionMessage);
-    return (axios.get(url).then(response => {
+    return await (axios.get(url).then(response => {
         return { success: true, params: reaction.params};
     }).catch(error => {
-        return { success: false, params: reaction.params};
-        }
-    ));
+        return { success: false, params: reaction.params };
+    }));
 };
 
 routes.post('/', (req, res) => {
