@@ -10,8 +10,9 @@ export async function checkPornhub(action, user) {
     }
     return (pornnhub(action.params.url, 'views').then(response => {
         if (parseInt(response.data) + action.params.viewIdx >= action.params.lastViewIdx) {
-            action.params.lastViewIdx = parseInt(response.data);
-            return { success: true, params: action.params, message: "The video " + action.params.url + " as reached " + response.data };
+            let videoViews = response.data.split(' ').join('');
+            action.params.lastViewIdx = parseInt(videoViews);
+            return { success: true, params: action.params, message: "The video " + action.params.url + " has reached " + response.data };
         } else {
             return { success: false, params: action.params};
         }
