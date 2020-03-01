@@ -3,20 +3,18 @@ import storage from "../../db";
 import axios from 'axios';
 
 const routes = Router();
-const baseUrl = 'https://discordapp.com/api';
 
-export async function discordWebhook(params)
+export async function triggerDiscord(reaction, user, actionMessage)
 {
-    const url = params.url;
-    const message = params.message;
+    const url = reaction.params.url;
 
-    axios.get(url)
-        .then(r => {
-            const webHook = r.data;
-            axios.post(baseUrl + `/webhooks/${webHook.id}/${webHook.token}`, {
-                content: message,
-            }).then(r => console.log(r.data))
-        });
+    return await axios.post(url, {
+        content: actionMessage,
+    }).then(r => {
+        return { success: true, params: reaction.params };
+    }).catch(r => {
+        return { success: false, params: reaction.params };
+    });
 }
 
 routes.post('/', (req, res) => {
@@ -24,8 +22,8 @@ routes.post('/', (req, res) => {
         res.status(400).json({ success: false, error: "No json settings given" });
         return;
     }
-    if (req.body.url == undefined || req.body.message == undefined) {
-        res.status(400).json({ success: false, error: "Missing reaction parameter" });
+    if (req.body.url == undefined) {
+        res.status(400).json({ success: false, error: "Missing url parameter" });
         return;
     }
 
@@ -34,8 +32,7 @@ routes.post('/', (req, res) => {
         ownerId: req.token.id,
         lastTrigger: 0,
         params: {
-            url: req.body.url,
-            message: req.body.message
+            url: req.body.url
         }
     };
 

@@ -22,6 +22,7 @@ import triggerAction from "./action/trigger";
 import genericReaction from "./reaction/generic";
 import mailReaction from "./reaction/sendMail";
 import consoleReaction from "./reaction/log";
+import discordReaction from "./reaction/discord";
 const routes = Router();
 
 // Unauthenticated services
@@ -96,6 +97,6 @@ routes.use('/action/trigger', triggerAction);
 routes.use(genericReaction);
 routes.use('/reaction/mail', mailReaction);
 routes.use('/reaction/log', consoleReaction);
-//routes.use('/services/action/mail', sendMail);
+routes.use('/reaction/discord', discordReaction);
 
 export default routes;

@@ -12,6 +12,7 @@ import { checkTrigger } from "./routes/action/trigger";
 // Reactions
 import { triggerMail } from "./routes/reaction/sendMail";
 import { triggerLog } from "./routes/reaction/log";
+import { triggerDiscord } from "./routes/reaction/discord";
 
 // TODO: Add all check and trigger functions here
 let checkFunctions = {
@@ -26,7 +27,8 @@ let checkFunctions = {
 
 let triggerFunctions = {
     "mail": triggerMail,
-    "log": triggerLog
+    "log": triggerLog,
+    "discord": triggerDiscord
 };
 
 let checkNb = 0;
@@ -44,7 +46,6 @@ export default async function checkSystem() {
     let cursor = actions.find({}, {});
     await cursor.forEach(async (action) => {
         actionNb++;
-        console.log(action); // Debug print of all actions
         if (actionChecker(action) === true) {
             await users.findOne({ _id: storage.convert_mongo_id(action.ownerId) }, {}, async (error, user) => {
                 if (error || user == null) {
@@ -103,7 +104,7 @@ function unlinkReaction(actionId, reactionId) {
                     console.log(error);
                     return;
                 }
-                console.log("[Chkr] Unlink > Unlinked action", req.body.actionId, "from reaction", req.body.reactionId)
+                console.log("[Chkr] Unlink > Unlinked action", actionId, "from reaction", reactionId)
                 return;
             });
     });
@@ -115,11 +116,10 @@ async function reactionTrigger(action, actionMessage, user) {
     let reactionNb = 0;
 
     action.linkedRea.forEach(reactionId => {
-        console.log(action); // Debug print of all actions
         reactions.findOne({ _id: storage.convert_mongo_id(reactionId) }, {}, async (error, reaction) => {
             if (error || reaction == null) {
                 console.log("[Chkr] Reaction > Reaction", reactionId, "not found in DB");
-                unlinkReaction(action._id, reaction._id);
+                unlinkReaction(action._id, reactionId);
                 return false;
             }
             reactionNb++;
@@ -230,7 +230,6 @@ async function actionExecutor(action, user) {
         return false;
     }
 
-    console.log(actionReturn);
     if (actionReturn == undefined || actionReturn.success == undefined || actionReturn.params == undefined
     || (actionReturn.success == true && actionReturn.message == undefined)) {
         console.log("[Chkr] Action > Action", action._id, "has catastrophically failed, deleting");
