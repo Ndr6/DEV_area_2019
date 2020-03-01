@@ -10,10 +10,14 @@ export async function checkIss(action, user) {
     let conditionsStatus = false;
 
     return (axios.get(cityInLatLonRequest).then(response => {
-        if (response.data.status.message === "invalid API key" || response.data.status.code === "401")
+        if (response.data.status.message === "invalid API key" || response.data.status.code === "401") {
+            console.log("[Acti] ISS > API Key is invalid or missing");
+            return { success: false, params: action.params, message: "API key missing or invalid" };
+        }
+        if (response.data.total_results === 0) {
+            console.log("[Acti] ISS > Location unknown");
             return undefined;
-        if (response.data.total_results === 0)
-            return undefined;
+        }
         let issPassingTimeRequest = "";
         response.data.results.forEach(cityInformations => {
             if (foreachIdx === 0) {
@@ -28,43 +32,40 @@ export async function checkIss(action, user) {
                 issResponse.data.response.forEach(riseTime => {
                     let timeNow = Date.now();
                     if (riseTime.risetime >= timeNow && riseTime.risetime + (80 * 60 * 1000) < timeNow) {
-                        console.log(riseTime.risetime);
+                        //console.log(riseTime.risetime);
                         conditionsStatus = true;
                         return { success: true, params: action.params, message: "The International Space Station is just above " + action.params.location };
                     }
                 })
             }).catch(error => {
-                console.log("Service: ISS LOCATION\nStatus code:" + error.response.data.status.code);
-                console.log(error.response.data.status.message);
-                return undefined;
+                console.log("[Acti] ISS > Cannot reach ISS location API. Status code:" + error.response.data.status.code);
+                //console.log(error.response.data.status.message);
+                return { success: false, params: action.params, message: "Cannot reach ISS location API" };
             });
         }
         if (conditionsStatus === false)
             return { success: false, params: action.params};
     }).catch(error => {
-        console.log("Service: ISS LOCATION\nStatus code:" + error.response.data.status.code);
-        console.log(error.response.data.status.message);
-        return undefined;
+        console.log("[Acti] ISS > Cannot reach city location API. Status code:" + error.response.data.status.code);
+        //console.log(error.response.data.status.message);
+        return { success: false, params: action.params, message: "Cannot reach city location API" };
     }));
 };
 
-//TODO SUB
 routes.post('/', (req, res) => {
     if (req.body === undefined) {
         res.status(400).json({ success: false, error: "No json settings given" });
         return;
     }
-    if (req.body.url == undefined) {
+    if (req.body.location == undefined) {
         res.status(400).json({ success: false, error: "Missing URL parameter" });
         return;
     }
-    if (req.body.checkInterval == undefined || req.body.checkInterval < 60)
-        req.body.checkInterval = 600;
 
     let action = {
-        actionType: "issSight",
+        type: "iss",
         ownerId: req.token.id,
-        checkInterval: req.body.checkInterval,
+        checkInterval: 300,
         lastChecked: 0,
         linkedRea: [],
         params: {
@@ -75,14 +76,13 @@ routes.post('/', (req, res) => {
     const database = storage.get();
     const users = database.collection("actions");
 
-    console.log("[Acti] RSS > Adding an action for user", req.token.username);
+    console.log("[Acti] ISS > Adding an action for user", req.token.username);
     users.insertOne(action, {}, (error, result) => {
         if (error) {
             res.status(500).json({ success: false, error: "Internal database error" });
             return;
         }
-        console.log(result);
-        console.log("[Acti] RSS > Added action for user", req.token.username);
+        console.log("[Acti] ISS > Added action for user", req.token.username);
         res.status(200).json({ success: true, id: result.insertedId });
         return;
     });

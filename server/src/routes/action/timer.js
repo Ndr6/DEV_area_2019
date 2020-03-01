@@ -3,8 +3,9 @@ import storage from "../../db";
 
 const routes = Router();
 
+//TODO: Hugo, fix les triggers multiples dans la même minute
 export async function checkTimer(action, user) {
-    if (isNaN(action.params.minutes) || isNaN(action.params.hour))
+    if (isNaN(action.params.minutes) || isNaN(action.params.hours))
         return undefined;
     if (parseInt(action.params.hours) < 0 || parseInt(action.params.hours) > 24 || parseInt(action.params.minutes) < 0 || parseInt(action.params.minutes) > 59 || action.params.message === "")
         return undefined;

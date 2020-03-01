@@ -122,7 +122,7 @@ let list = {
             ]
         },
         {
-            name: 'checkIss',
+            name: 'iss',
             description: 'Check if the ISS is above the user given location',
             requirements: [],
             parameters: [

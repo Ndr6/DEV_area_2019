@@ -6,6 +6,7 @@ import { checkIntraEndTime } from "./routes/action/intra_end";
 import { checkIntraNote } from "./routes/action/intra_note";
 import { checkPornhub } from "./routes/action/pornhub";
 import { checkTimer } from "./routes/action/timer";
+import { checkIss } from "./routes/action/issSight";
 
 // TODO: Add all check and trigger functions here
 let checkFunctions = {
@@ -13,12 +14,15 @@ let checkFunctions = {
     "timer": checkTimer,
     "intra_end": checkIntraEndTime,
     "intra_note": checkIntraNote,
-    "pornhub": checkPornhub
+    "pornhub": checkPornhub,
+    "iss": checkIss
 };
 
 let triggerFunctions = {
     "discord": checkRss
 };
+
+let checkNb = 0;
 
 export default function checkSystem() {
     const database = storage.get();
@@ -27,6 +31,8 @@ export default function checkSystem() {
     let actionNb = 0;
 
     console.log("[Chkr] Starter > Checking actions for all users");
+
+    console.log("/----------------------------Check start [", ++checkNb, "]------------------------------\\");
 
     let cursor = actions.find({}, {});
     cursor.forEach((action) => {
@@ -51,6 +57,7 @@ export default function checkSystem() {
             return;
         }
         console.log("[Chkr] Starter > Checked", actionNb, "actions");
+        console.log("\\-----------------------------Check end [", checkNb, "]-------------------------------/");
         setTimeout(checkSystem, 30000);
     });
 }
@@ -60,11 +67,11 @@ function actionChecker(action) {
         console.log("[Chkr] Action > Skipping action", action._id, "because no reaction is linked to it");
         return false;
     }*/
+    //TODO: Check interval
     if (Date.now() < action.lastChecked + action.checkInterval) {
         console.log("[Chkr] Action > Skipping action", action._id, "because last check is too recent");
         return false;
     }
-    //TODO: Check interval
     return true;
 }
 
@@ -169,8 +176,17 @@ async function actionExecutor(action, user) {
         console.log("[Chkr] Action > Action", action._id, "is of an unknown type, skipping");
         return false;
     }
+
     // Run the action here
-    let actionReturn = await checkFunctions[action.type](action, user);
+    let actionReturn = undefined;
+    try {
+        actionReturn = await checkFunctions[action.type](action, user);
+    } catch (err) {
+        console.log("[Chkr] Action > Action", action._id, "threw an exception, deleting");
+        console.log(err);
+        actionDelete(action._id);
+        return false;
+    }
 
     console.log(actionReturn);
     if (actionReturn == undefined || actionReturn.success == undefined || actionReturn.params == undefined

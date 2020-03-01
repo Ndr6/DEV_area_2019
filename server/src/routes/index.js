@@ -15,6 +15,7 @@ import timerAction from './action/timer';
 import intraNoteAction from "./action/intra_note";
 import intraEndAction from "./action/intra_end";
 import pornhubAction from "./action/pornhub";
+import issAction from "./action/issSight";
 
 //Reactions
 import genericReaction from "./reaction/generic";
@@ -88,6 +89,7 @@ routes.use('/action/timer', timerAction);
 routes.use('/action/intra_note', intraNoteAction);
 routes.use('/action/intra_end', intraEndAction);
 routes.use('/action/pornhub', pornhubAction);
+routes.use('/action/iss', issAction);
 
 // Reactions
 routes.use(genericReaction);
