@@ -132,21 +132,27 @@ let list = {
                     optional: false
                 }
             ]
+        },
+        {
+            name: 'trigger',
+            description: 'Always triggers, on every check (30s)',
+            requirements: [],
+            parameters: []
         }
     ],
     reactions: [
         {
-            name: 'discord',
-            description: 'Sends a message to a discord channel through a webhook',
+            name: 'mail',
+            description: 'Sends an email to the configured address',
             requirements: [],
             parameters: [
                 {
-                    name: 'url',
+                    name: 'to',
                     type: 'string', // string|bool|int|json
                     optional: false
                 },
                 {
-                    name: 'message',
+                    name: 'subject',
                     type: 'string', // string|bool|int|json
                     optional: false
                 }

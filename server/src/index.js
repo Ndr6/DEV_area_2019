@@ -24,7 +24,7 @@ function check_db() {
         db.regen();
     } else {
         console.log("[Serv] Init > Waiting for DB");
-        setTimeout(check_db, 1000);
+        setTimeout(check_db, 500);
     }
 }
 check_db();

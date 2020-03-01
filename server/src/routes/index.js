@@ -16,12 +16,11 @@ import intraNoteAction from "./action/intra_note";
 import intraEndAction from "./action/intra_end";
 import pornhubAction from "./action/pornhub";
 import issAction from "./action/issSight";
+import triggerAction from "./action/trigger";
 
 //Reactions
 import genericReaction from "./reaction/generic";
-import discordReaction from "./reaction/discordWebhook";
-//import sendMail from "reaction/sendMail";
-
+import mailReaction from "./reaction/sendMail";
 const routes = Router();
 
 // Unauthenticated services
@@ -90,10 +89,11 @@ routes.use('/action/intra_note', intraNoteAction);
 routes.use('/action/intra_end', intraEndAction);
 routes.use('/action/pornhub', pornhubAction);
 routes.use('/action/iss', issAction);
+routes.use('/action/trigger', triggerAction);
 
 // Reactions
 routes.use(genericReaction);
-routes.use('/reaction/discord', discordReaction);
+routes.use('/reaction/mail', mailReaction);
 //routes.use('/services/action/mail', sendMail);
 
 export default routes;

@@ -6,7 +6,7 @@ describe('Timer', function () {
         it('should return an error from a unvalid hour', async function () {
             let action = {
                 params : {
-                    hour: NaN,
+                    hours: NaN,
                     minutes: 13,
                     message: "killing some turtle"
                 }
@@ -20,7 +20,7 @@ describe('Timer', function () {
         it('should return an error from a unvalid minute', async function () {
             let action = {
                 params : {
-                    hour: 13,
+                    hours: 13,
                     minutes: NaN,
                     message: "killing some turtle"
                 }
@@ -34,7 +34,7 @@ describe('Timer', function () {
         it('should return an error from unvalid message', async function () {
             let action = {
                 params : {
-                    hour: NaN,
+                    hours: NaN,
                     minutes: NaN,
                     message: ""
                 }
@@ -48,18 +48,16 @@ describe('Timer', function () {
         it('should return a correct answer from a valid time', async function () {
             let action = {
                 params : {
-                    hour: 13,
-                    minutes: 27,
+                    hours: 23,
+                    minutes: 59,
                     message: "killing some turtle"
                 }
             };
             let user = {};
 
             let returnValue = await checkTimer(action, user);
-            if (returnValue.success === true)
-                assert.equal(returnValue, true);
-            else
-                assert.equal(returnValue.success, false);
+            assert.notEqual(returnValue, undefined);
+            assert.equal(returnValue.success, false);
         });
     });
 });
