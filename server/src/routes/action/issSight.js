@@ -28,11 +28,13 @@ export async function checkIss(action, user) {
                 issResponse.data.response.forEach(riseTime => {
                     let timeNow = Date.now();
                     //console.log(timeNow + " | " + riseTime.risetime * 1000);
-                    if (riseTime.risetime * 1000 >= timeNow && (riseTime.risetime + (5 * 60 * 1000)) * 1000 < timeNow) {
+                    if (riseTime.risetime * 1000 > timeNow - (5 * 60 * 1000) && riseTime.risetime * 1000 < timeNow) {
                         console.log(riseTime.risetime);
                         conditionsStatus = true;
                         return { success: true, params: action.params, message: "The International Space Station is just above " + action.params.location };
                     }
+                    //if (riseTime.risetime * 1000 >= timeNow && (riseTime.risetime + (5 * 60 * 1000)) * 1000 < timeNow) {
+                    //}
                 })
             }).catch(error => {
                 console.log("Service: ISS LOCATION\nStatus code:" + error.response.data.status.code);
