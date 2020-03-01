@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: SearchBar(
                         hintText: "Service, action, etc.",
                         searchBarStyle: SearchBarStyle(
-                            backgroundColor: Colors.white, borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                        backgroundColor: Colors.white, borderRadius: BorderRadius.all(Radius.circular(8.0))),
                         onSearch: (x) async {
                           performSearch(x);
                           return <String>[];
