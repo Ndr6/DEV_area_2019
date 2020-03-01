@@ -13,11 +13,13 @@ export async function checkTimer(action, user) {
     let hours = date.getHours();
     let minutes = date.getMinutes();
 
-    if (hours === parseInt(action.params.hours) && minutes === parseInt(action.params.minutes)) {
-        return { success: true, params: action.params, message: "It's time for " + action.params.message + " !!!" };
-    } else {
+    if (action.lastChecked > Date.now - 60 * 1000)
         return { success: false, params: action.params};
-    }
+
+    if (hours === parseInt(action.params.hours) && minutes === parseInt(action.params.minutes))
+        return { success: true, params: action.params, message: "It's time for " + action.params.message + " !!!" };
+    else
+        return { success: false, params: action.params};
 };
 
 routes.post('/', (req, res) => {
