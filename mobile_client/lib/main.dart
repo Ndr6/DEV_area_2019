@@ -6,6 +6,7 @@ import 'package:mobile_client/Models/ServiceModel.dart';
 import 'package:mobile_client/Views/Customs/CustomCell.dart';
 import 'package:mobile_client/Views/ReactionsPage.dart';
 import 'package:mobile_client/WebService/AreaAPI.dart';
+import 'package:tuple/tuple.dart';
 
 import 'Views/LoginPage.dart';
 
@@ -89,8 +90,14 @@ class _MyHomePageState extends State<MyHomePage> {
               SliverToBoxAdapter(
                 child: Container(
                   height: 20,
-                  child: FutureBuilder<List<ServiceModel>>(
-                    future: AreaAPI().getServices().catchError((error) => showDialog(
+                  child: FutureBuilder<List<Tuple2<String, bool>>>(
+                    future: (() async {
+                      final services = await AreaAPI().getServices();
+//                      final myServices = await AreaAPI().getMyServices();
+
+//myServices.where((element) => e.name == element.name).length != 0
+                      return services.map((e) => Tuple2(e.iconRoute, true)).toList();
+                    })().catchError((error) => showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
@@ -106,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
                         }
                     )),
-                    builder: (BuildContext context, AsyncSnapshot<List<ServiceModel>> snapshot) {
+                    builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
                         return Row(
                           mainAxisSize: MainAxisSize.max,
@@ -115,8 +122,11 @@ class _MyHomePageState extends State<MyHomePage> {
                               .map(
                                 (e) => Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: Image.network(
-                                    e.iconRoute,
+                                  child: Opacity(
+                                    opacity: e.item2 ? 1.0 : 0.2,
+                                    child: Image.network(
+                                      e.item1,
+                                    ),
                                   ),
                                 ),
                               )

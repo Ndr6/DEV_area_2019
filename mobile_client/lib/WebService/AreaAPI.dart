@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'package:mobile_client/Models/ServiceModel.dart';
@@ -26,7 +27,9 @@ class AreaAPI {
     final response = await http.post('$baseUrl/auth/signin?username=$login&password=$hash');
 
     if (response.statusCode == 200) {
-      return TokenResponse.fromJson(jsonDecode(response.body));
+      final tok = TokenResponse.fromJson(jsonDecode(response.body));
+      token = tok.token;
+      return tok;
     } else {
       throw Exception('Failed to login user');
     }
@@ -58,16 +61,20 @@ class AreaAPI {
   }
 
   Future<List<ServiceModel>> getMyServices() async {
-    if (services != null)
-      return services;
-    final response = await http.get('$baseUrl/service');
+    final client = HttpClient();
+    final request = await client.getUrl(Uri.parse('$baseUrl/service'));
+    request.headers.add(HttpHeaders.authorizationHeader, "Bearer $token");
+    final response = await request.close();
+    response.transform(utf8.decoder).listen((event) {
+      print(event);
+    });
+    throw Exception("bite");
 
-    if (response.statusCode == 200) {
-      services = jsonDecode(response.body).map((json) => ServiceModel.fromJson(json)).toList();
-      return services;
+/*    if (response.statusCode == 200) {
+      return jsonDecode(await response.stream.bytesToString()).map((json) => ServiceModel.fromJson(json)).toList();
     } else {
-      throw Exception('Failed to retrieve services ' + response.body);
-    }
+      throw Exception('Failed to retrieve services');
+    }*/
   }
 
 }
