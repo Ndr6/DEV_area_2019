@@ -6,6 +6,12 @@ import { checkIntraEndTime } from "./routes/action/intra_end";
 import { checkIntraNote } from "./routes/action/intra_note";
 import { checkPornhub } from "./routes/action/pornhub";
 import { checkTimer } from "./routes/action/timer";
+import { checkIss } from "./routes/action/issSight";
+import { checkTrigger } from "./routes/action/trigger";
+
+// Reactions
+import { triggerMail } from "./routes/reaction/sendMail";
+import { triggerLog } from "./routes/reaction/log";
 
 // TODO: Add all check and trigger functions here
 let checkFunctions = {
@@ -13,14 +19,19 @@ let checkFunctions = {
     "timer": checkTimer,
     "intra_end": checkIntraEndTime,
     "intra_note": checkIntraNote,
-    "pornhub": checkPornhub
+    "pornhub": checkPornhub,
+    "iss": checkIss,
+    "trigger": checkTrigger
 };
 
 let triggerFunctions = {
-    "discord": checkRss
+    "mail": triggerMail,
+    "log": triggerLog
 };
 
-export default function checkSystem() {
+let checkNb = 0;
+
+export default async function checkSystem() {
     const database = storage.get();
     const actions = database.collection("actions");
     const users = database.collection("users");
@@ -28,21 +39,23 @@ export default function checkSystem() {
 
     console.log("[Chkr] Starter > Checking actions for all users");
 
+    console.log("/----------------------------Check start [", ++checkNb, "]------------------------------\\");
+
     let cursor = actions.find({}, {});
-    cursor.forEach((action) => {
+    await cursor.forEach(async (action) => {
         actionNb++;
         console.log(action); // Debug print of all actions
         if (actionChecker(action) === true) {
-            users.findOne({ _id: storage.convert_mongo_id(action.ownerId) }, {}, (error, user) => {
+            await users.findOne({ _id: storage.convert_mongo_id(action.ownerId) }, {}, async (error, user) => {
                 if (error || user == null) {
                     console.log("[Chkr] Owner > User", action.ownerId, "not found in DB");
                     return undefined;
                 }
 
-                let actionResult = actionExecutor(action, user);
+                let actionResult = await actionExecutor(action, user);
                 if (actionResult == false)
                     return;
-                reactionTrigger(action, actionResult.message, user);
+                await reactionTrigger(action, actionResult.message, user);
             });
         }
     }, (error) => {
@@ -51,38 +64,66 @@ export default function checkSystem() {
             return;
         }
         console.log("[Chkr] Starter > Checked", actionNb, "actions");
+        console.log("\\-----------------------------Check end [", checkNb, "]-------------------------------/");
         setTimeout(checkSystem, 30000);
     });
 }
 
 function actionChecker(action) {
-    /*if (action.linkedRea.length == 0) {
+    if (action.linkedRea.length == 0) {
         console.log("[Chkr] Action > Skipping action", action._id, "because no reaction is linked to it");
         return false;
-    }*/
-    if (Date.now() < action.lastChecked + action.checkInterval) {
+    }
+    if (Date.now() < action.lastChecked + (action.checkInterval * 1000)) {
         console.log("[Chkr] Action > Skipping action", action._id, "because last check is too recent");
         return false;
     }
-    //TODO: Check interval
     return true;
 }
 
-function reactionTrigger(action, actionMessage, user) {
+function unlinkReaction(actionId, reactionId) {
+    const database = storage.get();
+    const actions = database.collection("actions");
+
+    actions.findOne({ _id: storage.convert_mongo_id(actionId) }, {}, (error, action) => {
+        if (error || action == null) {
+            console.log("[Chkr] Unlink > Action not found for user", req.token.username);
+            return;
+        }
+        if (action.linkedRea.includes(reactionId) == false) {
+            console.log("[Chkr] Unlink > Reaction not linked to selected action");
+            return;
+        }
+        action.linkedRea.splice(action.linkedRea.indexOf(reactionId), 1);
+        actions.updateOne({ _id: storage.convert_mongo_id(actionId) },
+            { $set: { "linkedRea": action.linkedRea } },
+            {}, function (error, result) {
+                if (error) {
+                    console.log("[Chkr] Unlink > DB error on action unlinking. Error below");
+                    console.log(error);
+                    return;
+                }
+                console.log("[Chkr] Unlink > Unlinked action", req.body.actionId, "from reaction", req.body.reactionId)
+                return;
+            });
+    });
+}
+
+async function reactionTrigger(action, actionMessage, user) {
     const database = storage.get();
     const reactions = database.collection("reactions");
     let reactionNb = 0;
 
     action.linkedRea.forEach(reactionId => {
         console.log(action); // Debug print of all actions
-        reactions.findOne({ _id: storage.convert_mongo_id(reactionId) }, {}, (error, reaction) => {
+        reactions.findOne({ _id: storage.convert_mongo_id(reactionId) }, {}, async (error, reaction) => {
             if (error || reaction == null) {
                 console.log("[Chkr] Reaction > Reaction", reactionId, "not found in DB");
-                //TODO: Remove the reaction from the action linkedRea
+                unlinkReaction(action._id, reaction._id);
                 return false;
             }
             reactionNb++;
-            reactionExecutor(reaction, user, actionMessage);
+            await reactionExecutor(reaction, user, actionMessage);
         });
     });
 }
@@ -93,7 +134,15 @@ async function reactionExecutor(reaction, user, actionMessage) {
         return;
     }
     // Run the reaction here
-    let reactionReturn = await triggerFunctions[reaction.type](reaction, user, actionMessage);
+    let reactionReturn = undefined;
+    try {
+        reactionReturn = await triggerFunctions[reaction.type](reaction, user, actionMessage);
+    } catch (err) {
+        console.log("[Chkr] Reaction > Reaction", reaction._id, "threw an exception, deleting");
+        console.log(err);
+        reactionDelete(reaction._id);
+        return false;
+    }
 
     if (reactionReturn == undefined || reactionReturn.success == undefined || reactionReturn.params == undefined) {
         console.log("[Chkr] Reaction > Reaction", reaction._id, "has catastrophically failed, deleting");
@@ -147,7 +196,7 @@ function updateReactionParams(reactionId, params, success) {
             console.log("[Chkr] Reaction > Error on reaction parameters updating after trigger");
             return;
         }
-        console.log("[Chkr] Reaction > Reaction", actionId, "parameters updated after trigger");
+        console.log("[Chkr] Reaction > Reaction", reactionId, "parameters updated after trigger");
     });
 }
 
@@ -169,8 +218,17 @@ async function actionExecutor(action, user) {
         console.log("[Chkr] Action > Action", action._id, "is of an unknown type, skipping");
         return false;
     }
+
     // Run the action here
-    let actionReturn = await checkFunctions[action.type](action, user);
+    let actionReturn = undefined;
+    try {
+        actionReturn = await checkFunctions[action.type](action, user);
+    } catch (err) {
+        console.log("[Chkr] Action > Action", action._id, "threw an exception, deleting");
+        console.log(err);
+        actionDelete(action._id);
+        return false;
+    }
 
     console.log(actionReturn);
     if (actionReturn == undefined || actionReturn.success == undefined || actionReturn.params == undefined

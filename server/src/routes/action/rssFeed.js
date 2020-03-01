@@ -5,24 +5,26 @@ import parser from "rss-parser";
 let Parser = new parser();
 const routes = Router();
 
-export async function checkRss(param) {
-    console.log("PATAPOUET");
+export async function checkRss(action, user) {
     let isNewPost = false;
-    const url = param.url;
-    const lastChecked = param.lastChecked;
+    const url = action.params.url;
+    const lastChecked = action.lastChecked;
     const actualDate = Date.now();
-    if (!url || !lastChecked)
-        return false;
+    if (url == undefined || lastChecked == undefined) {
+        console.log("[Acti] RSS > Missing parameters");
+        return undefined;
+    }
     let feed = await Parser.parseURL(url);
-    console.log(feed.title);
     feed.items.forEach(item => {
         const postDate = new Date(item.isoDate);
-        console.log(postDate);
-        if (postDate > lastChecked)
+        if (postDate > lastChecked) {
             isNewPost = true;
+        }
     });
-    console.log(isNewPost);
-    console.log('Lol lol');
+    if (isNewPost)
+        return { success: true, params: action.params, message: "New post on feed " + url };
+    else
+        return { success: false, params: action.params };
 };
 
 routes.post('/', (req, res) => {
