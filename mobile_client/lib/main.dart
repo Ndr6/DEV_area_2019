@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         searchBarStyle: SearchBarStyle(
                           backgroundColor: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                        onSearch: (x) async { performSearch(x); return <String>[];}, onItemFound: (String item, int index) {  } ,
+                        onSearch: (x) async { performSearch(x); return <String>[];},
                     ))
                   ),
                   SliverToBoxAdapter(

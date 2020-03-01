@@ -8,8 +8,19 @@ import 'package:mobile_client/main.dart';
 
 import 'RegisterPage.dart';
 
-class LoginPage extends StatelessWidget
+
+
+class LoginPage extends StatefulWidget
 {
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  String username;
+  String password;
 
   GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -36,7 +47,7 @@ class LoginPage extends StatelessWidget
                     padding: EdgeInsets.all(20),
                     child: Column(
                       children: <Widget>[
-                        TextField(
+                        TextFormField(
                             style: TextStyle(
                               color: Colors.white,
                             ),
@@ -67,12 +78,13 @@ class LoginPage extends StatelessWidget
                                 Icons.account_circle,
                                 color: Colors.white,
                               ),
-                            )
+                            ),
+                          onChanged: (value) => setState(() => this.username = value),
                         ),
 
                         SizedBox(height: 15),
 
-                        TextField(
+                        TextFormField(
                             style: TextStyle(
                               color: Colors.white,
                             ),
@@ -103,7 +115,8 @@ class LoginPage extends StatelessWidget
                                 Icons.lock,
                                 color: Colors.white,
                               ),
-                            )
+                            ),
+                          onChanged: (value) => setState(() => this.password = value),
                         ),
 
                         SizedBox(height: 10),
@@ -136,12 +149,12 @@ class LoginPage extends StatelessWidget
                                 color: Colors.redAccent,
                                 textColor: Colors.white,
                                 onPressed: () async {
-                                  await AreaAPI().loginUser("test", "coucou").then((response)
+                                  await AreaAPI().loginUser(this.username, this.password).then((response)
                                   {
                                     print("token " + response.token);
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                       context,
-                                      MaterialPageRoute(builder: (context) => MyHomePage(title: "coucou")),
+                                      MaterialPageRoute(builder: (context) => MyHomePage(title: "AREA")),
                                     );
                                   });
                                 },

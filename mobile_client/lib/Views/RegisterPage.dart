@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_client/WebService/AreaAPI.dart';
 
+import '../main.dart';
+
 class RegisterPage extends StatefulWidget
 {
 
@@ -114,10 +116,28 @@ class RegisterPageState extends State<RegisterPage>
                       onPressed: () async {
                         await AreaAPI().registerUser(this.username, this.password).then((response)
                         {
-                          print("bute");
-                        }).catchError(()
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyHomePage(title: "AREA")),
+                          );
+                        }).catchError((error)
                         {
-
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: new Text("Erreur"),
+                                content: new Text("Un utilisateur utilisant ce nom de compte existe déjà."),
+                                actions: <Widget>[
+                                  new FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: new Text("Fermer", style: TextStyle(color: Colors.black),))
+                                ],
+                              );
+                            }
+                          );
                         });
                       },
                       child: Text(
