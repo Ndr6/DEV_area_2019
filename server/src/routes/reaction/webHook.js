@@ -1,23 +1,18 @@
 import { Router } from "express";
 import storage from "../../db";
-import axios from 'axios';
+import axios from 'axios'
 
 const routes = Router();
-const baseUrl = 'https://discordapp.com/api';
 
-export async function discordWebhook(params)
+export async function triggerWebHook(reaction, user, actionMessage)
 {
-    const url = params.url;
-    const message = params.message;
-
-    axios.get(url)
-        .then(r => {
-            const webHook = r.data;
-            axios.post(baseUrl + `/webhooks/${webHook.id}/${webHook.token}`, {
-                content: message,
-            }).then(r => console.log(r.data))
-        });
-}
+    let url = reaction.params.url + "?message=" + encodeURI(actionMessage);
+    return await (axios.get(url).then(response => {
+        return { success: true, params: reaction.params};
+    }).catch(error => {
+        return { success: false, params: reaction.params };
+    }));
+};
 
 routes.post('/', (req, res) => {
     if (req.body === undefined) {
@@ -30,25 +25,24 @@ routes.post('/', (req, res) => {
     }
 
     let reaction = {
-        actionType: "discord",
+        type: "webhook",
         ownerId: req.token.id,
         lastTrigger: 0,
-        actionParams: {
-            url: req.body.url,
-            message: req.body.message
+        params: {
+            url: req.body.url
         }
     };
 
     const database = storage.get();
     const reactions = database.collection("reactions");
 
-    console.log("[Reac] Discord > Adding a reaction for user", req.token.username);
+    console.log("[Reac] WebHook > Adding a reaction for user", req.token.username);
     reactions.insertOne(reaction, {}, (error, result) => {
         if (error) {
             res.status(500).json({ success: false, error: "Internal database error" });
             return;
         }
-        console.log("[Reac] Discord > Added reaction for user", req.token.username);
+        console.log("[Reac] WebHook > Added reaction for user", req.token.username);
         res.status(200).json({ success: true, id: result.insertedId });
         return;
     });

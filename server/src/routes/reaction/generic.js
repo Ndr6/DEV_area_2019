@@ -1,8 +1,6 @@
 import { Router } from "express";
 import storage from "../../db";
-import parser from "rss-parser";
 
-let Parser = new parser();
 const routes = Router();
 
 routes.delete('/reaction/:name/', (req, res) => {

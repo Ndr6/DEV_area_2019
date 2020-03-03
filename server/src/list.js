@@ -116,6 +116,24 @@ let list = {
             reactions: [
 
             ]
+        },
+        {
+            name: 'iss',
+            description: 'Check if the ISS is above the user given location',
+            requirements: [],
+            parameters: [
+                {
+                    name: 'location',
+                    type: 'string', // string|bool|int|json
+                    optional: false
+                }
+            ]
+        },
+        {
+            name: 'trigger',
+            description: 'Always triggers, on every check (30s)',
+            requirements: [],
+            parameters: []
         }
     ],
 };
