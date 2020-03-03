@@ -17,6 +17,9 @@ routes.get('/', (req, res) => {
             }
             res.json(services);
         }
+	else {
+		res.json([]);
+	}
     });
 });
 
