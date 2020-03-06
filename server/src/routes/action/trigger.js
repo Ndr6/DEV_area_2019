@@ -4,7 +4,7 @@ import storage from "../../db";
 const routes = Router();
 
 export async function checkTrigger(action, user) {
-    return { success: true, params: action.params, message: "Grade A = Broc + Hugo mange un welsh\nGrade B  = Broc avec Hugo\nGrade C = On a notre année\nGrade D = On a notre année mais moins ouf\nÉchec = Triste"};
+    return { success: true, params: action.params, message: "~~Grade A = Broc + Hugo mange un welsh~~\n~~Grade B  = Broc avec Hugo~~\n~~Grade C = On a notre année~~\nGrade D = On a notre année ~~mais moins ouf~~\nÉchec = Aled"};
 };
 
 routes.post('/', (req, res) => {

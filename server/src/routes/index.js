@@ -28,7 +28,7 @@ import genericReaction from "./reaction/generic";
 import mailReaction from "./reaction/sendMail";
 import consoleReaction from "./reaction/log";
 import discordReaction from "./reaction/discord";
-import webhookReaction from "./reaction/webhook";
+import webhookReaction from "./reaction/webHook";
 const routes = Router();
 
 // Unauthenticated services
@@ -50,7 +50,7 @@ routes.use('/service', (req, res, next) => {
     req.token = decoded;
     next();
 });
-//Nique sa mere 
+//Nique sa mere
 routes.use('/link', (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
