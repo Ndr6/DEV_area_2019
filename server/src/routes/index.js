@@ -1,7 +1,7 @@
 import { Router } from "express";
 import verifyToken from "../jwt";
 
-import service from './service/index';
+//import service from './service/index';
 
 //Services
 import auth from './auth';
@@ -105,7 +105,7 @@ routes.use("/service/intra", intraService);
 routes.use("/service/google", googleService);
 routes.use("/service/twitter", twitterService);
 routes.use("/service/connect", connect);
-routes.use("/service", service);
+//routes.use("/service", service);
 
 routes.use("/link", link);
 

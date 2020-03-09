@@ -61,7 +61,8 @@ export default async function checkSystem() {
         }
     }, (error) => {
         if (error) {
-            console.log("[Chkr] Starter > Database error during checking all actions");
+            console.log("[Chkr] Starter > Database error during checking all actions, or database might be empty");
+            setTimeout(checkSystem, 30000);
             return;
         }
         console.log("[Chkr] Starter > Checked", actionNb, "actions");
