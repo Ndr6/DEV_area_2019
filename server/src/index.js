@@ -4,6 +4,7 @@ import db from './db';
 import routes from './routes'
 import cors from 'cors';
 import service_list from './list';
+import checkSystem from "./checker";
 
 // Constants
 const PORT = process.env.PORT || 36969;
@@ -23,7 +24,7 @@ function check_db() {
         db.regen();
     } else {
         console.log("[Serv] Init > Waiting for DB");
-        setTimeout(check_db, 1000);
+        setTimeout(check_db, 500);
     }
 }
 check_db();
@@ -62,6 +63,9 @@ app.get('/about', (req, res) => {
         api_version: api_version
     });
 });
+
+// Start the action checker in 10 seconds
+setTimeout(checkSystem, 10000);
 
 app.listen(PORT, HOST);
 console.log(`[Serv] Init > Running on http://${HOST}:${PORT}`);

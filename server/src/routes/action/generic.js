@@ -1,8 +1,6 @@
 import { Router } from "express";
 import storage from "../../db";
-import parser from "rss-parser";
 
-let Parser = new parser();
 const routes = Router();
 
 routes.delete('/action/:name/', (req, res) => {
@@ -88,6 +86,48 @@ routes.patch("/action/link", (req, res) => {
                 return;
             });
         });
+    });
+});
+
+routes.patch("/action/unlink", (req, res) => {
+    if (req.body === undefined) {
+        res.status(400).json({ success: false, error: "No json settings given" });
+        return;
+    }
+    if (req.body.actionId == undefined || req.body.reactionId == undefined) {
+        res.status(400).json({ success: false, error: "Missing action or reaction id parameter" });
+        return;
+    }
+
+    const database = storage.get();
+    const actions = database.collection("actions");
+
+
+    actions.findOne({ _id: storage.convert_mongo_id(req.body.actionId) }, {}, (error, action) => {
+        if (error || action == null) {
+            console.log("[Acti] Unlink > Action not found for user", req.token.username);
+            res.status(404).json({ success: false, error: "Action not found" });
+            return;
+        }
+        if (action.linkedRea.includes(req.body.reactionId) == false) {
+            console.log("[Acti] Unlink > Action not found for user", req.token.username);
+            res.status(400).json({ success: false, error: "Reaction not linked to the selected action" });
+            return;
+        }
+        action.linkedRea.splice(action.linkedRea.indexOf(req.body.reactionId), 1);
+        actions.updateOne({ _id: storage.convert_mongo_id(req.body.actionId) },
+            { $set: { "linkedRea": action.linkedRea } },
+            {}, function (error, result) {
+                if (error) {
+                    console.log("[Acti] Unlink > DB error on action unlinking for user", req.token.username, ". Error below");
+                    console.log(error);
+                    res.status(500).json({ success: false, error: "Failure in database service. Please email the technical team" });
+                    return;
+                }
+                console.log("[Acti] Unlink > Unlinked action", req.body.actionId, "from reaction", req.body.reactionId, "for user", req.token.username)
+                res.status(200).json({ success: true });
+                return;
+            });
     });
 });
 

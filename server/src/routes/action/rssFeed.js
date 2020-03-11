@@ -5,23 +5,26 @@ import parser from "rss-parser";
 let Parser = new parser();
 const routes = Router();
 
-export async function checkFeed(param) {
+export async function checkRss(action, user) {
     let isNewPost = false;
-    const url = param.url;
-    const lastChecked = param.lastChecked;
+    const url = action.params.url;
+    const lastChecked = action.lastChecked;
     const actualDate = Date.now();
-    if (!url || !lastChecked)
-        return false;
+    if (url == undefined || lastChecked == undefined) {
+        console.log("[Acti] RSS > Missing parameters");
+        return undefined;
+    }
     let feed = await Parser.parseURL(url);
-    console.log(feed.title);
     feed.items.forEach(item => {
         const postDate = new Date(item.isoDate);
-        console.log(postDate);
-        if (postDate > lastChecked)
+        if (postDate > lastChecked) {
             isNewPost = true;
+        }
     });
-    console.log(isNewPost);
-    return isNewPost;
+    if (isNewPost)
+        return { success: true, params: action.params, message: "New post on feed " + url };
+    else
+        return { success: false, params: action.params };
 };
 
 routes.post('/', (req, res) => {
@@ -37,12 +40,12 @@ routes.post('/', (req, res) => {
         req.body.checkInterval = 600;
 
     let action = {
-        actionType: "rss",
+        type: "rss",
         ownerId: req.token.id,
         checkInterval: req.body.checkInterval,
         lastChecked: 0,
         linkedRea: [],
-        actionParams: {
+        params: {
             url: req.body.url
         }
     };
@@ -56,7 +59,6 @@ routes.post('/', (req, res) => {
             res.status(500).json({ success: false, error: "Internal database error" });
             return;
         }
-        console.log(result);
         console.log("[Acti] RSS > Added action for user", req.token.username);
         res.status(200).json({ success: true, id: result.insertedId });
         return;

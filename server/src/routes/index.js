@@ -14,17 +14,21 @@ import twitterService from "./service/twitter";
 import genericAction from "./action/generic";
 import rssAction from './action/rssFeed';
 import timerAction from './action/timer';
-//import noteIntra from "action/note";
-//import projectEndIntra from "action/projectEndTime";
+import intraNoteAction from "./action/intra_note";
+import intraEndAction from "./action/intra_end";
+import pornhubAction from "./action/pornhub";
+import issAction from "./action/issSight";
+import triggerAction from "./action/trigger";
 
 import connect from './service/connect';
 import link from './link/index';
 
 //Reactions
 import genericReaction from "./reaction/generic";
-import discordReaction from "./reaction/discordWebhook";
-//import sendMail from "reaction/sendMail";
-
+import mailReaction from "./reaction/sendMail";
+import consoleReaction from "./reaction/log";
+import discordReaction from "./reaction/discord";
+import webhookReaction from "./reaction/webHook";
 const routes = Router();
 
 // Unauthenticated services
@@ -46,7 +50,7 @@ routes.use('/service', (req, res, next) => {
     req.token = decoded;
     next();
 });
-//Nique sa mere 
+//Nique sa mere
 routes.use('/link', (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -109,12 +113,17 @@ routes.use("/link", link);
 routes.use(genericAction);
 routes.use('/action/rss', rssAction);
 routes.use('/action/timer', timerAction);
-//routes.use('/intra/note', noteIntra);
-//routes.use('/intra/project_end', projectEndIntra);
+routes.use('/action/intra_note', intraNoteAction);
+routes.use('/action/intra_end', intraEndAction);
+routes.use('/action/pornhub', pornhubAction);
+routes.use('/action/iss', issAction);
+routes.use('/action/trigger', triggerAction);
 
 // Reactions
 routes.use(genericReaction);
+routes.use('/reaction/mail', mailReaction);
+routes.use('/reaction/log', consoleReaction);
 routes.use('/reaction/discord', discordReaction);
-//routes.use('/services/action/mail', sendMail);
+routes.use('/reaction/webhook', webhookReaction);
 
 export default routes;
