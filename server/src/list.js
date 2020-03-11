@@ -17,6 +17,7 @@ let list = {
                     name: 'note',
                     title: 'On note posted',
                     description: 'Trigger when a note is submited on your intra account',
+		    route: 'intra_note',
                     parameters: [
 
                     ]
@@ -25,6 +26,7 @@ let list = {
                     name: 'projectendtime',
                     title: 'Project End Time',
                     description: 'Trigger when a project will end soon',
+		    route: 'intra_end',
                     parameters: [
 
                     ]
@@ -86,9 +88,10 @@ let list = {
                     title: 'Discord Webhook',
                     name: 'discord',
                     description: 'Send a message to the corresponding webhook',
+		    route: 'discord',
                     parameters: [
                         {
-                            name: 'webhookurl',
+                            name: 'url',
                             type: 'string',
                         },
                         {
@@ -115,6 +118,7 @@ let list = {
                     title: 'Discord Webhook',
                     name: 'discord',
                     description: 'Send a message to the corresponding webhook',
+		    route: 'webhook',
                     parameters: [
                         {
                             name: 'url',
@@ -141,13 +145,14 @@ let list = {
                     title: 'Send mail to',
                     name: 'sendmail',
                     description: 'Send a mail to the given mail address',
+		    route: 'mail',
                     parameters: [
                         {
                             name: 'to',
                             type: 'string',
                         },
                         {
-                            name: 'message',
+                            name: 'subject',
                             type: 'string',
                         }
                     ]
@@ -167,9 +172,10 @@ let list = {
                     title: 'On element posted',
                     name: 'onpost',
                     description: 'Trigger when an element is added to the corresponding flux',
+		    route: 'rss',
                     parameters: [
                         {
-                            name: 'feed_url',
+                            name: 'url',
                             type: 'string',
                         }
                     ]
@@ -192,6 +198,7 @@ let list = {
                     title: "ISS above a location",
                     name: 'iss',
                     description: 'Check if the ISS is above the user given location',
+		    route: 'iss',
                     parameters: [
                         {
                             name: 'location',
@@ -218,6 +225,7 @@ let list = {
                     title: "Video views goal",
                     name: 'pornhub',
                     description: 'Check if a video has reached a <viewIdx> more views',
+		    route: 'pornhub',
                     parameters: [
                         {
                             name: 'url',
@@ -249,6 +257,7 @@ let list = {
                     title: "Daily",
                     name: 'timer',
                     description: 'Triggers each day, on the specified time',
+		    route: 'timer',
                     parameters: [
                         {
                             name: 'hours',
@@ -259,7 +268,12 @@ let list = {
                             name: 'minutes',
                             type: 'int', // string|bool|int|json
                             optional: false
-                        }
+                        },
+			{
+				name: 'message',
+				type: 'string',
+				optional: false
+			}
                     ]
                 }
             ],
@@ -280,6 +294,7 @@ let list = {
                     title: "Always trigger",
                     name: 'trigger',
                     description: 'Always triggers, on every check (~30s)',
+		    route: 'trigger',
                     requirements: [],
                     parameters: []
                 }
@@ -289,6 +304,7 @@ let list = {
                     title: 'Console log',
                     name: 'log',
                     description: 'Logs the message in the server console',
+		    route: 'log',
                     parameters: [
 
                     ]
