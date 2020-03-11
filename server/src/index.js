@@ -18,18 +18,6 @@ const app = express();
 // DB Connection
 db.init();
 
-function check_db() {
-    if (db.test_connection()) {
-        console.log("[Serv] Init > Connected to DB");
-        db.regen();
-    } else {
-        console.log("[Serv] Init > Waiting for DB");
-        setTimeout(check_db, 500);
-    }
-}
-check_db();
-
-
 // Middlewares
 
 // Allow cross origin request
@@ -64,8 +52,8 @@ app.get('/about', (req, res) => {
     });
 });
 
-// Start the action checker in 10 seconds
-setTimeout(checkSystem, 10000);
+// Start the action checker in 20 seconds
+setTimeout(checkSystem, 20000);
 
 app.listen(PORT, HOST);
 console.log(`[Serv] Init > Running on http://${HOST}:${PORT}`);
