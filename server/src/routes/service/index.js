@@ -8,7 +8,7 @@ const routes = Router();
 routes.get('/', (req, res) => {
     const database = storage.get();
     const users = database.collection("users");
- 
+
     users.findOne({ _id: storage.convert_mongo_id(req.token.id) }, (err, doc) => {
         if (doc.service) {
             let services = [];
@@ -16,6 +16,8 @@ routes.get('/', (req, res) => {
                 services.push(findService(key));
             }
             res.json(services);
+        } else {
+            res.json([]);
         }
     });
 });

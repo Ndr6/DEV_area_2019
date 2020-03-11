@@ -6,15 +6,14 @@ services:
       context: ./web_client
       dockerfile: Dockerfile
     ports:
-      - '8081:8081'
-    environment:
-      - PORT=8081
+      - '8081:80'
     volumes:
       - 'apk-volume:/var/lib/apk/'
     depends_on:
       - client_mobile
       - server
     restart: always
+
   client_mobile:
     container_name: 'area_mobile_client'
     volumes:
@@ -22,21 +21,22 @@ services:
     build:
       context: ./mobile_client
       dockerfile: Dockerfile
+
   server:
-      image: area_server:v0
+      image: area_server:v1
       build:
           context: server/
       depends_on:
         - db
       environment:
-          DB_HOST: db
-          DB_PORT: 27017
+          MONGODB_URI: mongodb://area:area@db:27017
           DB_NAME: area
       networks:
         - server_net
       ports:
         - "36969:36969"
       restart: always
+
   db:
       image: mongo
       restart: always

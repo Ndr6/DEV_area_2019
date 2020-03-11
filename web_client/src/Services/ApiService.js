@@ -71,20 +71,56 @@ async function getSubscribedServices() {
 }
 
 async function link(action, actionParams, reaction, reactionParams) {
-    const data = {
-        action: {name: action.name, serviceName: action.serviceName, params: actionParams},
-        reaction: {name: reaction.name, serviceName: reaction.serviceName, params: reactionParams}
-    };
-    let response = await fetch(`${url}/link`, {
+    let actionRoute = `${url}/action/${action.route}`;
+    let reactionRoute = `${url}/reaction/${reaction.route}`;
+    let actionParamsQuery = {};
+    let reactionParamsQuery = {};
+    for (let param of actionParams) {
+        actionParamsQuery[param.name] = param.value;
+    }
+    for (let param of reactionParams) {
+        reactionParamsQuery[param.name] = param.value;
+    }
+    console.log(actionParamsQuery);
+    console.log(reactionParamsQuery);
+    let response = await fetch(actionRoute, {
         method: 'POST',
         headers: new Headers({
             'Authorization': `Bearer ${apiToken}`,
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         }),
-        body: JSON.stringify(data)
+        body: JSON.stringify(actionParamsQuery)
     });
     response = await response.json();
+    console.log('action response');
+    console.log(response);
+    let actionId = response.id;
+    response = await fetch(reactionRoute, {
+        method: 'POST',
+        headers: new Headers({
+            'Authorization': `Bearer ${apiToken}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }),
+        body: JSON.stringify(reactionParamsQuery)
+    });
+    response = await response.json();
+    console.log('reaction response');
+    console.log(response);
+    let reactionId = response.id;
+    let linkUrl = `${url}/action/link`;
+    response = await fetch(linkUrl, {
+        method: 'PATCH',
+        headers: new Headers({
+            'Authorization': `Bearer ${apiToken}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }),
+        body: JSON.stringify({actionId: actionId, reactionId: reactionId})
+    })
+    response = await response.json();
+    console.log('link response');
     console.log(response);
     return response;
 }

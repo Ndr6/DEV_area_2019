@@ -52,6 +52,14 @@ routes.get('/service/list/', (req, res) => {
             return;
         }
         let serviceList = {};
+        if (result.tokens == undefined) {
+            console.log("[Svce] Generic > User", req.token.username, " has no token");
+            list.services.forEach((element) => {
+                serviceList[element.route] = false;
+            });
+            res.status(500).json({ success: true, services: serviceList });
+            return;
+        }
         list.services.forEach((element) => {
             if (result.tokens[element.route] == undefined)
                 serviceList[element.route] = false;
