@@ -71,10 +71,6 @@ async function getSubscribedServices() {
 }
 
 async function link(action, actionParams, reaction, reactionParams) {
-    const data = {
-        action: {name: action.name, serviceName: action.serviceName, params: actionParams},
-        reaction: {name: reaction.name, serviceName: reaction.serviceName, params: reactionParams}
-    };
     let actionRoute = `${url}/action/${action.route}`;
     let reactionRoute = `${url}/reaction/${reaction.route}`;
     let actionParamsQuery = {};
