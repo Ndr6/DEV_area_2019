@@ -1,4 +1,3 @@
-import GoogleLogin from 'react-google-login';
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,13 +13,11 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import emailValidate from "../Utils/EmailValid";
 import {FormControlLabel} from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import CustomButton from "../Components/CustomButton";
 import ApiService from '../Services/ApiService';
 import { useCookies } from 'react-cookie';
 import Auth from '../Utils/Auth';
 
-function onSignIn(googleUser)
+/*function onSignIn(googleUser)
 {
     const profile = googleUser.getBasicProfile();
 
@@ -30,7 +27,7 @@ function onSignIn(googleUser)
     console.log('Google token : ' + token);
 
     //TODO: Send token to back-end
-}
+}*/
 
 function Copyright() {
     return (
@@ -87,8 +84,6 @@ const useStyles = makeStyles(theme => ({
 export default function LoginView() {
     //TODO: Error management on Google login / Facebook login
 
-    const componentClicked = () => {console.log('zozo');};
-    const responseFacebook = (response) => {console.log(response);};
 
     const [, setCookies] = useCookies(['token']);
     const [state, setState] = React.useState({
@@ -197,36 +192,6 @@ export default function LoginView() {
                                 <Link href="/" variant="body2">
                                     {"Not already have an account? Sign Up"}
                                 </Link>
-                            </Grid>
-                            <Grid container spacing={3} justify={"center"}>
-                                <Grid item>
-                                    <GoogleLogin
-                                        clientId="12906168737-9v1ildio54gfsic452snnvubv5j8nkm5.apps.googleusercontent.com"
-                                        buttonText={"Login with google"}
-                                        onSuccess={onSignIn}
-                                        onFailure={onSignIn}
-                                        render={ renderProps => (
-                                            <CustomButton onClick={renderProps.onClick} color={'white'} backgroundColor={'red'} hoverColor={'red'} backgroundHoverColor={'white'}>
-                                                Login with google
-                                            </CustomButton>
-                                        )}
-                                        className={classes.googleButton}
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <FacebookLogin
-                                        appId="2546265472152778"
-                                        autoLoad={false}
-                                        fields="name,email,picture"
-                                        onClick={componentClicked}
-                                        callback={responseFacebook}
-                                        render={ renderProps => (
-                                            <CustomButton onClick={renderProps.onClick} color={'white'} backgroundColor={'blue'} hoverColor={'blue'} backgroundHoverColor={'white'}>
-                                                Login with Facebook
-                                            </CustomButton>
-                                        )}
-                                    />
-                                </Grid>
                             </Grid>
                         </Grid>
                         <Box mt={5}>
