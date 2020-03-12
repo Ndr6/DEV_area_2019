@@ -1,6 +1,6 @@
 import sha512 from 'js-sha512';
 
-const url = (process.env.API_URL == undefined) ? 'http://localhost:36969' : process.env.API_URL;
+const url = (process.env.API_URL === undefined) ? 'http://localhost:36969' : process.env.API_URL;
 var apiToken = undefined;
 
 async function register(username, password) {
