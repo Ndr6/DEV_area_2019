@@ -7,7 +7,6 @@ let tries = 0;
 function check_db(storage) {
     if (storage.test_connection()) {
         console.log("Connected to DB");
-        storage.regen();
         tries = 0;
         return -1;
     } else if (tries >= 10) {
