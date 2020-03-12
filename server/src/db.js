@@ -13,10 +13,6 @@ class db {
     static client = 0;
     static database = 0;
 
-    static regen() {
-        this.database = this.client.db(DB_NAME);
-    }
-
     static init () {
         this.client = new mongodb.MongoClient(url);
         console.log("[DB  ] Init > Connecting to DB");
@@ -27,7 +23,7 @@ class db {
                 setTimeout(db.init, 2000);
                 return;
             }
-            setTimeout(db.regen, 1000);
+            db.database = client.db(DB_NAME);
             console.log("[DB  ] Init > Connected to DB");
         });
     }
