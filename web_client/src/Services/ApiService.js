@@ -1,6 +1,6 @@
 import sha512 from 'js-sha512';
 
-const url = (process.env.API_URL === undefined) ? 'http://localhost:36969' : process.env.API_URL;
+const url = 'http://localhost:8080';
 var apiToken = undefined;
 
 async function register(username, password) {
@@ -23,6 +23,7 @@ async function login(username, password) {
 
 async function verifyToken(token) {
     apiToken = token;
+    console.log(url);
     let response = await fetch(`${url}/auth/verify?token=${token}`, {
         method: 'GET',
     });
