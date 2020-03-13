@@ -12,19 +12,20 @@ if (process.env.MONGODB_URI != undefined)
 class db {
     static client = 0;
     static database = 0;
+
     static init () {
         this.client = new mongodb.MongoClient(url);
+        console.log("[DB  ] Init > Connecting to DB");
         console.log("[DB  ] Init > DB url: " + url);
         this.client.connect(function (err, client) {
             if (err != null) {
                 console.error("[DB  ] Init > Failed to connect, most likely the DB server is not reachable, or the url is invalid");
-                process.exit();
+                setTimeout(db.init, 2000);
+                return;
             }
+            db.database = client.db(DB_NAME);
+            console.log("[DB  ] Init > Connected to DB");
         });
-    }
-
-    static regen() {
-        this.database = this.client.db(DB_NAME);
     }
 
     static get() {
@@ -32,6 +33,8 @@ class db {
     }
 
     static test_connection() {
+        if (this.client == 0)
+            return false;
         return this.client.isConnected();
     }
 
