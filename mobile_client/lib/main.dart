@@ -6,6 +6,7 @@ import 'package:mobile_client/Models/ServiceModel.dart';
 import 'package:mobile_client/Views/Customs/CustomCell.dart';
 import 'package:mobile_client/Views/ReactionsPage.dart';
 import 'package:mobile_client/WebService/AreaAPI.dart';
+import 'package:mobile_client/widgets/json_form_builder.dart';
 import 'package:tuple/tuple.dart';
 
 import 'Views/LoginPage.dart';
@@ -38,7 +39,42 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: LoginPage(), // MyHomePage(title: 'AREA'),
+      home: JsonFormBuilder(
+        config:   {
+          "email": {
+            "type": "textfield",
+            "label": "Email",
+            "hint": "example@example.com",
+            "validators": {
+              "email": {
+                "error": "Email incorrect"
+              },
+              "required": {
+                "error": "Champ requis"
+              }
+            }
+          },
+          "password": {
+            "type": "textfield",
+            "label": "Mot de passe",
+            "obscure": true,
+            "validators": {
+              "minlength": 4,
+              "required": {
+                "error": "Champ requis"
+              }
+            }
+          },
+          "accept": {
+            "type": "checkbox",
+            "default": false,
+            "label": "Accepter les conditions d'utilisation",
+            "validators": {
+              "requiredtrue": { "error": "Vous devez accepter les conditions d'utilisation" }
+            }
+          }
+        }
+      )//LoginPage(), // MyHomePage(title: 'AREA'),
     );
   }
 }

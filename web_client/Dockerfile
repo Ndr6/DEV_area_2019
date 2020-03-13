@@ -7,7 +7,7 @@ RUN npm install --silent
 RUN npm install react-scripts@3.0.1 -g --silent
 COPY . .
 RUN npm run build
-CMD npm start
+CMD cp /var/lib/apk/client.apk /usr/src/app/public/client.apk ; npm start
 
 #Production environment
 #FROM nginx:1.16.0-alpine
