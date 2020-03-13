@@ -81,8 +81,6 @@ async function link(action, actionParams, reaction, reactionParams) {
     for (let param of reactionParams) {
         reactionParamsQuery[param.name] = param.value;
     }
-    console.log(actionParamsQuery);
-    console.log(reactionParamsQuery);
     let response = await fetch(actionRoute, {
         method: 'POST',
         headers: new Headers({
@@ -93,8 +91,6 @@ async function link(action, actionParams, reaction, reactionParams) {
         body: JSON.stringify(actionParamsQuery)
     });
     response = await response.json();
-    console.log('action response');
-    console.log(response);
     let actionId = response.id;
     response = await fetch(reactionRoute, {
         method: 'POST',
@@ -106,8 +102,6 @@ async function link(action, actionParams, reaction, reactionParams) {
         body: JSON.stringify(reactionParamsQuery)
     });
     response = await response.json();
-    console.log('reaction response');
-    console.log(response);
     let reactionId = response.id;
     let linkUrl = `${url}/action/link`;
     response = await fetch(linkUrl, {
@@ -120,8 +114,6 @@ async function link(action, actionParams, reaction, reactionParams) {
         body: JSON.stringify({actionId: actionId, reactionId: reactionId})
     })
     response = await response.json();
-    console.log('link response');
-    console.log(response);
     return response;
 }
 
