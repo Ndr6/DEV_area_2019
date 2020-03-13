@@ -7,7 +7,7 @@ import service_list from './list';
 import checkSystem from "./checker";
 
 // Constants
-const PORT = process.env.PORT || 36969;
+const PORT = process.env.PORT || 8080;
 const HOST = "0.0.0.0";
 
 const back_version = 0.1;

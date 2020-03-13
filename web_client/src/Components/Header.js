@@ -47,19 +47,14 @@ function Header() {
                 <Toolbar>
                     <IconButton edge="start" aria-label="menu" />
                     <Typography variant="h6" className={classes.title}>
-                        AREA
+                        <Link to={"/home"} className={classes.title}>
+                            AREA
+                        </Link>
                     </Typography>
                     <Typography variant="h6" className={classes.linkLabel}>
                         <CustomButton hoverColor={'white'} backgroundHoverColor={'#3f51b5'} color={'#3f51b5'} backgroundColor={'white'}>
-                            <Link to={"/profile"} className={classes.link}>
-                                My Profile
-                            </Link>
-                        </CustomButton>
-                    </Typography>
-                    <Typography variant="h6" className={classes.linkLabel}>
-                        <CustomButton hoverColor={'white'} backgroundHoverColor={'#3f51b5'} color={'#3f51b5'} backgroundColor={'white'}>
-                            <Link to={"/services"} className={classes.link}>
-                                Services
+                            <Link to={"/area"} className={classes.link}>
+                                MY AREAs
                             </Link>
                         </CustomButton>
                     </Typography>
