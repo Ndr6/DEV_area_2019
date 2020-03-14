@@ -7,16 +7,16 @@ let routes = Router();
 export async function triggerMail(reaction, user, actionMessage)
 {
     let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
+        host: "mail.ender.fr",
         port: 465,
         secure: true,
         auth: {
-            user: "area.teamgade@gmail.com",
-            pass: "teamgade",
+            user: "area@ender.fr",
+            pass: "Axierwaw38",
         }
     });
     await transporter.sendMail({
-        from: '"Team Gade" <area.teamgade@gmail.com>',
+        from: '"Area email sender" <area@ender.fr>',
         to: reaction.params.to,
         subject: reaction.params.subject,
         text: actionMessage,
