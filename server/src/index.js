@@ -5,6 +5,7 @@ import routes from './routes'
 import cors from 'cors';
 import service_list from './list';
 import checkSystem from "./checker";
+import aboutroute from "./about";
 
 // Constants
 const PORT = process.env.PORT || 8080;
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(aboutroute);
 app.use(routes);
 
 // Routes
