@@ -14,7 +14,7 @@ services:
       - server
     restart: always
     environment:
-      REACT_APP_API_URL: http://localhost:8080/ #In the context of the client browser
+      REACT_APP_API_URL: http://localhost:8080 #In the context of the client browser
 
   client_mobile:
     container_name: 'area_mobile_client'
