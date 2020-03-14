@@ -16,8 +16,10 @@ routes.get('/', (req, res) => {
                 services.push(findService(key));
             }
             res.json(services);
+            return;
         } else {
             res.json([]);
+            return;
         }
     });
 });

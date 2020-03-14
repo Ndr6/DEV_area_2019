@@ -6,7 +6,7 @@ services:
       context: ./web_client
       dockerfile: Dockerfile
     ports:
-      - '8081:8081'
+      - '8081:80'
     volumes:
       - 'apk-volume:/var/lib/apk/'
     depends_on:
@@ -16,7 +16,6 @@ services:
     environment:
       REACT_APP_API_URL: server
       REACT_APP_API_PORT: 8080
-      PORT: 8081
 
   client_mobile:
     container_name: 'area_mobile_client'
