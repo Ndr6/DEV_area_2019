@@ -1,6 +1,6 @@
 import sha512 from 'js-sha512';
 
-const url = 'http://localhost:8080';
+const url = (process.env.REACT_APP_API_URL === undefined) ? 'http://localhost:8080' : process.env.REACT_APP_API_URL;
 var apiToken = undefined;
 
 async function register(username, password) {
