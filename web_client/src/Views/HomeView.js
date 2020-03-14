@@ -28,12 +28,9 @@ export default function HomeView() {
     React.useEffect(() => {
         const fetchData = async () => {
             let services = await ApiService.fetchServices();
-            console.log('bite');
             let subscribeds = await ApiService.getSubscribedServices();
-            console.log('bite');
             for (let service of services.services) {
                 service.isSub = false;
-                console.log('ALED');
                 console.log(subscribeds);
                 for (let elem of subscribeds) {
                     if (elem.route === service.route)

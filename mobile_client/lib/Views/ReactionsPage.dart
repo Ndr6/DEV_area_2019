@@ -16,7 +16,7 @@ class ReactionsPage extends StatelessWidget
 
   Widget buildPageContent() => ListView.separated(
       itemBuilder: (BuildContext context, int index) {
-        return ReactionCell("bite");
+        return ReactionCell("ok");
       },
       separatorBuilder: (BuildContext context, int index) => Divider(thickness: 1),
       itemCount: 100);

@@ -12,7 +12,6 @@ export default function AreaView() {
     React.useEffect(() => {
         const fetchData = async () => {
             let services = await ApiService.getSubscribedServices();
-            console.log(services);
             let toPush = [];
             for (let service of services) {
                 for (let action of service.actions) {
@@ -21,7 +20,6 @@ export default function AreaView() {
                     toPush.push(action);
                 }
             }
-            console.log(toPush);
             setActions(toPush);
         }
         fetchData();
@@ -32,7 +30,6 @@ export default function AreaView() {
 
     for (let i = 0; i < actions.length; i++) {
         if ((i % 4 === 0 && i !== 0)) {
-            console.log(actualActions);
             actionsList.push(actualActions);
             actualActions = [];
         }
@@ -43,7 +40,6 @@ export default function AreaView() {
         );
     }
     actionsList.push(actualActions);
-    console.log(actionsList);
 
     return (
         <>

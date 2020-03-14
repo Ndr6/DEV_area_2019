@@ -14,7 +14,7 @@ routes.post('/', (req, res) => {
     }
     let service = findService(serviceName);
     if (!service) {
-        res.status(400).json({ success: false, error: "Error cant find seervice" });
+        res.status(400).json({ success: false, error: "Error cannot find service" });
         return;
     }
     if (!verifyParams(service.parameters, params)) {

@@ -63,8 +63,6 @@ export default function AreaModal({action, open, onClose})
                 param.value = e.target.value;
             }
         }
-        console.log('Suce un cuo');
-        console.log(actionParameters);
         setActionParameters(params)
     }
     const handleChange = (e) => {
@@ -108,7 +106,7 @@ export default function AreaModal({action, open, onClose})
         const fetchData = async () => {
             let response = await ApiService.link(action, actionParameters, selectedReaction, reactionParameters);
             if (response.status === 200)
-                alert('MO NZIZI');
+                alert('OK');
         };
         fetchData();
     }
@@ -131,8 +129,8 @@ export default function AreaModal({action, open, onClose})
     }
 
     return (
-        isLoaded ? 
-        
+        isLoaded ?
+
         <Modal
             open={open}
             onClose={onClose}
@@ -150,6 +148,6 @@ export default function AreaModal({action, open, onClose})
         </Modal>
         :
         <CircularProgress />
-        
+
     )
 }

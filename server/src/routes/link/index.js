@@ -13,7 +13,7 @@ routes.post('/', (req, res) => {
     let reaction = req.body.reaction;
 
     if (!action || !reaction) {
-        res.status(400).json({success: false, error: "invalid parameters"});
+        res.status(400).json({success: false, error: "Invalid parameters"});
         return;
     }
     if (!findAction(action.name, action.serviceName) || !findReaction(reaction.name, reaction.serviceName)) {
@@ -22,11 +22,9 @@ routes.post('/', (req, res) => {
     }
     let dbAction = findAction(action.name, action.serviceName);
     let dbReaction = findReaction(reaction.name, reaction.serviceName);
-    //TODO: Verifier que le user soit subscribe au service mais nique sa mere
+    //TODO: Verifier que le user soit subscribe au service
     let actionParams = action.params;
     let reactionParams = reaction.params;
-	console.log(reactionParams);
-	console.log(actionParams);
     if (!verifyParams(dbAction.parameters, actionParams) || !verifyParams(dbReaction.parameters, reactionParams)) {
         res.status(400).json({success: false, error: "Invalid parameter in your action / reaction"});
         return;
@@ -34,9 +32,7 @@ routes.post('/', (req, res) => {
     const database = storage.get();
     const users = database.collection("users");
     const link = {action: action, reaction: reaction};
-    console.log(req.token);
     users.findOne({ _id: storage.convert_mongo_id(req.token.id) }, (err, doc) => {
-        console.log(doc);
         let links = [];
         if (doc.link)
             links = [...doc.link, link];
@@ -45,7 +41,6 @@ routes.post('/', (req, res) => {
         users.updateOne({ _id: storage.convert_mongo_id(req.token.id) },
             { $set: { 'link': links } },
             {}, function (error, result) {
-                console.log('BITE');
                 if (error) {
                     console.log(error);
                     res.status(500).json({ success: false, error: "Failure in database service (" + error + "). Please email the technical team" });

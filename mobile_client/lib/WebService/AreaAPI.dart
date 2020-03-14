@@ -21,7 +21,7 @@ class AreaAPI {
 
   AreaAPI._internal();
 
-  final String baseUrl = "http://10.26.112.53:36969";
+  final String baseUrl = "https://area-server-master.herokuapp.com/";
 
   Future<TokenResponse> loginUser(String login, String password) async {
     final hash = sha512.convert(utf8.encode(password));
@@ -70,7 +70,7 @@ class AreaAPI {
     response.transform(utf8.decoder).listen((event) {
       print(event);
     });
-    throw Exception("bite");
+    throw Exception("error");
 
 /*    if (response.statusCode == 200) {
       return jsonDecode(await response.stream.bytesToString()).map((json) => ServiceModel.fromJson(json)).toList();

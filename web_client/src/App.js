@@ -46,10 +46,7 @@ function App() {
         const response = await ApiService.verifyToken(token);
         if (response.success === true) {
             setAuth(true);
-            console.log('le zizi');
         } else {
-            console.log('le caca');
-            console.log(response);
         }
         setLoaded(true);
     };
@@ -62,7 +59,7 @@ function App() {
     }, []);
 
     return (
-        isLoaded ? 
+        isLoaded ?
     <MuiThemeProvider theme={theme}>
         <Router>
             <Switch>

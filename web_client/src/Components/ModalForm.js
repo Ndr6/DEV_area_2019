@@ -49,7 +49,6 @@ export default function ModalForm({service, open, onClose}) {
 
     if (service) {
         for (let parameter of service.parameters) {
-            console.log('ALED DE DE ');
             textFieldArray.push(
                 <TextField
                     key={parameter.name}

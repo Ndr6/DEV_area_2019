@@ -124,7 +124,7 @@ export default function LoginView() {
         if (state.emailValid && state.passwordValid && state.email.trim() !== '' && state.password.trim() !== '') {
             fetchData(state.email, state.password);
         } else {
-            alert('mabite')
+            alert('error')
         }
     };
 
