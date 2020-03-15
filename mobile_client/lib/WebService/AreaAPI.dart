@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart';
 import 'package:mobile_client/Models/ConnectToServiceModel.dart';
+import 'package:mobile_client/Models/ConnectedServicesModel.dart';
 import 'package:mobile_client/Models/ServiceModel.dart';
 import 'package:mobile_client/Models/TokenResponse.dart';
 
@@ -21,7 +22,7 @@ class AreaAPI {
 
   AreaAPI._internal();
 
-  final String baseUrl = "https://area-server-master.herokuapp.com/";
+  final String baseUrl = "https://area-server-master.herokuapp.com";
 
   Future<TokenResponse> loginUser(String login, String password) async {
     final hash = sha512.convert(utf8.encode(password));
@@ -63,20 +64,26 @@ class AreaAPI {
   }
 
   Future<List<ServiceModel>> getMyServices() async {
-    final client = HttpClient();
-    final request = await client.getUrl(Uri.parse('$baseUrl/service'));
-    request.headers.add(HttpHeaders.authorizationHeader, "Bearer $token");
-    final response = await request.close();
-    response.transform(utf8.decoder).listen((event) {
-      print(event);
-    });
-    throw Exception("error");
 
-/*    if (response.statusCode == 200) {
-      return jsonDecode(await response.stream.bytesToString()).map((json) => ServiceModel.fromJson(json)).toList();
+    final response = await http.get('$baseUrl/service', headers:
+    {
+      'authorization': 'Bearer $token'
+    });
+
+    if (response.statusCode == 200) {
+      print(response.body);
     } else {
-      throw Exception('Failed to retrieve services');
-    }*/
+      throw Exception('Failed to retrieve user services ' + response.body);
+    }
+  }
+
+  Future<Map<String, dynamic>> getConnectedServices() async {
+    final response = await http.get('$baseUrl/service/list', headers:
+    {
+      'authorization': 'Bearer $token'
+    });
+
+    return json.decode(response.body);
   }
 
   Future<Response> connectToService(String serviceName) async {

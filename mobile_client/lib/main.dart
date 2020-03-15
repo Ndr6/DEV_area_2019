@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter/material.dart';
@@ -39,42 +40,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: JsonFormBuilder(
-        config:   {
-          "email": {
-            "type": "textfield",
-            "label": "Email",
-            "hint": "example@example.com",
-            "validators": {
-              "email": {
-                "error": "Email incorrect"
-              },
-              "required": {
-                "error": "Champ requis"
-              }
-            }
-          },
-          "password": {
-            "type": "textfield",
-            "label": "Mot de passe",
-            "obscure": true,
-            "validators": {
-              "minlength": 4,
-              "required": {
-                "error": "Champ requis"
-              }
-            }
-          },
-          "accept": {
-            "type": "checkbox",
-            "default": false,
-            "label": "Accepter les conditions d'utilisation",
-            "validators": {
-              "requiredtrue": { "error": "Vous devez accepter les conditions d'utilisation" }
-            }
-          }
-        }
-      )//LoginPage(), // MyHomePage(title: 'AREA'),
+      home: LoginPage(), // MyHomePage(title: 'AREA'),
     );
   }
 }
@@ -129,10 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: FutureBuilder<List<Tuple2<String, bool>>>(
                     future: (() async {
                       final services = await AreaAPI().getServices();
-//                      final myServices = await AreaAPI().getMyServices();
 
-//myServices.where((element) => e.name == element.name).length != 0
-                      return services.map((e) => Tuple2(e.iconRoute, true)).toList();
+                      return services.map((e) => Tuple2(e.iconRoute, e.route == 'intra' ? true : false)).toList();
                     })().catchError((error) => showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -151,9 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     )),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
-                        return Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        return ListView(
+                          scrollDirection: Axis.horizontal,
                           children: snapshot.data
                               .map(
                                 (e) => Padding(

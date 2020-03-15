@@ -156,7 +156,23 @@ class _LoginPageState extends State<LoginPage> {
                                       context,
                                       MaterialPageRoute(builder: (context) => MyHomePage(title: "AREA")),
                                     );
-                                  });
+                                  }).catchError((error) =>
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: new Text("Erreur"),
+                                            content: new Text("Nom de compte / Mot de passe invalide"),
+                                            actions: <Widget>[
+                                              new FlatButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: new Text("Fermer", style: TextStyle(color: Colors.black),))
+                                            ],
+                                          );
+                                        })
+                                  );
                                 },
                                 child: Text(
                                   "CONNEXION",
