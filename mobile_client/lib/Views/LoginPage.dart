@@ -88,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(
                               color: Colors.white,
                             ),
+                            obscureText: true,
                             decoration: InputDecoration(
                               hintText: 'Mot de passe',
                               hintStyle: TextStyle(

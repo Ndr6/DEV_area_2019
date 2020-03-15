@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: SearchBar(
                         hintText: "Service, action, etc.",
                         searchBarStyle: SearchBarStyle(
-                        backgroundColor: Colors.white, borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                            backgroundColor: Colors.white, borderRadius: BorderRadius.all(Radius.circular(8.0))),
                         onSearch: (x) async {
                           performSearch(x);
                           return <String>[];
@@ -95,24 +95,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: FutureBuilder<List<Tuple2<String, bool>>>(
                     future: (() async {
                       final services = await AreaAPI().getServices();
+                      final myServices = await AreaAPI().getMyServices();
 
-                      return services.map((e) => Tuple2(e.iconRoute, e.route == 'intra' ? true : false)).toList();
-                    })().catchError((error) => showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: new Text("Erreur"),
-                            content: new Text(error.toString()),
-                            actions: <Widget>[
-                              new FlatButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: new Text("Fermer", style: TextStyle(color: Colors.black),))
-                            ],
-                          );
-                        }
-                    )),
+                      return services
+                          .map((e) =>
+                              Tuple2(e.iconRoute, myServices.where((element) => element.name == e.name).isNotEmpty))
+                          .toList();
+                    })()
+                        .catchError((error) => showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: new Text("Erreur"),
+                                content: new Text(error.toString()),
+                                actions: <Widget>[
+                                  new FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: new Text(
+                                        "Fermer",
+                                        style: TextStyle(color: Colors.black),
+                                      ))
+                                ],
+                              );
+                            })),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasData) {
                         return ListView(

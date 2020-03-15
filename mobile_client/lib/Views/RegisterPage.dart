@@ -74,6 +74,7 @@ class RegisterPageState extends State<RegisterPage>
                   style: TextStyle(
                     color: Colors.white,
                   ),
+                  obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Mot de passe',
                     hintStyle: TextStyle(

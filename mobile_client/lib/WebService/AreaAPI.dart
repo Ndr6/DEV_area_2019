@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart';
 import 'package:mobile_client/Models/ConnectToServiceModel.dart';
-import 'package:mobile_client/Models/ConnectedServicesModel.dart';
 import 'package:mobile_client/Models/ServiceModel.dart';
 import 'package:mobile_client/Models/TokenResponse.dart';
 
@@ -44,7 +43,9 @@ class AreaAPI {
     final response = await http.post('$baseUrl/auth/signup?username=$login&password=$hash');
 
     if (response.statusCode == 200) {
-      return TokenResponse.fromJson(jsonDecode(response.body));
+      final tok = TokenResponse.fromJson(jsonDecode(response.body));
+      token = tok.token;
+      return tok;
     } else {
       throw Exception('Failed to register user ' + response.body);
     }
@@ -65,15 +66,14 @@ class AreaAPI {
 
   Future<List<ServiceModel>> getMyServices() async {
 
-    final response = await http.get('$baseUrl/service', headers:
-    {
-      'authorization': 'Bearer $token'
+    final response = await http.get('$baseUrl/service', headers: {
+      HttpHeaders.authorizationHeader: "Bearer $token",
     });
 
     if (response.statusCode == 200) {
-      print(response.body);
+      return (jsonDecode(response.body)).map<ServiceModel>((json) => ServiceModel.fromJson(json)).toList();
     } else {
-      throw Exception('Failed to retrieve user services ' + response.body);
+      throw Exception('Failed to retrieve services ' + response.body);
     }
   }
 
