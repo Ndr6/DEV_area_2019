@@ -3,13 +3,14 @@ import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobile_client/Models/ServiceModel.dart';
+import 'package:mobile_client/Models/ServiceModel.dart' as Service;
 import 'package:mobile_client/Views/Customs/CustomCell.dart';
 import 'package:mobile_client/Views/ReactionsPage.dart';
 import 'package:mobile_client/WebService/AreaAPI.dart';
 import 'package:mobile_client/widgets/json_form_builder.dart';
 import 'package:tuple/tuple.dart';
 
+import 'Views/Customs/action_cell.dart';
 import 'Views/LoginPage.dart';
 
 Map<int, Color> color = {
@@ -164,20 +165,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget test()
   {
-    return FutureBuilder<List<List<String>>>(
+    return FutureBuilder<List<Service.ServiceModel>>(
       future: (() async {
         final services = await AreaAPI().getServices();
 
-        return services.map((e) => e.actions.map((e) => e.name).toList()).toList();
+        return services;
+//        return services.map((e) => e.actions.map((e) => e.name).toList()).toList();
       })(),
       builder: (BuildContext context, snapshot)
         {
           if (snapshot.hasData)
           {
 
-            final data = List<String>();
+            final data = List<Tuple2<Service.Actions, Service.ServiceModel>>();
 
-            snapshot.data.forEach((element) {
+            snapshot.data.map((e) => e.actions.map((action) => Tuple2(action, e))).forEach((element) {
               element.forEach((element) {
                 data.add(element);
               });
@@ -185,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
             return ListView.separated(
                     itemBuilder: (BuildContext context, int index) {
-                      return CustomCell(Icons.favorite_border, data[index], 3);
+                      return ActionCell(action: data[index].item1, service: data[index].item2);
                     },
                     separatorBuilder: (BuildContext context, int index) => Divider(thickness: 1),
                     itemCount: data.length);

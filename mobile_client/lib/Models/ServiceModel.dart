@@ -63,18 +63,21 @@ class ServiceModel {
 class Parameters {
   String name;
   String type;
+  bool optional = false;
 
-  Parameters({this.name, this.type});
+  Parameters({this.name, this.type, this.optional = false});
 
   Parameters.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     type = json['type'];
+    optional = json.containsKey('optional') ? json['optional'] : false;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     data['type'] = this.type;
+    data['optional'] = this.optional;
     return data;
   }
 }

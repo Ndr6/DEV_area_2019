@@ -37,6 +37,53 @@ class AreaAPI {
     }
   }
 
+  Future<String> createAction(String type, {Map<String, dynamic> params = const {}}) async {
+    final response = await http.post('$baseUrl/action/$type', headers: {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      HttpHeaders.contentTypeHeader: ContentType.json.toString(),
+    }, body: jsonEncode(params));
+
+    if (response.statusCode == 200) {
+      return (jsonDecode(response.body)['id']);
+    } else {
+      throw Exception('Failed to create action: ' + response.body);
+    }
+  }
+
+  Future<String> createReaction(String type, {Map<String, dynamic> params = const {}}) async {
+    final response = await http.post('$baseUrl/reaction/$type', headers: {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      HttpHeaders.contentTypeHeader: ContentType.json.toString(),
+    }, body: jsonEncode(params));
+
+    if (response.statusCode == 200) {
+      return (jsonDecode(response.body)['id']);
+    } else {
+      throw Exception('Failed to create reaction: ' + response.body);
+    }
+  }
+
+  Future<bool> postLink(String actionId, String reactionId) async {
+    final response = await http.patch('$baseUrl/action/link', headers: {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+      HttpHeaders.contentTypeHeader: ContentType.json.toString(),
+    }, body: jsonEncode({"actionId": actionId, "reactionId": reactionId}));
+
+    if (response.statusCode == 200) {
+      return (jsonDecode(response.body)['success']);
+    } else {
+      throw Exception('Failed to create link: ' + response.body);
+    }
+  }
+
+  Future<void> linkActionReaction(Actions action, Reaction reaction, Map<String, dynamic> reactionParams) async {
+    final String actionId = await createAction(action.name);
+    final String reactionId = await createReaction(reaction.name, params: reactionParams);
+    print("created action $actionId and reaction $reactionId");
+    await postLink(actionId, reactionId);
+    print("link success");
+  }
+
   Future<TokenResponse> registerUser(String login, String password) async {
     final hash = sha512.convert(utf8.encode(password));
 
