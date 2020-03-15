@@ -123,8 +123,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                   child: Opacity(
                                     opacity: e.item2 ? 1.0 : 0.2,
-                                    child: Image.network(
-                                      e.item1,
+                                    child: GestureDetector(
+                                      child: Image.network(
+                                        e.item1,
+                                      ),
                                     ),
                                   ),
                                 ),
