@@ -16,7 +16,21 @@ class CustomCell extends StatelessWidget
     // TODO: implement build
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => JsonFormBuilder(config: {})));},
+      onTap: () { showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: new Text("Erreur"),
+              content: new Text("ANTOINE ICI"),
+              actions: <Widget>[
+                new FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: new Text("Fermer", style: TextStyle(color: Colors.black),))
+              ],
+            );
+          });},
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
