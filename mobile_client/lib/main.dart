@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[PageHeader()];
           },
-          body: PageView(children: [buildPageContent()]),
+          body: PageView(children: [test()]),
         ));
   }
 
@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     future: (() async {
                       final services = await AreaAPI().getServices();
 
-                      return services.map((e) => Tuple2(e.iconRoute, e.route == 'intra' ? true : false)).toList();
+                      return services.map((e) => Tuple2(e.iconRoute, false)).toList();
                     })().catchError((error) => showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -152,6 +152,39 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       separatorBuilder: (BuildContext context, int index) => Divider(thickness: 1),
       itemCount: results.length);
+
+  Widget test()
+  {
+    return FutureBuilder<List<List<String>>>(
+      future: (() async {
+        final services = await AreaAPI().getServices();
+
+        return services.map((e) => e.actions.map((e) => e.name).toList()).toList();
+      })(),
+      builder: (BuildContext context, snapshot)
+        {
+          if (snapshot.hasData)
+          {
+
+            final data = List<String>();
+
+            snapshot.data.forEach((element) {
+              element.forEach((element) {
+                data.add(element);
+              });
+            });
+
+            return ListView.separated(
+                    itemBuilder: (BuildContext context, int index) {
+                      return CustomCell(Icons.favorite_border, data[index], 3);
+                    },
+                    separatorBuilder: (BuildContext context, int index) => Divider(thickness: 1),
+                    itemCount: data.length);
+          }
+          return Center(child: CircularProgressIndicator());
+        }
+    );
+  }
 
   void performSearch(String string) {
     /*var te = data.where((element) => element.toLowerCase().contains(string.toLowerCase())).toList();
