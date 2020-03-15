@@ -22,11 +22,6 @@ class CustomCell extends StatelessWidget
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            PinnedWidget(
-              alignment: Alignment.topLeft,
-              number: this._nbResponders,
-              child: Icon(this._icon)
-            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16.0),
