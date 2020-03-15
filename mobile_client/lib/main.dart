@@ -92,11 +92,11 @@ class _MyHomePageState extends State<MyHomePage> {
               SliverToBoxAdapter(
                 child: Container(
                   height: 20,
-                  child: FutureBuilder<List<Tuple2<String, bool>>>(
+                  child: FutureBuilder<List<Tuple3<String, bool, ServiceModel>>>(
                     future: (() async {
                       final services = await AreaAPI().getServices();
 
-                      return services.map((e) => Tuple2(e.iconRoute, false)).toList();
+                      return services.map((e) => Tuple3(e.iconRoute, false, e)).toList();
                     })().catchError((error) => showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -124,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   child: Opacity(
                                     opacity: e.item2 ? 1.0 : 0.2,
                                     child: GestureDetector(
+                                      onTap: () => e.item3.parameters.length == 0 ? AreaAPI().connectToService(e.item3.route, []) : print("no"),
                                       child: Image.network(
                                         e.item1,
                                       ),

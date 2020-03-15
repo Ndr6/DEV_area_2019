@@ -86,16 +86,18 @@ class AreaAPI {
     return json.decode(response.body);
   }
 
-  Future<Response> connectToService(String serviceName) async {
+  Future<Response> connectToService(String serviceName, List<String> parameters) async {
 
-    final connectModel = new ConnectToServiceModel(serviceName);
+    print('coucou');
+    final connectModel = new ConnectToServiceModel(serviceName, parameters);
 
     final response = await http.post('$baseUrl/service/connect', body: connectModel.toJson(), headers:
     {
       'authorization': 'Bearer $token'
     });
 
-    return response.statusCode == 200 ? response : throw Exception('Faield to connect to service');
+
+    return response.statusCode == 200 ? response : throw Exception('Failed to connect to service ' + response.body);
   }
 
 }
